@@ -22,7 +22,6 @@ class DijkstrasAlgorithm extends PathFindingAlgorithm
         break;
       }
       final currentNode = nodesStack.removeAt(nodesStack.length - 1);
-      // Found node
       if (currentNode.isGoalNode == true) {
         log('Found shortest path! At: ${currentNode.x} - ${currentNode.y}');
         await showShortestPath(currentNode);
@@ -58,11 +57,6 @@ class DijkstrasAlgorithm extends PathFindingAlgorithm
         final isOnDiagonal = (nodeX != i && nodeY != j);
         var costToGoToNode = parentNode.currentCost +
             (isOnDiagonal ? diagonalPathCost : horizontalAndVerticalPathCost);
-        // testing, A* search
-        // final distanceFromGoalX = (goalNode.x - allNodes[i][j].x).abs();
-        // final distanceFromGoalY = (goalNode.y - allNodes[i][j].y).abs();
-        // final totalDistance = distanceFromGoalX + distanceFromGoalY;
-        // costToGoToNode += totalDistance * 10;
         if (costToGoToNode < allNodes[i][j].currentCost) {
           allNodes[i][j].currentCost = costToGoToNode;
           allNodes[i][j].cameFromNode = parentNode;
