@@ -38,6 +38,10 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
     startNode.currentCost = 0;
     nodesStack.add(startNode);
     while (true) {
+      if (!isRunning) {
+        resetAll();
+        break;
+      }
       if (nodesStack.isEmpty) {
         log('Stack is empty, done!');
         break;
