@@ -2,30 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_finding/common/models/node.dart';
+import 'package:path_finding/notifiers/node_provider.dart';
 import 'package:path_finding/notifiers/nodes_state_notifier.dart';
 import 'package:path_finding/notifiers/selected_action_provider/selected_action_provider.dart';
 import 'package:path_finding/ui/colors.dart';
-
-final nodeProvider =
-    StateProvider.family<Node, NodeCoordinate>((ref, coordinates) {
-  final nodes = ref.watch(nodesStateNotifierProvider);
-  final node = nodes.elementAt(coordinates.x).elementAt(coordinates.y);
-  final someNode = node.copyWith(
-    x: node.x,
-    y: node.y,
-    isGoalNode: node.isGoalNode,
-    isWall: node.isWall,
-    isVisited: node.isVisited,
-    isOnTracablePathToGoal: node.isOnTracablePathToGoal,
-  );
-  return someNode;
-});
-
-class NodeCoordinate {
-  final int x;
-  final int y;
-  NodeCoordinate(this.x, this.y);
-}
+import 'package:vector_math/vector_math_64.dart' show Vector3;
 
 class Square extends ConsumerStatefulWidget {
   static const double size = 24;
@@ -66,18 +47,23 @@ class _SquareState extends ConsumerState<Square> {
         onPanDown: (_) {
           _callAction(ref, context);
         },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 400),
+        child: Container(
           decoration: BoxDecoration(
-            color: _determineColor(node),
-            border: Border.all(color: Colors.black12),
+            color: AppColors.idleColor, //_determineColor(node),
+            border: Border.all(color: AppColors.sliderColor),
           ),
-
-          child: const SizedBox(
+          alignment: Alignment.center,
+          child: SizedBox(
             width: Square.size,
             height: Square.size,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeOut,
+              decoration: BoxDecoration(
+                color: _determineColor(node),
+              ),
+            ),
           ),
-          //),
         ),
       ),
     );
@@ -119,5 +105,19 @@ class _SquareState extends ConsumerState<Square> {
       return AppColors.visitedColor;
     }
     return AppColors.idleColor;
+  }
+
+  Vector3 _determineSize(Node node) {
+    return node.isWall ? Vector3(0, 0, 1) : Vector3(0, 0, 1);
+    // if (node.isOnTracablePathToGoal) {
+    //   return Square.size;
+    // } else if (node.isGoalNode) {
+    //   return Square.size;
+    // } else if (node.isWall) {
+    //   return Square.size;
+    // } else if (node.isVisited) {
+    //   return Square.size;
+    // }
+    // return 0;
   }
 }

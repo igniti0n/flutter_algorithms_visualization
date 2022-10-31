@@ -13,7 +13,7 @@ class NodesNotifier extends StateNotifier<NodesArray> {
   NodesNotifier(this._nodesRepository) : super([]) {
     state = _nodesRepository.allNodes;
     _nodesUpdateSubscription =
-        _nodesRepository.nodesArrayUpdatestream.listen(_onNodesArraUpdate);
+        _nodesRepository.nodesArrayUpdatestream.listen(_onNodesArrayUpdate);
     setWallAt(0, 0);
     resetAt(0, 0);
   }
@@ -26,7 +26,7 @@ class NodesNotifier extends StateNotifier<NodesArray> {
 
   NodesArray getAllNodes() => _nodesRepository.allNodes;
 
-  void _onNodesArraUpdate(NodesArray updatedArray) {
+  void _onNodesArrayUpdate(NodesArray updatedArray) {
     state = [];
     state = updatedArray;
   }

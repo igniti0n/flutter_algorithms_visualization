@@ -1,5 +1,11 @@
 import 'package:uuid/uuid.dart';
 
+class NodeCoordinate {
+  final int x;
+  final int y;
+  NodeCoordinate(this.x, this.y);
+}
+
 class Node {
   final String id = const Uuid().v4();
   final int x;
