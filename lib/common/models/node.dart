@@ -11,11 +11,12 @@ class Node {
   final int x;
   final int y;
   bool isGoalNode;
-  bool isOnTracablePathToGoal;
+  bool isOnTraceablePathToGoal;
   bool isWall;
   bool isVisited;
   double currentCost;
   Node? cameFromNode;
+
   Node({
     this.isGoalNode = false,
     required this.x,
@@ -23,7 +24,7 @@ class Node {
     this.isVisited = false,
     this.isWall = false,
     this.currentCost = double.infinity,
-    this.isOnTracablePathToGoal = false,
+    this.isOnTraceablePathToGoal = false,
   });
 
   void updateCostIfNecessary(double calculatedCost) {
@@ -32,16 +33,16 @@ class Node {
     }
   }
 
-  Node copyWith(
-          {bool? isGoalNode = false,
-          int? x,
-          int? y,
-          bool? isVisited,
-          bool? isOnTracablePathToGoal,
-          bool? isWall,
-          double? currentCost,
-          Node? cameFromNode,
-          required}) =>
+  Node copyWith({
+    bool? isGoalNode = false,
+    int? x,
+    int? y,
+    bool? isVisited,
+    bool? isOnTraceablePathToGoal,
+    bool? isWall,
+    double? currentCost,
+    Node? cameFromNode,
+  }) =>
       Node(
         x: x ?? this.x,
         y: y ?? this.y,
@@ -49,8 +50,8 @@ class Node {
         isVisited: isVisited ?? this.isVisited,
         isWall: isWall ?? this.isWall,
         currentCost: currentCost ?? this.currentCost,
-        isOnTracablePathToGoal:
-            isOnTracablePathToGoal ?? this.isOnTracablePathToGoal,
+        isOnTraceablePathToGoal:
+            isOnTraceablePathToGoal ?? this.isOnTraceablePathToGoal,
       );
 
   bool isDifferent(Node node) =>
@@ -58,7 +59,7 @@ class Node {
       node.x != x ||
       node.y != y ||
       node.isVisited != isVisited ||
-      node.isOnTracablePathToGoal != isOnTracablePathToGoal ||
+      node.isOnTraceablePathToGoal != isOnTraceablePathToGoal ||
       node.isGoalNode != isGoalNode;
 
   void reset() {
@@ -66,12 +67,12 @@ class Node {
     isVisited = false;
     isWall = false;
     currentCost = double.infinity;
-    isOnTracablePathToGoal = false;
+    isOnTraceablePathToGoal = false;
   }
 
   void resetVisualAlgorithmSteps() {
     isVisited = false;
     currentCost = double.infinity;
-    isOnTracablePathToGoal = false;
+    isOnTraceablePathToGoal = false;
   }
 }

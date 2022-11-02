@@ -8,7 +8,6 @@ class AppColors {
   static const pathColor = Colors.redAccent;
   static const actionSelected = Colors.white;
   static const actionUnselected = Colors.grey;
-
   static const textDark = Colors.black87;
   static const sliderColor = Colors.blueGrey;
   static const panelBackground = Colors.white70;

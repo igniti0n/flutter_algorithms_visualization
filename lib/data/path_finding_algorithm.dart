@@ -8,7 +8,7 @@ abstract class ShortestPathAlgorithm {
   Future<void> visitNode(Node currentlyLookingNode, Node parentNode);
 }
 
-/// Defines what a path finding alogrithm needs and tools to visualize it
+/// Defines what a path finding algorithm needs and tools to visualize it
 abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
   List<Node> nodesStack = [];
   List<Node> doneNodes = [];
@@ -61,15 +61,15 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
     isRunning = false;
   }
 
-  /// Goes throuh all children of the node, so all the neighbors.
-  /// Skips any node that is a wall, a parent node and if the currenlty looking at child node is allready done
+  /// Goes through all children of the node, so all the neighbors.
+  /// Skips any node that is a wall, a parent node and if the currently looking at child node is already done
   Future<void> goThroughChildren(Node parentNode, Node goalNode) async {
     final nodeX = parentNode.x;
     final nodeY = parentNode.y;
     final nodesLength = allNodes.length;
     for (int i = nodeX - 1; i <= (nodeX + 1); i++) {
       for (int j = nodeY - 1; j <= (nodeY + 1); j++) {
-        // Inside the bouns
+        // Inside the bonus
         if (i < 0 || j < 0 || i >= nodesLength || j >= nodesLength) {
           continue;
         }
@@ -93,10 +93,10 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
 
   /// Visualize shortest path, going from the end node back to the starting point.
   Future<void> showShortestPath(Node endNode) async {
-    allNodes[endNode.x][endNode.y].isOnTracablePathToGoal = true;
+    allNodes[endNode.x][endNode.y].isOnTraceablePathToGoal = true;
     var child = endNode.cameFromNode;
     while (child != null) {
-      allNodes[child.x][child.y].isOnTracablePathToGoal = true;
+      allNodes[child.x][child.y].isOnTraceablePathToGoal = true;
       child = child.cameFromNode;
     }
     await showUpdatedNodes();
@@ -114,7 +114,7 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
 
   void setDiagonalPathCostTo({required double cost}) => diagonalPathCost = cost;
 
-  void setHorizotalAndVerticalPathCostTo({required double cost}) =>
+  void setHorizontalAndVerticalPathCostTo({required double cost}) =>
       horizontalAndVerticalPathCost = cost;
 
   void setGoalAt(int x, int y) async {
@@ -147,7 +147,7 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
     isRunning = false;
   }
 
-  /// Resets algorithm, wihout walls and goal nodes
+  /// Resets algorithm, without walls and goal nodes
   void resetAlgorithmToStart() async {
     for (var nodesRow in allNodes) {
       for (var node in nodesRow) {

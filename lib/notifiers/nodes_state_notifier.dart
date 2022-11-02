@@ -13,7 +13,7 @@ class NodesNotifier extends StateNotifier<NodesArray> {
   NodesNotifier(this._nodesRepository) : super([]) {
     state = _nodesRepository.allNodes;
     _nodesUpdateSubscription =
-        _nodesRepository.nodesArrayUpdatestream.listen(_onNodesArrayUpdate);
+        _nodesRepository.nodesArrayUpdateStream.listen(_onNodesArrayUpdate);
     setWallAt(0, 0);
     resetAt(0, 0);
   }
@@ -31,8 +31,8 @@ class NodesNotifier extends StateNotifier<NodesArray> {
     state = updatedArray;
   }
 
-  Future<void> startAlgorihmAt(int x, int y) async =>
-      _nodesRepository.startAlgorithAt(x, y);
+  Future<void> startAlgorithmAt(int x, int y) async =>
+      _nodesRepository.startAlgorithmAt(x, y);
 
   void setGoalAt(int x, int y) async => _nodesRepository.setGoalAt(x, y);
 

@@ -76,7 +76,7 @@ class _SquareState extends ConsumerState<Square> {
         idle: () => _onIdleAction(ctx),
         makeWall: () => nodesNotifier.setWallAt(node.x, node.y),
         makeGoalNode: () => nodesNotifier.setGoalAt(node.x, node.y),
-        doDijkstra: () => nodesNotifier.startAlgorihmAt(node.x, node.y),
+        doDijkstra: () => nodesNotifier.startAlgorithmAt(node.x, node.y),
         reset: () => nodesNotifier.resetAt(node.x, node.y));
   }
 
@@ -95,7 +95,7 @@ class _SquareState extends ConsumerState<Square> {
   }
 
   Color _determineColor(Node node) {
-    if (node.isOnTracablePathToGoal) {
+    if (node.isOnTraceablePathToGoal) {
       return AppColors.pathColor;
     } else if (node.isGoalNode) {
       return AppColors.goalColor;
@@ -109,7 +109,7 @@ class _SquareState extends ConsumerState<Square> {
 
   Vector3 _determineSize(Node node) {
     return node.isWall ? Vector3(0, 0, 1) : Vector3(0, 0, 1);
-    // if (node.isOnTracablePathToGoal) {
+    // if (node.isOnTraceablePathToGoal) {
     //   return Square.size;
     // } else if (node.isGoalNode) {
     //   return Square.size;
