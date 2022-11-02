@@ -11,5 +11,5 @@ class AppColors {
 
   static const textDark = Colors.black87;
   static const sliderColor = Colors.blueGrey;
-  static const panelBackground = Colors.white70;
+  static const panelBackground = Color(0xFFEEEEEE);
 }

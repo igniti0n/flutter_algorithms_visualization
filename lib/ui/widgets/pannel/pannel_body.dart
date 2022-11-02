@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_finding/ui/colors.dart';
-import 'package:path_finding/ui/widgets/side_pannel/reset_button.dart';
-import 'package:path_finding/ui/widgets/side_pannel/sliders.dart';
+import 'package:path_finding/ui/widgets/pannel/reset_button.dart';
+import 'package:path_finding/ui/widgets/pannel/sliders.dart';
 
-class SidePannel extends ConsumerWidget {
-  const SidePannel({Key? key}) : super(key: key);
+class PannelBody extends ConsumerWidget {
+  static const double height = 180;
+  const PannelBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Card(
-      elevation: 2,
-      color: AppColors.panelBackground,
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        color: AppColors.panelBackground,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: const [
             ResetButtons(),
             SizedBox(

@@ -37,7 +37,7 @@ class NodesRepositoryImpl implements NodesRepository {
 
   @override
   void startAlgorithAt(int x, int y) async {
-    _pathFindingAlgorithm.doAlgorithm(Node(x: x, y: y), Node(x: x, y: y));
+    _pathFindingAlgorithm.doAlgorithm(Node(x: x, y: y));
   }
 
   @override

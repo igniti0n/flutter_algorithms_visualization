@@ -4,7 +4,7 @@ import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/data/nodes_repository.dart';
 
 abstract class ShortestPathAlgorithm {
-  Future<void> doAlgorithm(Node startNode, Node goalNode);
+  Future<void> doAlgorithm(Node startNode);
   Future<void> visitNode(Node currentlyLookingNode, Node parentNode);
 }
 
@@ -12,8 +12,9 @@ abstract class ShortestPathAlgorithm {
 abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
   List<Node> nodesStack = [];
   List<Node> doneNodes = [];
-  double diagonalPathCost = 15;
-  double horizontalAndVerticalPathCost = 15;
+  Node? goalNode;
+  double diagonalPathCost = 1;
+  double horizontalAndVerticalPathCost = 1;
   bool isRunning = false;
   final NodesArray allNodes = List.generate(
       NodesRepository.numberOfNodesInRow,
@@ -29,7 +30,7 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
 
   /// Assembles core steps of a path finding algorithm
   @override
-  Future<void> doAlgorithm(Node startNode, Node goalNode) async {
+  Future<void> doAlgorithm(Node startNode) async {
     if (isRunning) {
       return;
     }
@@ -52,7 +53,7 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
         await showShortestPath(currentNode);
         return;
       }
-      goThroughChildren(currentNode, goalNode);
+      goThroughChildren(currentNode);
       nodesStack.sort(
         (a, b) => b.currentCost.compareTo(a.currentCost),
       );
@@ -63,7 +64,7 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
 
   /// Goes throuh all children of the node, so all the neighbors.
   /// Skips any node that is a wall, a parent node and if the currenlty looking at child node is allready done
-  Future<void> goThroughChildren(Node parentNode, Node goalNode) async {
+  Future<void> goThroughChildren(Node parentNode) async {
     final nodeX = parentNode.x;
     final nodeY = parentNode.y;
     final nodesLength = allNodes.length;
@@ -119,6 +120,7 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
 
   void setGoalAt(int x, int y) async {
     allNodes[x][y].isGoalNode = true;
+    goalNode = allNodes[x][y];
     onStepUpdate(allNodes);
     await Future.delayed(const Duration(microseconds: 0));
   }
@@ -130,6 +132,9 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
   }
 
   void resetAt(int x, int y) async {
+    if (allNodes[x][y].isGoalNode) {
+      goalNode = null;
+    }
     allNodes[x][y].reset();
     onStepUpdate(allNodes);
     await Future.delayed(const Duration(microseconds: 0));
@@ -142,6 +147,7 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
         node.reset();
       }
     }
+    goalNode = null;
     onStepUpdate(allNodes);
     await Future.delayed(const Duration(microseconds: 0));
     isRunning = false;

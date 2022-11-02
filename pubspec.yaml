@@ -32,7 +32,9 @@ dependencies:
   equatable: ^2.0.5
   flutter:
     sdk: flutter
+  flutter_hooks: ^0.18.5+1
   flutter_riverpod: ^2.0.2
+  hooks_riverpod: ^2.1.0
   riverpod: ^2.0.2
   rxdart: ^0.27.5
   uuid: ^3.0.6
