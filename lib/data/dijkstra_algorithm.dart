@@ -1,9 +1,9 @@
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/data/path_finding_algorithm.dart';
 
-class DijkstrasAlgorithm extends PathFindingAlgorithm
+class DijkstraAlgorithm extends PathFindingAlgorithm
     implements ShortestPathAlgorithm {
-  DijkstrasAlgorithm({required super.onStepUpdate});
+  DijkstraAlgorithm({required super.onStepUpdate});
 
   /// Evaluates the cost to go to the [Node], and updates it if cost is better then the already calculated one
   @override

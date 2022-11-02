@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_finding/ui/colors.dart';
-import 'package:path_finding/ui/widgets/side_pannel/reset_button.dart';
-import 'package:path_finding/ui/widgets/side_pannel/sliders.dart';
+import 'package:path_finding/ui/widgets/side_panel/reset_button.dart';
+import 'package:path_finding/ui/widgets/side_panel/sliders.dart';
 
-class SidePannel extends ConsumerWidget {
-  const SidePannel({Key? key}) : super(key: key);
+class SidePanel extends ConsumerWidget {
+  const SidePanel({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

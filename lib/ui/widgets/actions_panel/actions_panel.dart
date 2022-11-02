@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:path_finding/notifiers/selected_action_provider/selected_action.dart';
-import 'package:path_finding/ui/widgets/actions_pannel/selectable_action.dart';
+import 'package:path_finding/ui/widgets/actions_panel/selectable_action.dart';
 
-class ActionsPannel extends StatelessWidget {
-  const ActionsPannel({
+class ActionsPanel extends StatelessWidget {
+  const ActionsPanel({
     Key? key,
   }) : super(key: key);
 
