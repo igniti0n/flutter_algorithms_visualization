@@ -12,7 +12,7 @@ class NodesNotifier extends StateNotifier<double> {
   }
 
   void setHorizontalPathCost(double cost) async {
-    _nodesRepository.setHorizotalAndVerticalPathCostTo(cost: cost);
+    _nodesRepository.setHorizontalAndVerticalPathCostTo(cost: cost);
     state = cost;
   }
 }
