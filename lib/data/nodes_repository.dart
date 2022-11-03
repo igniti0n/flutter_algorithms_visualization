@@ -36,7 +36,7 @@ class NodesRepositoryImpl implements NodesRepository {
   Stream<NodesArray> get nodesArrayUpdateStream => _subject.stream;
 
   @override
-  void startAlgorithAt(int x, int y) async {
+  void startAlgorithmAt(int x, int y) async {
     _pathFindingAlgorithm.doAlgorithm(Node(x: x, y: y));
   }
 

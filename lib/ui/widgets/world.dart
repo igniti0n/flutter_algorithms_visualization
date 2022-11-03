@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_finding/notifiers/nodes_state_notifier.dart';
-import 'package:path_finding/ui/widgets/actions_pannel/actions_pannel.dart';
+import 'package:path_finding/ui/widgets/actions_panel/actions_panel.dart';
 import 'package:path_finding/ui/widgets/pannel/pannel.dart';
 import 'package:path_finding/ui/widgets/square.dart';
 
@@ -34,7 +34,7 @@ class World extends ConsumerWidget {
           Stack(
             children: squares,
           ),
-          const ActionsPannel(),
+          const ActionsPanel(),
           const Pannel(),
         ],
       ),
