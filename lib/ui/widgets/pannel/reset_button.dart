@@ -8,25 +8,32 @@ class ResetButtons extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        GestureDetector(
-          onTap: () => ref
-              .read(nodesStateNotifierProvider.notifier)
-              .resetAlgorithmToStart(),
-          child: const Icon(
-            Icons.reply_rounded,
-            size: 48,
-            color: AppColors.sliderColor,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () =>
+                ref.read(nodesStateNotifierProvider.notifier).resetAll(),
+            child: const Icon(
+              Icons.replay_outlined,
+              size: 48,
+              color: AppColors.sliderColor,
+            ),
           ),
         ),
-        GestureDetector(
-          onTap: () => ref.read(nodesStateNotifierProvider.notifier).resetAll(),
-          child: const Icon(
-            Icons.replay_outlined,
-            size: 48,
-            color: AppColors.sliderColor,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () => ref
+                .read(nodesStateNotifierProvider.notifier)
+                .resetAlgorithmToStart(),
+            child: const Icon(
+              Icons.reply_rounded,
+              size: 48,
+              color: AppColors.sliderColor,
+            ),
           ),
         ),
       ],

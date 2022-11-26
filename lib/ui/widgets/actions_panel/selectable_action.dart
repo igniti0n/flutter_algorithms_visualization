@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_finding/notifiers/selected_action_provider/selected_action.dart';
 import 'package:path_finding/notifiers/selected_action_provider/selected_action_provider.dart';
+import 'package:path_finding/notifiers/slected_shortest_path_algorithm_state_notifier.dart';
 import 'package:path_finding/ui/colors.dart';
 
 class SelectableAction extends ConsumerWidget {
@@ -14,6 +15,8 @@ class SelectableAction extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedAction = ref.watch(selectedActionProvider);
+    final selectedAlgorithm =
+        ref.watch(selectedShortestPathAlgorithmStateNotifier);
     final isCurrentActionSelected = selectedAction == action;
 
     return GestureDetector(
@@ -39,15 +42,15 @@ class SelectableAction extends ConsumerWidget {
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(12))),
               child: const SizedBox(
-                width: 48,
-                height: 48,
+                width: 40,
+                height: 40,
               ),
             ),
             const SizedBox(
-              width: 20,
+              width: 10,
             ),
             Text(
-              _resolveTextFor(action),
+              _resolveTextFor(action, selectedAlgorithm.title),
             ),
             const SizedBox(
               width: 4,
@@ -58,11 +61,13 @@ class SelectableAction extends ConsumerWidget {
     );
   }
 
-  String _resolveTextFor(SelectedAction action) => action.when(
+  String _resolveTextFor(
+          SelectedAction action, String selectedAlgorithmTitle) =>
+      action.when(
         idle: () => '',
-        makeWall: () => 'Build walls',
-        makeGoalNode: () => 'Set goal nodes',
-        doDijkstra: () => 'Start Dijkstra',
+        makeWall: () => 'Wall',
+        makeGoalNode: () => 'Goal',
+        doAlgorithm: () => 'Start $selectedAlgorithmTitle',
         reset: () => 'Delete',
       );
 
@@ -70,7 +75,7 @@ class SelectableAction extends ConsumerWidget {
         idle: () => AppColors.idleColor,
         makeWall: () => AppColors.wallColor,
         makeGoalNode: () => AppColors.goalColor,
-        doDijkstra: () => AppColors.pathColor,
+        doAlgorithm: () => AppColors.pathColor,
         reset: () => AppColors.idleColor,
       );
 }

@@ -6,7 +6,6 @@ import 'package:path_finding/notifiers/node_provider.dart';
 import 'package:path_finding/notifiers/nodes_state_notifier.dart';
 import 'package:path_finding/notifiers/selected_action_provider/selected_action_provider.dart';
 import 'package:path_finding/ui/colors.dart';
-import 'package:vector_math/vector_math_64.dart' show Vector3;
 
 class Square extends ConsumerStatefulWidget {
   static const double size = 24;
@@ -76,7 +75,7 @@ class _SquareState extends ConsumerState<Square> {
         idle: () => _onIdleAction(ctx),
         makeWall: () => nodesNotifier.setWallAt(node.x, node.y),
         makeGoalNode: () => nodesNotifier.setGoalAt(node.x, node.y),
-        doDijkstra: () => nodesNotifier.startAlgorithmAt(node.x, node.y),
+        doAlgorithm: () => nodesNotifier.startAlgorithmAt(node.x, node.y),
         reset: () => nodesNotifier.resetAt(node.x, node.y));
   }
 
@@ -105,19 +104,5 @@ class _SquareState extends ConsumerState<Square> {
       return AppColors.visitedColor;
     }
     return AppColors.idleColor;
-  }
-
-  Vector3 _determineSize(Node node) {
-    return node.isWall ? Vector3(0, 0, 1) : Vector3(0, 0, 1);
-    // if (node.isOnTraceablePathToGoal) {
-    //   return Square.size;
-    // } else if (node.isGoalNode) {
-    //   return Square.size;
-    // } else if (node.isWall) {
-    //   return Square.size;
-    // } else if (node.isVisited) {
-    //   return Square.size;
-    // }
-    // return 0;
   }
 }

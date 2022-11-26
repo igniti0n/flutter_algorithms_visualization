@@ -6,6 +6,7 @@ import 'package:path_finding/data/nodes_repository.dart';
 abstract class ShortestPathAlgorithm {
   Future<void> doAlgorithm(Node startNode);
   Future<void> visitNode(Node currentlyLookingNode, Node parentNode);
+  void sortNodesStackAfterOneTurn(List<Node> nodesStack);
 }
 
 /// Defines what a path finding algorithm needs and tools to visualize it
@@ -13,22 +14,29 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
   List<Node> nodesStack = [];
   List<Node> doneNodes = [];
   Node? goalNode;
-  double diagonalPathCost = 1;
-  double horizontalAndVerticalPathCost = 1;
+  double _diagonalPathCost = 1;
+  double _horizontalAndVerticalPathCost = 1;
   bool isRunning = false;
-  final NodesArray allNodes = List.generate(
-      NodesRepository.numberOfNodesInRow,
-      (x) => List.generate(
-          NodesRepository.numberOfNodesInRow, (y) => Node(x: x, y: y),
-          growable: false),
-      growable: false);
   final void Function(NodesArray nodes) onStepUpdate;
+  late final NodesArray allNodes;
 
   PathFindingAlgorithm({
     required this.onStepUpdate,
-  });
+    required List<List<Node>>? nodesToStartWith,
+  }) {
+    allNodes = nodesToStartWith ?? _generateInitialEmptyNodes();
+  }
 
-  /// Assembles core steps of a path finding algorithm
+  static List<List<Node>> _generateInitialEmptyNodes() {
+    return List.generate(
+        NodesRepository.numberOfNodesInRow,
+        (x) => List.generate(
+            NodesRepository.numberOfNodesInRow, (y) => Node(x: x, y: y),
+            growable: false),
+        growable: false);
+  }
+
+  /// Assembles core steps of a path finding algorithm, based on the starting point
   @override
   Future<void> doAlgorithm(Node startNode) async {
     if (isRunning) {
@@ -36,7 +44,7 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
     }
     clearStacks();
     isRunning = true;
-    startNode.currentCost = 0;
+    startNode.currentPathCost = 0;
     nodesStack.add(startNode);
     while (true) {
       if (!isRunning) {
@@ -54,15 +62,13 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
         return;
       }
       goThroughChildren(currentNode);
-      nodesStack.sort(
-        (a, b) => b.currentCost.compareTo(a.currentCost),
-      );
-      await showUpdatedNodes();
+      sortNodesStackAfterOneTurn(nodesStack);
+      await _showUpdatedNodes();
     }
     isRunning = false;
   }
 
-  /// Goes throuh all children of the node, so all the neighbors.
+  /// Goes through all children of the node, so all the neighbors.
   /// Skips any node that is a wall, a parent node and if the currenlty looking at child node is allready done
   Future<void> goThroughChildren(Node parentNode) async {
     final nodeX = parentNode.x;
@@ -78,6 +84,12 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
           continue;
         }
         final currentlyLookingNode = allNodes[i][j];
+        //
+        // final isOnDiagonal = (parentNode.x != currentlyLookingNode.x &&
+        //     parentNode.y != currentlyLookingNode.y);
+        // if (isOnDiagonal) {
+        //   continue;
+        // }
         if (currentlyLookingNode.isWall ||
             doneNodes
                 .any(((element) => element.id == currentlyLookingNode.id))) {
@@ -87,9 +99,6 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
       }
     }
     doneNodes.add(parentNode);
-    nodesStack.sort(
-      (a, b) => a.currentCost <= b.currentCost ? -1 : 1,
-    );
   }
 
   /// Visualize shortest path, going from the end node back to the starting point.
@@ -100,7 +109,7 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
       allNodes[child.x][child.y].isOnTraceablePathToGoal = true;
       child = child.cameFromNode;
     }
-    await showUpdatedNodes();
+    await _showUpdatedNodes();
   }
 
   void clearStacks() {
@@ -108,15 +117,21 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
     nodesStack.clear();
   }
 
-  Future<void> showUpdatedNodes() async {
+  /// Sends updated version of nodes to be shown on the screen.
+  Future<void> _showUpdatedNodes() async {
     onStepUpdate(allNodes);
-    await Future.delayed(const Duration(microseconds: 4));
+    await Future.delayed(const Duration(milliseconds: 10));
   }
 
-  void setDiagonalPathCostTo({required double cost}) => diagonalPathCost = cost;
+  void setDiagonalPathCostTo({required double cost}) =>
+      _diagonalPathCost = cost;
 
   void setHorizontalAndVerticalPathCostTo({required double cost}) =>
-      horizontalAndVerticalPathCost = cost;
+      _horizontalAndVerticalPathCost = cost;
+
+  double get diagonalPathCost => _diagonalPathCost;
+
+  double get horizontalAndVerticalPathCost => _horizontalAndVerticalPathCost;
 
   void setGoalAt(int x, int y) async {
     allNodes[x][y].isGoalNode = true;

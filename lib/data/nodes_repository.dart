@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:path_finding/common/models/node.dart';
+import 'package:path_finding/data/astar_algorithm.dart';
 import 'package:path_finding/data/dijkstra_algorithm.dart';
 import 'package:path_finding/data/path_finding_algorithm.dart';
+import 'package:path_finding/notifiers/slected_shortest_path_algorithm_state_notifier.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:rxdart/subjects.dart';
 
@@ -23,15 +25,18 @@ abstract class NodesRepository {
   void resetAlgorithmToStart();
   void setDiagonalPathCostTo({required double cost});
   void setHorizontalAndVerticalPathCostTo({required double cost});
+  void setCurrentlySelectedAlgotihmTo(
+      {required PathFindingAlgorihmType pathFindingAlgorihmType});
 }
 
 class NodesRepositoryImpl implements NodesRepository {
-  late final PathFindingAlgorithm _pathFindingAlgorithm =
+  late PathFindingAlgorithm _pathFindingAlgorithm =
       DijkstraAlgorithm(onStepUpdate: (e) => _onStepUpdate(e));
   final PublishSubject<NodesArray> _subject = PublishSubject<NodesArray>();
 
   @override
   NodesArray get allNodes => _pathFindingAlgorithm.allNodes;
+
   @override
   Stream<NodesArray> get nodesArrayUpdateStream => _subject.stream;
 
@@ -72,5 +77,34 @@ class NodesRepositoryImpl implements NodesRepository {
 
   void _onStepUpdate(NodesArray updatedArray) {
     _subject.add(updatedArray);
+  }
+
+  @override
+  void setCurrentlySelectedAlgotihmTo(
+      {required PathFindingAlgorihmType pathFindingAlgorihmType}) {
+    final goalNode = _pathFindingAlgorithm.goalNode;
+    switch (pathFindingAlgorihmType) {
+      case PathFindingAlgorihmType.dijkstras:
+        _pathFindingAlgorithm = DijkstraAlgorithm(
+          onStepUpdate: _onStepUpdate,
+          nodesToStartWith: _pathFindingAlgorithm.allNodes,
+        );
+        break;
+
+      case PathFindingAlgorihmType.astar:
+        _pathFindingAlgorithm = AstarAlgorithm(
+          onStepUpdate: _onStepUpdate,
+          nodesToStartWith: _pathFindingAlgorithm.allNodes,
+        );
+        break;
+
+      default:
+        _pathFindingAlgorithm = DijkstraAlgorithm(
+          onStepUpdate: _onStepUpdate,
+          nodesToStartWith: _pathFindingAlgorithm.allNodes,
+        );
+    }
+
+    _pathFindingAlgorithm.goalNode = goalNode;
   }
 }

@@ -21,7 +21,7 @@ mixin _$SelectedAction {
     required TResult Function() idle,
     required TResult Function() makeWall,
     required TResult Function() makeGoalNode,
-    required TResult Function() doDijkstra,
+    required TResult Function() doAlgorithm,
     required TResult Function() reset,
   }) =>
       throw _privateConstructorUsedError;
@@ -30,7 +30,7 @@ mixin _$SelectedAction {
     TResult? Function()? idle,
     TResult? Function()? makeWall,
     TResult? Function()? makeGoalNode,
-    TResult? Function()? doDijkstra,
+    TResult? Function()? doAlgorithm,
     TResult? Function()? reset,
   }) =>
       throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ mixin _$SelectedAction {
     TResult Function()? idle,
     TResult Function()? makeWall,
     TResult Function()? makeGoalNode,
-    TResult Function()? doDijkstra,
+    TResult Function()? doAlgorithm,
     TResult Function()? reset,
     required TResult orElse(),
   }) =>
@@ -49,7 +49,7 @@ mixin _$SelectedAction {
     required TResult Function(Idle value) idle,
     required TResult Function(MakeWall value) makeWall,
     required TResult Function(MakeGoalNode value) makeGoalNode,
-    required TResult Function(DoDijkstra value) doDijkstra,
+    required TResult Function(DoAlgorithm value) doAlgorithm,
     required TResult Function(ResetNode value) reset,
   }) =>
       throw _privateConstructorUsedError;
@@ -58,7 +58,7 @@ mixin _$SelectedAction {
     TResult? Function(Idle value)? idle,
     TResult? Function(MakeWall value)? makeWall,
     TResult? Function(MakeGoalNode value)? makeGoalNode,
-    TResult? Function(DoDijkstra value)? doDijkstra,
+    TResult? Function(DoAlgorithm value)? doAlgorithm,
     TResult? Function(ResetNode value)? reset,
   }) =>
       throw _privateConstructorUsedError;
@@ -67,7 +67,7 @@ mixin _$SelectedAction {
     TResult Function(Idle value)? idle,
     TResult Function(MakeWall value)? makeWall,
     TResult Function(MakeGoalNode value)? makeGoalNode,
-    TResult Function(DoDijkstra value)? doDijkstra,
+    TResult Function(DoAlgorithm value)? doAlgorithm,
     TResult Function(ResetNode value)? reset,
     required TResult orElse(),
   }) =>
@@ -131,7 +131,7 @@ class _$Idle implements Idle {
     required TResult Function() idle,
     required TResult Function() makeWall,
     required TResult Function() makeGoalNode,
-    required TResult Function() doDijkstra,
+    required TResult Function() doAlgorithm,
     required TResult Function() reset,
   }) {
     return idle();
@@ -143,7 +143,7 @@ class _$Idle implements Idle {
     TResult? Function()? idle,
     TResult? Function()? makeWall,
     TResult? Function()? makeGoalNode,
-    TResult? Function()? doDijkstra,
+    TResult? Function()? doAlgorithm,
     TResult? Function()? reset,
   }) {
     return idle?.call();
@@ -155,7 +155,7 @@ class _$Idle implements Idle {
     TResult Function()? idle,
     TResult Function()? makeWall,
     TResult Function()? makeGoalNode,
-    TResult Function()? doDijkstra,
+    TResult Function()? doAlgorithm,
     TResult Function()? reset,
     required TResult orElse(),
   }) {
@@ -171,7 +171,7 @@ class _$Idle implements Idle {
     required TResult Function(Idle value) idle,
     required TResult Function(MakeWall value) makeWall,
     required TResult Function(MakeGoalNode value) makeGoalNode,
-    required TResult Function(DoDijkstra value) doDijkstra,
+    required TResult Function(DoAlgorithm value) doAlgorithm,
     required TResult Function(ResetNode value) reset,
   }) {
     return idle(this);
@@ -183,7 +183,7 @@ class _$Idle implements Idle {
     TResult? Function(Idle value)? idle,
     TResult? Function(MakeWall value)? makeWall,
     TResult? Function(MakeGoalNode value)? makeGoalNode,
-    TResult? Function(DoDijkstra value)? doDijkstra,
+    TResult? Function(DoAlgorithm value)? doAlgorithm,
     TResult? Function(ResetNode value)? reset,
   }) {
     return idle?.call(this);
@@ -195,7 +195,7 @@ class _$Idle implements Idle {
     TResult Function(Idle value)? idle,
     TResult Function(MakeWall value)? makeWall,
     TResult Function(MakeGoalNode value)? makeGoalNode,
-    TResult Function(DoDijkstra value)? doDijkstra,
+    TResult Function(DoAlgorithm value)? doAlgorithm,
     TResult Function(ResetNode value)? reset,
     required TResult orElse(),
   }) {
@@ -250,7 +250,7 @@ class _$MakeWall implements MakeWall {
     required TResult Function() idle,
     required TResult Function() makeWall,
     required TResult Function() makeGoalNode,
-    required TResult Function() doDijkstra,
+    required TResult Function() doAlgorithm,
     required TResult Function() reset,
   }) {
     return makeWall();
@@ -262,7 +262,7 @@ class _$MakeWall implements MakeWall {
     TResult? Function()? idle,
     TResult? Function()? makeWall,
     TResult? Function()? makeGoalNode,
-    TResult? Function()? doDijkstra,
+    TResult? Function()? doAlgorithm,
     TResult? Function()? reset,
   }) {
     return makeWall?.call();
@@ -274,7 +274,7 @@ class _$MakeWall implements MakeWall {
     TResult Function()? idle,
     TResult Function()? makeWall,
     TResult Function()? makeGoalNode,
-    TResult Function()? doDijkstra,
+    TResult Function()? doAlgorithm,
     TResult Function()? reset,
     required TResult orElse(),
   }) {
@@ -290,7 +290,7 @@ class _$MakeWall implements MakeWall {
     required TResult Function(Idle value) idle,
     required TResult Function(MakeWall value) makeWall,
     required TResult Function(MakeGoalNode value) makeGoalNode,
-    required TResult Function(DoDijkstra value) doDijkstra,
+    required TResult Function(DoAlgorithm value) doAlgorithm,
     required TResult Function(ResetNode value) reset,
   }) {
     return makeWall(this);
@@ -302,7 +302,7 @@ class _$MakeWall implements MakeWall {
     TResult? Function(Idle value)? idle,
     TResult? Function(MakeWall value)? makeWall,
     TResult? Function(MakeGoalNode value)? makeGoalNode,
-    TResult? Function(DoDijkstra value)? doDijkstra,
+    TResult? Function(DoAlgorithm value)? doAlgorithm,
     TResult? Function(ResetNode value)? reset,
   }) {
     return makeWall?.call(this);
@@ -314,7 +314,7 @@ class _$MakeWall implements MakeWall {
     TResult Function(Idle value)? idle,
     TResult Function(MakeWall value)? makeWall,
     TResult Function(MakeGoalNode value)? makeGoalNode,
-    TResult Function(DoDijkstra value)? doDijkstra,
+    TResult Function(DoAlgorithm value)? doAlgorithm,
     TResult Function(ResetNode value)? reset,
     required TResult orElse(),
   }) {
@@ -370,7 +370,7 @@ class _$MakeGoalNode implements MakeGoalNode {
     required TResult Function() idle,
     required TResult Function() makeWall,
     required TResult Function() makeGoalNode,
-    required TResult Function() doDijkstra,
+    required TResult Function() doAlgorithm,
     required TResult Function() reset,
   }) {
     return makeGoalNode();
@@ -382,7 +382,7 @@ class _$MakeGoalNode implements MakeGoalNode {
     TResult? Function()? idle,
     TResult? Function()? makeWall,
     TResult? Function()? makeGoalNode,
-    TResult? Function()? doDijkstra,
+    TResult? Function()? doAlgorithm,
     TResult? Function()? reset,
   }) {
     return makeGoalNode?.call();
@@ -394,7 +394,7 @@ class _$MakeGoalNode implements MakeGoalNode {
     TResult Function()? idle,
     TResult Function()? makeWall,
     TResult Function()? makeGoalNode,
-    TResult Function()? doDijkstra,
+    TResult Function()? doAlgorithm,
     TResult Function()? reset,
     required TResult orElse(),
   }) {
@@ -410,7 +410,7 @@ class _$MakeGoalNode implements MakeGoalNode {
     required TResult Function(Idle value) idle,
     required TResult Function(MakeWall value) makeWall,
     required TResult Function(MakeGoalNode value) makeGoalNode,
-    required TResult Function(DoDijkstra value) doDijkstra,
+    required TResult Function(DoAlgorithm value) doAlgorithm,
     required TResult Function(ResetNode value) reset,
   }) {
     return makeGoalNode(this);
@@ -422,7 +422,7 @@ class _$MakeGoalNode implements MakeGoalNode {
     TResult? Function(Idle value)? idle,
     TResult? Function(MakeWall value)? makeWall,
     TResult? Function(MakeGoalNode value)? makeGoalNode,
-    TResult? Function(DoDijkstra value)? doDijkstra,
+    TResult? Function(DoAlgorithm value)? doAlgorithm,
     TResult? Function(ResetNode value)? reset,
   }) {
     return makeGoalNode?.call(this);
@@ -434,7 +434,7 @@ class _$MakeGoalNode implements MakeGoalNode {
     TResult Function(Idle value)? idle,
     TResult Function(MakeWall value)? makeWall,
     TResult Function(MakeGoalNode value)? makeGoalNode,
-    TResult Function(DoDijkstra value)? doDijkstra,
+    TResult Function(DoAlgorithm value)? doAlgorithm,
     TResult Function(ResetNode value)? reset,
     required TResult orElse(),
   }) {
@@ -450,35 +450,35 @@ abstract class MakeGoalNode implements SelectedAction {
 }
 
 /// @nodoc
-abstract class _$$DoDijkstraCopyWith<$Res> {
-  factory _$$DoDijkstraCopyWith(
-          _$DoDijkstra value, $Res Function(_$DoDijkstra) then) =
-      __$$DoDijkstraCopyWithImpl<$Res>;
+abstract class _$$DoAlgorithmCopyWith<$Res> {
+  factory _$$DoAlgorithmCopyWith(
+          _$DoAlgorithm value, $Res Function(_$DoAlgorithm) then) =
+      __$$DoAlgorithmCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$DoDijkstraCopyWithImpl<$Res>
-    extends _$SelectedActionCopyWithImpl<$Res, _$DoDijkstra>
-    implements _$$DoDijkstraCopyWith<$Res> {
-  __$$DoDijkstraCopyWithImpl(
-      _$DoDijkstra _value, $Res Function(_$DoDijkstra) _then)
+class __$$DoAlgorithmCopyWithImpl<$Res>
+    extends _$SelectedActionCopyWithImpl<$Res, _$DoAlgorithm>
+    implements _$$DoAlgorithmCopyWith<$Res> {
+  __$$DoAlgorithmCopyWithImpl(
+      _$DoAlgorithm _value, $Res Function(_$DoAlgorithm) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$DoDijkstra implements DoDijkstra {
-  const _$DoDijkstra();
+class _$DoAlgorithm implements DoAlgorithm {
+  const _$DoAlgorithm();
 
   @override
   String toString() {
-    return 'SelectedAction.doDijkstra()';
+    return 'SelectedAction.doAlgorithm()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$DoDijkstra);
+        (other.runtimeType == runtimeType && other is _$DoAlgorithm);
   }
 
   @override
@@ -490,10 +490,10 @@ class _$DoDijkstra implements DoDijkstra {
     required TResult Function() idle,
     required TResult Function() makeWall,
     required TResult Function() makeGoalNode,
-    required TResult Function() doDijkstra,
+    required TResult Function() doAlgorithm,
     required TResult Function() reset,
   }) {
-    return doDijkstra();
+    return doAlgorithm();
   }
 
   @override
@@ -502,10 +502,10 @@ class _$DoDijkstra implements DoDijkstra {
     TResult? Function()? idle,
     TResult? Function()? makeWall,
     TResult? Function()? makeGoalNode,
-    TResult? Function()? doDijkstra,
+    TResult? Function()? doAlgorithm,
     TResult? Function()? reset,
   }) {
-    return doDijkstra?.call();
+    return doAlgorithm?.call();
   }
 
   @override
@@ -514,12 +514,12 @@ class _$DoDijkstra implements DoDijkstra {
     TResult Function()? idle,
     TResult Function()? makeWall,
     TResult Function()? makeGoalNode,
-    TResult Function()? doDijkstra,
+    TResult Function()? doAlgorithm,
     TResult Function()? reset,
     required TResult orElse(),
   }) {
-    if (doDijkstra != null) {
-      return doDijkstra();
+    if (doAlgorithm != null) {
+      return doAlgorithm();
     }
     return orElse();
   }
@@ -530,10 +530,10 @@ class _$DoDijkstra implements DoDijkstra {
     required TResult Function(Idle value) idle,
     required TResult Function(MakeWall value) makeWall,
     required TResult Function(MakeGoalNode value) makeGoalNode,
-    required TResult Function(DoDijkstra value) doDijkstra,
+    required TResult Function(DoAlgorithm value) doAlgorithm,
     required TResult Function(ResetNode value) reset,
   }) {
-    return doDijkstra(this);
+    return doAlgorithm(this);
   }
 
   @override
@@ -542,10 +542,10 @@ class _$DoDijkstra implements DoDijkstra {
     TResult? Function(Idle value)? idle,
     TResult? Function(MakeWall value)? makeWall,
     TResult? Function(MakeGoalNode value)? makeGoalNode,
-    TResult? Function(DoDijkstra value)? doDijkstra,
+    TResult? Function(DoAlgorithm value)? doAlgorithm,
     TResult? Function(ResetNode value)? reset,
   }) {
-    return doDijkstra?.call(this);
+    return doAlgorithm?.call(this);
   }
 
   @override
@@ -554,19 +554,19 @@ class _$DoDijkstra implements DoDijkstra {
     TResult Function(Idle value)? idle,
     TResult Function(MakeWall value)? makeWall,
     TResult Function(MakeGoalNode value)? makeGoalNode,
-    TResult Function(DoDijkstra value)? doDijkstra,
+    TResult Function(DoAlgorithm value)? doAlgorithm,
     TResult Function(ResetNode value)? reset,
     required TResult orElse(),
   }) {
-    if (doDijkstra != null) {
-      return doDijkstra(this);
+    if (doAlgorithm != null) {
+      return doAlgorithm(this);
     }
     return orElse();
   }
 }
 
-abstract class DoDijkstra implements SelectedAction {
-  const factory DoDijkstra() = _$DoDijkstra;
+abstract class DoAlgorithm implements SelectedAction {
+  const factory DoAlgorithm() = _$DoAlgorithm;
 }
 
 /// @nodoc
@@ -610,7 +610,7 @@ class _$ResetNode implements ResetNode {
     required TResult Function() idle,
     required TResult Function() makeWall,
     required TResult Function() makeGoalNode,
-    required TResult Function() doDijkstra,
+    required TResult Function() doAlgorithm,
     required TResult Function() reset,
   }) {
     return reset();
@@ -622,7 +622,7 @@ class _$ResetNode implements ResetNode {
     TResult? Function()? idle,
     TResult? Function()? makeWall,
     TResult? Function()? makeGoalNode,
-    TResult? Function()? doDijkstra,
+    TResult? Function()? doAlgorithm,
     TResult? Function()? reset,
   }) {
     return reset?.call();
@@ -634,7 +634,7 @@ class _$ResetNode implements ResetNode {
     TResult Function()? idle,
     TResult Function()? makeWall,
     TResult Function()? makeGoalNode,
-    TResult Function()? doDijkstra,
+    TResult Function()? doAlgorithm,
     TResult Function()? reset,
     required TResult orElse(),
   }) {
@@ -650,7 +650,7 @@ class _$ResetNode implements ResetNode {
     required TResult Function(Idle value) idle,
     required TResult Function(MakeWall value) makeWall,
     required TResult Function(MakeGoalNode value) makeGoalNode,
-    required TResult Function(DoDijkstra value) doDijkstra,
+    required TResult Function(DoAlgorithm value) doAlgorithm,
     required TResult Function(ResetNode value) reset,
   }) {
     return reset(this);
@@ -662,7 +662,7 @@ class _$ResetNode implements ResetNode {
     TResult? Function(Idle value)? idle,
     TResult? Function(MakeWall value)? makeWall,
     TResult? Function(MakeGoalNode value)? makeGoalNode,
-    TResult? Function(DoDijkstra value)? doDijkstra,
+    TResult? Function(DoAlgorithm value)? doAlgorithm,
     TResult? Function(ResetNode value)? reset,
   }) {
     return reset?.call(this);
@@ -674,7 +674,7 @@ class _$ResetNode implements ResetNode {
     TResult Function(Idle value)? idle,
     TResult Function(MakeWall value)? makeWall,
     TResult Function(MakeGoalNode value)? makeGoalNode,
-    TResult Function(DoDijkstra value)? doDijkstra,
+    TResult Function(DoAlgorithm value)? doAlgorithm,
     TResult Function(ResetNode value)? reset,
     required TResult orElse(),
   }) {

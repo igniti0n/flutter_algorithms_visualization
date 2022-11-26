@@ -27,7 +27,7 @@ class ActionsPanel extends StatelessWidget {
             width: 40,
           ),
           SelectableAction(
-            action: SelectedAction.doDijkstra(),
+            action: SelectedAction.doAlgorithm(),
           ),
           SizedBox(
             width: 40,
