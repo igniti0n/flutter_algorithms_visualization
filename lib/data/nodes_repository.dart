@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/data/astar_algorithm.dart';
-import 'package:path_finding/data/dijkstra_algorithm.dart';
 import 'package:path_finding/data/drunk_algorithm.dart';
 import 'package:path_finding/data/path_finding_algorithm.dart';
+import 'package:path_finding/data/visualizable_algorithm.dart';
 import 'package:path_finding/notifiers/slected_shortest_path_algorithm_state_notifier.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:rxdart/subjects.dart';
@@ -33,7 +33,7 @@ abstract class NodesRepository {
 }
 
 class NodesRepositoryImpl implements NodesRepository {
-  late PathFindingAlgorithm _pathFindingAlgorithm =
+  late VisualizableAlgorithm _pathFindingAlgorithm =
       DijkstraAlgorithm(onStepUpdate: (e) => _onStepUpdate(e));
   final PublishSubject<NodesArray> _subject = PublishSubject<NodesArray>();
 

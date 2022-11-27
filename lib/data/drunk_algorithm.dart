@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/data/path_finding_algorithm.dart';
 
-class DrunkAlgorithm extends PathFindingAlgorithm {
+class DrunkAlgorithm extends DijkstraAlgorithm {
   DrunkAlgorithm({required super.onStepUpdate, super.nodesToStartWith});
 
   /// Evaluates the cost to go to the [Node], and updates it if cost is better then the already calculated one

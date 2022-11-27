@@ -2,7 +2,7 @@ import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/common/utils.dart';
 import 'package:path_finding/data/path_finding_algorithm.dart';
 
-class AstarAlgorithm extends PathFindingAlgorithm {
+class AstarAlgorithm extends DijkstraAlgorithm {
   AstarAlgorithm({required super.onStepUpdate, super.nodesToStartWith});
 
   /// Evaluates the cost to go to the [Node], and updates it if cost is better then the already calculated one
