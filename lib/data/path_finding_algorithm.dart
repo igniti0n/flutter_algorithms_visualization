@@ -74,10 +74,11 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
     final nodeX = parentNode.x;
     final nodeY = parentNode.y;
     final nodesLength = allNodes.length;
+    final rowLength = allNodes[0].length;
     for (int i = nodeX - 1; i <= (nodeX + 1); i++) {
       for (int j = nodeY - 1; j <= (nodeY + 1); j++) {
         // Inside the bonus
-        if (i < 0 || j < 0 || i >= nodesLength || j >= nodesLength) {
+        if (i < 0 || j < 0 || i >= nodesLength || j >= rowLength) {
           continue;
         }
         if (i == nodeX && j == nodeY) {
