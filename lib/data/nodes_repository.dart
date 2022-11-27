@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/data/astar_algorithm.dart';
 import 'package:path_finding/data/dijkstra_algorithm.dart';
+import 'package:path_finding/data/drunk_algorithm.dart';
 import 'package:path_finding/data/path_finding_algorithm.dart';
 import 'package:path_finding/notifiers/slected_shortest_path_algorithm_state_notifier.dart';
 import 'package:riverpod/riverpod.dart';
@@ -15,6 +16,8 @@ final nodesRepositoryProvider =
 
 abstract class NodesRepository {
   static const numberOfNodesInRow = 60;
+  static const numberOfNodesInColumn = 40;
+
   NodesArray get allNodes;
   Stream<NodesArray> get nodesArrayUpdateStream;
   void startAlgorithmAt(int x, int y);
@@ -98,11 +101,19 @@ class NodesRepositoryImpl implements NodesRepository {
         );
         break;
 
-      default:
+      case PathFindingAlgorihmType.drunk:
+        _pathFindingAlgorithm = DrunkAlgorithm(
+          onStepUpdate: _onStepUpdate,
+          nodesToStartWith: _pathFindingAlgorithm.allNodes,
+        );
+        break;
+
+      case PathFindingAlgorihmType.smth:
         _pathFindingAlgorithm = DijkstraAlgorithm(
           onStepUpdate: _onStepUpdate,
           nodesToStartWith: _pathFindingAlgorithm.allNodes,
         );
+        break;
     }
 
     _pathFindingAlgorithm.goalNode = goalNode;

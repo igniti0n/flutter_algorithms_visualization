@@ -14,8 +14,8 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
   List<Node> nodesStack = [];
   List<Node> doneNodes = [];
   Node? goalNode;
-  double _diagonalPathCost = 1;
-  double _horizontalAndVerticalPathCost = 1;
+  double _diagonalPathCost = 30;
+  double _horizontalAndVerticalPathCost = 15;
   bool isRunning = false;
   final void Function(NodesArray nodes) onStepUpdate;
   late final NodesArray allNodes;
@@ -31,7 +31,7 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
     return List.generate(
         NodesRepository.numberOfNodesInRow,
         (x) => List.generate(
-            NodesRepository.numberOfNodesInRow, (y) => Node(x: x, y: y),
+            NodesRepository.numberOfNodesInColumn, (y) => Node(x: x, y: y),
             growable: false),
         growable: false);
   }
