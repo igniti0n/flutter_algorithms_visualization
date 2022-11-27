@@ -17,6 +17,8 @@ abstract class VisualizableAlgorithm {
     required List<List<Node>>? nodesToStartWith,
   }) {
     allNodes = nodesToStartWith ?? _generateInitialEmptyNodes();
+    setDiagonalPathCostTo(cost: _diagonalPathCost);
+    setHorizontalAndVerticalPathCostTo(cost: _horizontalAndVerticalPathCost);
   }
 
   static List<List<Node>> _generateInitialEmptyNodes() {
