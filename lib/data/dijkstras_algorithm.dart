@@ -14,14 +14,7 @@ class DijkstraAlgorithm extends VisualizableAlgorithm {
 
   /// Assembles core steps of a path finding algorithm, based on the starting point
   @override
-  Future<void> doAlgorithm(Node startNode) async {
-    if (isRunning) {
-      return;
-    }
-    clearStacks();
-    isRunning = true;
-    startNode.currentPathCost = 0;
-    nodesStack.add(startNode);
+  Future<void> algorithmImplementation(Node startNode) async {
     while (true) {
       if (!isRunning) {
         resetAll();
@@ -41,7 +34,6 @@ class DijkstraAlgorithm extends VisualizableAlgorithm {
       sortNodesStackAfterOneTurn(nodesStack);
       await showUpdatedNodes();
     }
-    isRunning = false;
   }
 
   /// Goes through all children of the node, so all the neighbors.

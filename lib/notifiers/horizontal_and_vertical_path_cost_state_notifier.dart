@@ -7,7 +7,7 @@ final horizontalAndVerticalPathCostStateNotifierProvider =
 
 class NodesNotifier extends StateNotifier<double> {
   final NodesRepository _nodesRepository;
-  NodesNotifier(this._nodesRepository) : super(15);
+  NodesNotifier(this._nodesRepository) : super(1);
 
   void setHorizontalPathCost(double cost) async {
     _nodesRepository.setHorizontalAndVerticalPathCostTo(cost: cost);

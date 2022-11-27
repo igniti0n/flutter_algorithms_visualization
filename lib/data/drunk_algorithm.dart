@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:path_finding/common/models/node.dart';
-import 'package:path_finding/data/path_finding_algorithm.dart';
+import 'package:path_finding/data/dijkstras_algorithm.dart';
 
 class DrunkAlgorithm extends DijkstraAlgorithm {
   DrunkAlgorithm({required super.onStepUpdate, super.nodesToStartWith});

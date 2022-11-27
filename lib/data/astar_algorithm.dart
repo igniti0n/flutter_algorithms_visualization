@@ -1,6 +1,6 @@
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/common/utils.dart';
-import 'package:path_finding/data/path_finding_algorithm.dart';
+import 'package:path_finding/data/dijkstras_algorithm.dart';
 
 class AstarAlgorithm extends DijkstraAlgorithm {
   AstarAlgorithm({required super.onStepUpdate, super.nodesToStartWith});

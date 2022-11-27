@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/data/astar_algorithm.dart';
+import 'package:path_finding/data/dijkstras_algorithm.dart';
 import 'package:path_finding/data/drunk_algorithm.dart';
-import 'package:path_finding/data/path_finding_algorithm.dart';
 import 'package:path_finding/data/visualizable_algorithm.dart';
 import 'package:path_finding/notifiers/slected_shortest_path_algorithm_state_notifier.dart';
 import 'package:riverpod/riverpod.dart';
@@ -45,7 +45,7 @@ class NodesRepositoryImpl implements NodesRepository {
 
   @override
   void startAlgorithmAt(int x, int y) async {
-    _pathFindingAlgorithm.doAlgorithm(Node(x: x, y: y));
+    _pathFindingAlgorithm.runAlgorithm(Node(x: x, y: y));
   }
 
   @override

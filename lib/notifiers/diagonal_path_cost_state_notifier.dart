@@ -7,7 +7,7 @@ final diagonalPathCostStateNotifierProvider =
 
 class NodesNotifier extends StateNotifier<double> {
   final NodesRepository _nodesRepository;
-  NodesNotifier(this._nodesRepository) : super(30);
+  NodesNotifier(this._nodesRepository) : super(2);
 
   void setDiagonalCost(double cost) async {
     _nodesRepository.setDiagonalPathCostTo(cost: cost);

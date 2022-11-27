@@ -30,8 +30,21 @@ abstract class VisualizableAlgorithm {
         growable: false);
   }
 
-  /// Assembles core steps of a path finding algorithm, based on the starting point
-  Future<void> doAlgorithm(Node startNode);
+  /// Implementation of the alorithm
+  Future<void> algorithmImplementation(Node startNode);
+
+  /// Setus up clear state for running the algorithm and calls [algorithmImplementation]
+  Future<void> runAlgorithm(Node startNode) async {
+    if (isRunning) {
+      return;
+    }
+    clearStacks();
+    isRunning = true;
+    startNode.currentPathCost = 0;
+    nodesStack.add(startNode);
+    await algorithmImplementation(startNode);
+    isRunning = false;
+  }
 
   bool isNodeOutsideOfBounds(
       {required int i, required int j, required Node parentNode}) {
@@ -60,8 +73,8 @@ abstract class VisualizableAlgorithm {
     while (child != null) {
       allNodes[child.x][child.y].isOnTraceablePathToGoal = true;
       child = child.cameFromNode;
+      await showUpdatedNodes(milliseconds: 24);
     }
-    await showUpdatedNodes();
   }
 
   void clearStacks() {
@@ -70,9 +83,9 @@ abstract class VisualizableAlgorithm {
   }
 
   /// Sends updated version of nodes to be shown on the screen.
-  Future<void> showUpdatedNodes() async {
+  Future<void> showUpdatedNodes({int milliseconds = 1}) async {
     onStepUpdate(allNodes);
-    await Future.delayed(const Duration(milliseconds: 1));
+    await Future.delayed(Duration(milliseconds: milliseconds));
   }
 
   void setDiagonalPathCostTo({required double cost}) =>

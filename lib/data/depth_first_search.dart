@@ -5,7 +5,7 @@ class DepthFirstSearch extends VisualizableAlgorithm {
   DepthFirstSearch({required super.onStepUpdate, super.nodesToStartWith});
 
   @override
-  Future<void> doAlgorithm(Node startNode) {
+  Future<void> algorithmImplementation(Node startNode) {
     // TODO: implement doAlgorithm
     throw UnimplementedError();
   }
