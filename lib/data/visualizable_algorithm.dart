@@ -6,8 +6,8 @@ abstract class VisualizableAlgorithm {
   List<Node> nodesStack = [];
   List<Node> doneNodes = [];
   Node? goalNode;
-  double _diagonalPathCost = 30;
-  double _horizontalAndVerticalPathCost = 15;
+  double _diagonalPathCost = 2;
+  double _horizontalAndVerticalPathCost = 1;
   bool isRunning = false;
   final void Function(NodesArray nodes) onStepUpdate;
   late final NodesArray allNodes;
