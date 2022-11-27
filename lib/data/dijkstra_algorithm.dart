@@ -10,7 +10,6 @@ class DijkstraAlgorithm extends PathFindingAlgorithm {
   Future<void> visitNode(Node currentlyLookingNode, Node parentNode) async {
     final isOnDiagonal = isNodeOnDiagonal(
         currentlyLookingNode: currentlyLookingNode, parentNode: parentNode);
-    currentlyLookingNode.isVisited = true;
     var costToGoToNode = parentNode.currentPathCost +
         (isOnDiagonal ? diagonalPathCost : horizontalAndVerticalPathCost);
     // only the path cost is being look for when moving to the node

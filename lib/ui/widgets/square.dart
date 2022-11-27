@@ -47,20 +47,20 @@ class _SquareState extends ConsumerState<Square> {
           _callAction(ref, context);
         },
         child: Container(
+          width: Square.size,
+          height: Square.size,
           decoration: BoxDecoration(
             color: AppColors.idleColor, //_determineColor(node),
             border: Border.all(color: AppColors.sliderColor),
           ),
           alignment: Alignment.center,
-          child: SizedBox(
-            width: Square.size,
-            height: Square.size,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.easeOut,
-              decoration: BoxDecoration(
-                color: _determineColor(node),
-              ),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 400),
+            width: node.isIdle ? 0 : Square.size,
+            height: node.isIdle ? 0 : Square.size,
+            curve: Curves.easeOut,
+            decoration: BoxDecoration(
+              color: _determineColor(node),
             ),
           ),
         ),

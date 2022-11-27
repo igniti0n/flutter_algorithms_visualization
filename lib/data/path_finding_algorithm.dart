@@ -99,6 +99,7 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
       }
     }
     doneNodes.add(parentNode);
+    allNodes[nodeX][nodeY].isVisited = true;
   }
 
   /// Visualize shortest path, going from the end node back to the starting point.
@@ -120,7 +121,7 @@ abstract class PathFindingAlgorithm implements ShortestPathAlgorithm {
   /// Sends updated version of nodes to be shown on the screen.
   Future<void> _showUpdatedNodes() async {
     onStepUpdate(allNodes);
-    await Future.delayed(const Duration(milliseconds: 10));
+    await Future.delayed(const Duration(milliseconds: 1));
   }
 
   void setDiagonalPathCostTo({required double cost}) =>

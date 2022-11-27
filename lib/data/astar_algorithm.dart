@@ -11,7 +11,6 @@ class AstarAlgorithm extends PathFindingAlgorithm {
     // Calculate cost to go to node
     final isOnDiagonal = isNodeOnDiagonal(
         currentlyLookingNode: currentlyLookingNode, parentNode: parentNode);
-    currentlyLookingNode.isVisited = true;
     var costToGoToNode = parentNode.currentPathCost +
         (isOnDiagonal ? diagonalPathCost : horizontalAndVerticalPathCost);
     // caluclate distance to goal,  and save it in the node

@@ -63,6 +63,9 @@ class Node {
       node.isOnTraceablePathToGoal != isOnTraceablePathToGoal ||
       node.isGoalNode != isGoalNode;
 
+  bool get isIdle =>
+      !isGoalNode && !isVisited && !isWall && !isOnTraceablePathToGoal;
+
   void reset() {
     isGoalNode = false;
     isVisited = false;
