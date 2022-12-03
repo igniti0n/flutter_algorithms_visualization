@@ -20,13 +20,13 @@ class SelectedShortestPathAlgorithmNotifier
   }
 }
 
-enum PathFindingAlgorihmType { dijkstras, astar, smth, drunk }
+enum PathFindingAlgorihmType { dijkstras, astar, dfs, drunk }
 
 extension AlgorithmProperties on PathFindingAlgorihmType {
   static final _name = {
     PathFindingAlgorihmType.dijkstras: 'Dijkstras',
     PathFindingAlgorihmType.astar: 'A*',
-    PathFindingAlgorihmType.smth: 'Smth',
+    PathFindingAlgorihmType.dfs: 'DFS',
     PathFindingAlgorihmType.drunk: 'Drunk',
   };
 

@@ -10,5 +10,16 @@ double calculateDistance(startX, startY, endX, endY) {
 
 bool isNodeOnDiagonal(
         {required Node currentlyLookingNode, required Node parentNode}) =>
-    (parentNode.x != currentlyLookingNode.x &&
-        parentNode.y != currentlyLookingNode.y);
+    isNodeOnDiagonalForCoordinates(
+        startX: currentlyLookingNode.x,
+        startY: currentlyLookingNode.y,
+        endX: parentNode.x,
+        endY: parentNode.y);
+
+bool isNodeOnDiagonalForCoordinates({
+  required int startX,
+  required int startY,
+  required int endX,
+  required int endY,
+}) =>
+    (endX != startX && endY != startY);

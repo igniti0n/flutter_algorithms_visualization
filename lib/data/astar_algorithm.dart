@@ -5,7 +5,6 @@ import 'package:path_finding/data/dijkstras_algorithm.dart';
 class AstarAlgorithm extends DijkstraAlgorithm {
   AstarAlgorithm({required super.onStepUpdate, super.nodesToStartWith});
 
-  /// Evaluates the cost to go to the [Node], and updates it if cost is better then the already calculated one
   @override
   Future<void> visitNode(Node currentlyLookingNode, Node parentNode) async {
     // Calculate cost to go to node

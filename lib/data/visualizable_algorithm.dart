@@ -46,7 +46,8 @@ abstract class VisualizableAlgorithm {
     isRunning = false;
   }
 
-  bool isNodeOutsideOfBounds(
+  /// Returns `true` if the node is outside of [allNodes] array bounds
+  bool isNodeParentNodeOrOutsideOfBounds(
       {required int i, required int j, required Node parentNode}) {
     final nodesLength = allNodes.length;
     final rowLength = allNodes[0].length;
@@ -59,6 +60,7 @@ abstract class VisualizableAlgorithm {
     return false;
   }
 
+  /// Returns `true` if the node is a wall or if it is allready in the [doneNodes]
   bool isNodeWallOrDone({required Node node}) {
     if (node.isWall || doneNodes.any(((element) => element.id == node.id))) {
       return true;
@@ -67,13 +69,13 @@ abstract class VisualizableAlgorithm {
   }
 
   /// Visualize shortest path, going from the end node back to the starting point.
-  Future<void> showShortestPath(Node endNode) async {
+  Future<void> showShortestPath(Node endNode, {int milliseconds = 24}) async {
     allNodes[endNode.x][endNode.y].isOnTraceablePathToGoal = true;
     var child = endNode.cameFromNode;
     while (child != null) {
       allNodes[child.x][child.y].isOnTraceablePathToGoal = true;
       child = child.cameFromNode;
-      await showUpdatedNodes(milliseconds: 24);
+      await showUpdatedNodes(milliseconds: milliseconds);
     }
   }
 

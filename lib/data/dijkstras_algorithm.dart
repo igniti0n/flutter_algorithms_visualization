@@ -44,19 +44,14 @@ class DijkstraAlgorithm extends VisualizableAlgorithm {
 
     for (int i = nodeX - 1; i <= (nodeX + 1); i++) {
       for (int j = nodeY - 1; j <= (nodeY + 1); j++) {
-        if (isNodeOutsideOfBounds(i: i, j: j, parentNode: parentNode)) {
+        if (isNodeParentNodeOrOutsideOfBounds(
+            i: i, j: j, parentNode: parentNode)) {
           continue;
         }
         final currentlyLookingNode = allNodes[i][j];
         if (isNodeWallOrDone(node: currentlyLookingNode)) {
           continue;
         }
-        //
-        // final isOnDiagonal = (parentNode.x != currentlyLookingNode.x &&
-        //     parentNode.y != currentlyLookingNode.y);
-        // if (isOnDiagonal) {
-        //   continue;
-        // }
         visitNode(currentlyLookingNode, parentNode);
       }
     }
@@ -64,6 +59,7 @@ class DijkstraAlgorithm extends VisualizableAlgorithm {
     allNodes[nodeX][nodeY].isVisited = true;
   }
 
+  /// Evaluates the cost to go to the [Node], and updates it if cost is better then the already calculated one
   Future<void> visitNode(Node currentlyLookingNode, Node parentNode) async {
     final isOnDiagonal = isNodeOnDiagonal(
         currentlyLookingNode: currentlyLookingNode, parentNode: parentNode);
