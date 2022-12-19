@@ -73,6 +73,9 @@ abstract class VisualizableAlgorithm {
     allNodes[endNode.x][endNode.y].isOnTraceablePathToGoal = true;
     var child = endNode.cameFromNode;
     while (child != null) {
+      if (!isRunning) {
+        return;
+      }
       allNodes[child.x][child.y].isOnTraceablePathToGoal = true;
       child = child.cameFromNode;
       await showUpdatedNodes(milliseconds: milliseconds);

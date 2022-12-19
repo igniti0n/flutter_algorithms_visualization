@@ -1,26 +1,36 @@
+import 'dart:developer';
+
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/common/utils.dart';
 import 'package:path_finding/data/visualizable_algorithm.dart';
 
-class DepthFirstSearch extends VisualizableAlgorithm {
-  DepthFirstSearch({required super.onStepUpdate, super.nodesToStartWith});
+class BreadthFirstSearch extends VisualizableAlgorithm {
+  BreadthFirstSearch({required super.onStepUpdate, super.nodesToStartWith});
   int lowerHorizontalBoundary = 0;
   int upperHorizontalBoundary = 0;
 
   @override
   Future<void> algorithmImplementation(Node startNode) async {
     lowerHorizontalBoundary = 0;
-    upperHorizontalBoundary = allNodes[0].length;
+    upperHorizontalBoundary = allNodes.length;
     final goalNodeX = goalNode?.x ?? 0;
     if (goalNodeX <= startNode.x) {
       lowerHorizontalBoundary = startNode.x + 1;
     } else {
       upperHorizontalBoundary = startNode.x - 1;
     }
-    await doDFS(startNode);
+    log('Goal x: $goalNodeX');
+    log('Start: ${startNode.x}');
+    log('Lower: $lowerHorizontalBoundary');
+    log('End: $upperHorizontalBoundary');
+
+    while (nodesStack.isNotEmpty) {
+      await doBFS();
+    }
   }
 
-  Future<void> doDFS(Node node) async {
+  Future<void> doBFS() async {
+    final node = nodesStack.removeAt(0);
     for (var j = node.y - 1; j <= node.y + 1; j++) {
       for (var i = node.x - 1; i <= node.x + 1; i++) {
         if (!isRunning) {
@@ -33,13 +43,13 @@ class DepthFirstSearch extends VisualizableAlgorithm {
         final currentlyLookingNode = allNodes[i][j];
         currentlyLookingNode.cameFromNode = node;
         if (currentlyLookingNode.isGoalNode) {
-          isRunning = false;
           await showShortestPath(currentlyLookingNode, milliseconds: 10);
+          isRunning = false;
           return;
         } else {
           currentlyLookingNode.isVisited = true;
           await showUpdatedNodes();
-          await doDFS(allNodes[i][j]);
+          nodesStack.add(currentlyLookingNode);
         }
       }
     }

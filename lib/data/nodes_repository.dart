@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/data/astar_algorithm.dart';
+import 'package:path_finding/data/breadth_first_search.dart';
 import 'package:path_finding/data/depth_first_search.dart';
 import 'package:path_finding/data/dijkstras_algorithm.dart';
 import 'package:path_finding/data/drunk_algorithm.dart';
@@ -111,6 +112,12 @@ class NodesRepositoryImpl implements NodesRepository {
 
       case PathFindingAlgorihmType.dfs:
         _pathFindingAlgorithm = DepthFirstSearch(
+          onStepUpdate: _onStepUpdate,
+          nodesToStartWith: _pathFindingAlgorithm.allNodes,
+        );
+        break;
+      case PathFindingAlgorihmType.bfs:
+        _pathFindingAlgorithm = BreadthFirstSearch(
           onStepUpdate: _onStepUpdate,
           nodesToStartWith: _pathFindingAlgorithm.allNodes,
         );
