@@ -12,7 +12,9 @@ final nodeProvider =
     isGoalNode: node.isGoalNode,
     isWall: node.isWall,
     isVisited: node.isVisited,
+    isStart: node.isStart,
     isOnTraceablePathToGoal: node.isOnTraceablePathToGoal,
+    cameFromNode: node.cameFromNode,
   );
   return someNode;
 });

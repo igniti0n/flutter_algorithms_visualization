@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:path_finding/notifiers/animation_time_state_notifier.dart';
 import 'package:path_finding/notifiers/diagonal_path_cost_state_notifier.dart';
 import 'package:path_finding/notifiers/horizontal_and_vertical_path_cost_state_notifier.dart';
 import 'package:path_finding/ui/colors.dart';
@@ -64,6 +66,35 @@ class HorizontalAndVerticalPathCostSlider extends ConsumerWidget {
           'Horizontal and Vertical path cost',
           centerText: true,
         )
+      ],
+    );
+  }
+}
+
+class AnimationTimeDelaySlider extends ConsumerWidget {
+  const AnimationTimeDelaySlider({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final animationTimeDelay = ref.watch(animationTimeStateNotifierProvider);
+
+    return Column(
+      children: [
+        SvgPicture.asset(
+          'assets/svg/stopwatch.svg',
+          height: 20,
+        ),
+        Slider(
+          min: 700,
+          max: 2000,
+          activeColor: AppColors.sliderColor,
+          value: animationTimeDelay.toDouble(),
+          onChanged: (value) => ref
+              .read(animationTimeStateNotifierProvider.notifier)
+              .setAnimationTimeDelay(
+                value.floor(),
+              ),
+        ),
       ],
     );
   }

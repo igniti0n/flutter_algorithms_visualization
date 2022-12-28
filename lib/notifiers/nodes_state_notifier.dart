@@ -31,10 +31,16 @@ class NodesNotifier extends StateNotifier<NodesArray> {
     state = updatedArray;
   }
 
-  Future<void> startAlgorithmAt(int x, int y) async =>
-      _nodesRepository.startAlgorithmAt(x, y);
+  Future<void> startAlgorithmAt() async => _nodesRepository.startAlgorithmAt();
 
   void setGoalAt(int x, int y) async => _nodesRepository.setGoalAt(x, y);
+
+  void removeGoalAt(int x, int y) async => _nodesRepository.removeGoalAt(x, y);
+
+  void setStartAt(int x, int y) async => _nodesRepository.setStartAt(x, y);
+
+  void removeStartAt(int x, int y) async =>
+      _nodesRepository.removeStartAt(x, y);
 
   void setWallAt(int x, int y) async => _nodesRepository.setWallAt(x, y);
 

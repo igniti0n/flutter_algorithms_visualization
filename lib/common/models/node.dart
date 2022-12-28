@@ -11,6 +11,7 @@ class Node {
   final int x;
   final int y;
   bool isGoalNode;
+  bool isStart;
   bool isOnTraceablePathToGoal;
   bool isWall;
   bool isVisited;
@@ -23,9 +24,11 @@ class Node {
     required this.x,
     required this.y,
     this.isVisited = false,
+    this.isStart = false,
     this.isWall = false,
     this.currentPathCost = double.infinity,
     this.isOnTraceablePathToGoal = false,
+    this.cameFromNode,
   });
 
   void updateCostIfNecessary(double calculatedCost) {
@@ -43,6 +46,7 @@ class Node {
     bool? isWall,
     double? currentCost,
     Node? cameFromNode,
+    bool? isStart,
   }) =>
       Node(
         x: x ?? this.x,
@@ -51,6 +55,7 @@ class Node {
         isVisited: isVisited ?? this.isVisited,
         isWall: isWall ?? this.isWall,
         currentPathCost: currentCost ?? currentPathCost,
+        isStart: isStart ?? this.isStart,
         isOnTraceablePathToGoal:
             isOnTraceablePathToGoal ?? this.isOnTraceablePathToGoal,
       );
@@ -59,9 +64,13 @@ class Node {
       node.isWall != isWall ||
       node.x != x ||
       node.y != y ||
+      node.isStart != isStart ||
       node.isVisited != isVisited ||
       node.isOnTraceablePathToGoal != isOnTraceablePathToGoal ||
       node.isGoalNode != isGoalNode;
+
+  bool isGoalAndReached(Node node) =>
+      node.isGoalNode && node.isOnTraceablePathToGoal;
 
   bool get isIdle =>
       !isGoalNode && !isVisited && !isWall && !isOnTraceablePathToGoal;
@@ -70,13 +79,16 @@ class Node {
     isGoalNode = false;
     isVisited = false;
     isWall = false;
+    isStart = false;
     currentPathCost = double.infinity;
     isOnTraceablePathToGoal = false;
+    cameFromNode = null;
   }
 
   void resetVisualAlgorithmSteps() {
     isVisited = false;
     currentPathCost = double.infinity;
     isOnTraceablePathToGoal = false;
+    cameFromNode = null;
   }
 }

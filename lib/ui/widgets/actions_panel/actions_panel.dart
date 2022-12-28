@@ -1,42 +1,72 @@
 import 'package:flutter/material.dart';
-import 'package:path_finding/notifiers/selected_action_provider/selected_action.dart';
-import 'package:path_finding/ui/widgets/actions_panel/selectable_action.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:path_finding/notifiers/nodes_state_notifier.dart';
+import 'package:path_finding/ui/widgets/pannel/reset_buttons.dart';
 
 class ActionsPanel extends StatelessWidget {
+  static const double actionsSize = 24;
+  final selectedColor = Colors.orangeAccent;
+  final unselectedColor = Colors.blueGrey;
+
   const ActionsPanel({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 20,
+    return Container(
+      color: Colors.black87,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          SelectableAction(
-            action: SelectedAction.makeWall(),
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          const ResetButtons(),
+          _MainActions(
+            selectedColor: selectedColor,
+            unselectedColor: unselectedColor,
+            actionsSize: actionsSize,
           ),
-          SizedBox(
-            width: 40,
+          const SizedBox(
+            width: 100,
           ),
-          SelectableAction(
-            action: SelectedAction.makeGoalNode(),
-          ),
-          SizedBox(
-            width: 40,
-          ),
-          SelectableAction(
-            action: SelectedAction.doAlgorithm(),
-          ),
-          SizedBox(
-            width: 40,
-          ),
-          SelectableAction(
-            action: SelectedAction.reset(),
-          )
         ],
       ),
+    );
+  }
+}
+
+class _MainActions extends ConsumerWidget {
+  const _MainActions({
+    Key? key,
+    required this.selectedColor,
+    required this.unselectedColor,
+    required this.actionsSize,
+  }) : super(key: key);
+
+  final MaterialAccentColor selectedColor;
+  final MaterialColor unselectedColor;
+  final double actionsSize;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(
+          width: 40,
+        ),
+        GestureDetector(
+          onTap: () =>
+              ref.read(nodesStateNotifierProvider.notifier).startAlgorithmAt(),
+          child: SvgPicture.asset(
+            'assets/svg/play_button.svg',
+            color: selectedColor,
+            height: actionsSize * 2.6,
+            width: actionsSize * 2.6,
+          ),
+        ),
+        // const AnimationTimeDelaySlider(),
+      ],
     );
   }
 }

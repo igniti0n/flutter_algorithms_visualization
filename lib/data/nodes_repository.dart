@@ -18,20 +18,25 @@ final nodesRepositoryProvider =
 
 abstract class NodesRepository {
   static const numberOfNodesInRow = 60;
-  static const numberOfNodesInColumn = 40;
+  static const numberOfNodesInColumn = 35;
 
   NodesArray get allNodes;
   Stream<NodesArray> get nodesArrayUpdateStream;
-  void startAlgorithmAt(int x, int y);
+  void startAlgorithmAt();
   void setGoalAt(int x, int y);
+  void setStartAt(int x, int y);
+  void removeGoalAt(int x, int y);
+  void removeStartAt(int x, int y);
   void setWallAt(int x, int y);
   void resetAt(int x, int y);
   void resetAll();
   void resetAlgorithmToStart();
   void setDiagonalPathCostTo({required double cost});
   void setHorizontalAndVerticalPathCostTo({required double cost});
+  void setAnimationTimeDelayTo({required int milliseconds});
   void setCurrentlySelectedAlgotihmTo(
-      {required PathFindingAlgorihmType pathFindingAlgorihmType});
+      {required PathFindingAlgorihmType pathFindingAlgorihmType,
+      required int animationTimeDelay});
 }
 
 class NodesRepositoryImpl implements NodesRepository {
@@ -46,15 +51,21 @@ class NodesRepositoryImpl implements NodesRepository {
   Stream<NodesArray> get nodesArrayUpdateStream => _subject.stream;
 
   @override
-  void startAlgorithmAt(int x, int y) async {
-    _pathFindingAlgorithm.runAlgorithm(Node(x: x, y: y));
+  void startAlgorithmAt() async {
+    _pathFindingAlgorithm.runAlgorithm();
   }
 
   @override
-  void setGoalAt(int x, int y) async {
-    _pathFindingAlgorithm.resetAt(x, y);
-    _pathFindingAlgorithm.setGoalAt(x, y);
-  }
+  void setGoalAt(int x, int y) => _pathFindingAlgorithm.setGoalAt(x, y);
+
+  @override
+  void removeGoalAt(int x, int y) => _pathFindingAlgorithm.removeGoalAt(x, y);
+
+  @override
+  void setStartAt(int x, int y) => _pathFindingAlgorithm.setStartAt(x, y);
+
+  @override
+  void removeStartAt(int x, int y) => _pathFindingAlgorithm.removeStartAt(x, y);
 
   @override
   void setWallAt(int x, int y) async {
@@ -62,6 +73,9 @@ class NodesRepositoryImpl implements NodesRepository {
     _pathFindingAlgorithm.setWallAt(x, y);
   }
 
+  @override
+  void setAnimationTimeDelayTo({required int milliseconds}) =>
+      _pathFindingAlgorithm.setAnimationTimeDelayTo(microseconds: milliseconds);
   @override
   void resetAt(int x, int y) async => _pathFindingAlgorithm.resetAt(x, y);
 
@@ -86,8 +100,10 @@ class NodesRepositoryImpl implements NodesRepository {
 
   @override
   void setCurrentlySelectedAlgotihmTo(
-      {required PathFindingAlgorihmType pathFindingAlgorihmType}) {
+      {required PathFindingAlgorihmType pathFindingAlgorihmType,
+      required int animationTimeDelay}) {
     final goalNode = _pathFindingAlgorithm.goalNode;
+    final startNode = _pathFindingAlgorithm.startNode;
     switch (pathFindingAlgorihmType) {
       case PathFindingAlgorihmType.dijkstras:
         _pathFindingAlgorithm = DijkstraAlgorithm(
@@ -123,7 +139,8 @@ class NodesRepositoryImpl implements NodesRepository {
         );
         break;
     }
-
     _pathFindingAlgorithm.goalNode = goalNode;
+    _pathFindingAlgorithm.startNode = startNode;
+    setAnimationTimeDelayTo(milliseconds: animationTimeDelay);
   }
 }

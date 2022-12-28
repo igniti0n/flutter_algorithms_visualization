@@ -34,7 +34,7 @@ class DepthFirstSearch extends VisualizableAlgorithm {
         currentlyLookingNode.cameFromNode = node;
         if (currentlyLookingNode.isGoalNode) {
           isRunning = false;
-          await showShortestPath(currentlyLookingNode, milliseconds: 10);
+          await showShortestPath(currentlyLookingNode);
           return;
         } else {
           currentlyLookingNode.isVisited = true;

@@ -1,21 +1,27 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_finding/data/nodes_repository.dart';
+import 'package:path_finding/notifiers/animation_time_state_notifier.dart';
 
 final selectedShortestPathAlgorithmStateNotifier = StateNotifierProvider<
     SelectedShortestPathAlgorithmNotifier, PathFindingAlgorihmType>((ref) {
   return SelectedShortestPathAlgorithmNotifier(
-      ref.read(nodesRepositoryProvider));
+    ref.read(nodesRepositoryProvider),
+    ref,
+  );
 });
 
 class SelectedShortestPathAlgorithmNotifier
     extends StateNotifier<PathFindingAlgorihmType> {
   final NodesRepository _nodesRepository;
-  SelectedShortestPathAlgorithmNotifier(this._nodesRepository)
+  final Ref _ref;
+  SelectedShortestPathAlgorithmNotifier(this._nodesRepository, this._ref)
       : super(PathFindingAlgorihmType.dijkstras);
 
   void setSelectedAlgorithm(PathFindingAlgorihmType type) {
     _nodesRepository.setCurrentlySelectedAlgotihmTo(
-        pathFindingAlgorihmType: type);
+      pathFindingAlgorihmType: type,
+      animationTimeDelay: _ref.read(animationTimeStateNotifierProvider),
+    );
     state = type;
   }
 }

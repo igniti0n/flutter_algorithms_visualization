@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class AppColors {
   static const wallColor = Colors.black87;
   static const idleColor = Colors.orangeAccent;
-  static const visitedColor = Colors.lightBlue;
   static const goalColor = Colors.deepPurpleAccent;
   static const pathColor = Colors.redAccent;
   static const actionSelected = Colors.white;

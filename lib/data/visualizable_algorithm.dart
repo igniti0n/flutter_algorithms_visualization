@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/data/nodes_repository.dart';
 
@@ -5,10 +7,12 @@ import 'package:path_finding/data/nodes_repository.dart';
 abstract class VisualizableAlgorithm {
   List<Node> nodesStack = [];
   List<Node> doneNodes = [];
-  Node? goalNode;
+  Node goalNode = Node(x: 20, y: 20);
+  Node startNode = Node(x: 10, y: 20);
   double _diagonalPathCost = 2;
   double _horizontalAndVerticalPathCost = 1;
   bool isRunning = false;
+  int animationTimeDelay = 100;
   final void Function(NodesArray nodes) onStepUpdate;
   late final NodesArray allNodes;
 
@@ -34,7 +38,7 @@ abstract class VisualizableAlgorithm {
   Future<void> algorithmImplementation(Node startNode);
 
   /// Setus up clear state for running the algorithm and calls [algorithmImplementation]
-  Future<void> runAlgorithm(Node startNode) async {
+  Future<void> runAlgorithm() async {
     if (isRunning) {
       return;
     }
@@ -69,7 +73,7 @@ abstract class VisualizableAlgorithm {
   }
 
   /// Visualize shortest path, going from the end node back to the starting point.
-  Future<void> showShortestPath(Node endNode, {int milliseconds = 24}) async {
+  Future<void> showShortestPath(Node endNode) async {
     allNodes[endNode.x][endNode.y].isOnTraceablePathToGoal = true;
     var child = endNode.cameFromNode;
     while (child != null) {
@@ -78,7 +82,8 @@ abstract class VisualizableAlgorithm {
       }
       allNodes[child.x][child.y].isOnTraceablePathToGoal = true;
       child = child.cameFromNode;
-      await showUpdatedNodes(milliseconds: milliseconds);
+      await showUpdatedNodes();
+      log('Tracing back: ${child?.x} : ${child?.y}');
     }
   }
 
@@ -87,10 +92,13 @@ abstract class VisualizableAlgorithm {
     nodesStack.clear();
   }
 
+  void setAnimationTimeDelayTo({required int microseconds}) =>
+      animationTimeDelay = microseconds;
+
   /// Sends updated version of nodes to be shown on the screen.
-  Future<void> showUpdatedNodes({int milliseconds = 1}) async {
+  Future<void> showUpdatedNodes() async {
     onStepUpdate(allNodes);
-    await Future.delayed(Duration(milliseconds: milliseconds));
+    await Future.delayed(Duration(microseconds: animationTimeDelay));
   }
 
   void setDiagonalPathCostTo({required double cost}) =>
@@ -106,23 +114,33 @@ abstract class VisualizableAlgorithm {
   void setGoalAt(int x, int y) async {
     allNodes[x][y].isGoalNode = true;
     goalNode = allNodes[x][y];
-    onStepUpdate(allNodes);
-    await Future.delayed(const Duration(microseconds: 0));
+    showUpdatedNodes();
+  }
+
+  void removeGoalAt(int x, int y) async {
+    allNodes[x][y].isGoalNode = false;
+    showUpdatedNodes();
+  }
+
+  void removeStartAt(int x, int y) async {
+    allNodes[x][y].isStart = false;
+    showUpdatedNodes();
+  }
+
+  void setStartAt(int x, int y) async {
+    allNodes[x][y].isStart = true;
+    startNode = allNodes[x][y];
+    showUpdatedNodes();
   }
 
   void setWallAt(int x, int y) async {
     allNodes[x][y].isWall = true;
-    onStepUpdate(allNodes);
-    await Future.delayed(const Duration(microseconds: 0));
+    showUpdatedNodes();
   }
 
   void resetAt(int x, int y) async {
-    if (allNodes[x][y].isGoalNode) {
-      goalNode = null;
-    }
     allNodes[x][y].reset();
-    onStepUpdate(allNodes);
-    await Future.delayed(const Duration(microseconds: 0));
+    showUpdatedNodes();
   }
 
   /// Resets everything
@@ -132,21 +150,22 @@ abstract class VisualizableAlgorithm {
         node.reset();
       }
     }
-    goalNode = null;
-    onStepUpdate(allNodes);
-    await Future.delayed(const Duration(microseconds: 0));
+    log('RESET ALL');
+    setGoalAt(20, 20);
+    setStartAt(10, 20);
     isRunning = false;
+    showUpdatedNodes();
   }
 
   /// Resets algorithm, without walls and goal nodes
   void resetAlgorithmToStart() async {
+    log('Reset to start');
     for (var nodesRow in allNodes) {
       for (var node in nodesRow) {
         node.resetVisualAlgorithmSteps();
       }
     }
-    onStepUpdate(allNodes);
-    await Future.delayed(const Duration(microseconds: 0));
     isRunning = false;
+    showUpdatedNodes();
   }
 }

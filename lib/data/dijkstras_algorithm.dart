@@ -17,7 +17,7 @@ class DijkstraAlgorithm extends VisualizableAlgorithm {
   Future<void> algorithmImplementation(Node startNode) async {
     while (true) {
       if (!isRunning) {
-        resetAll();
+        resetAlgorithmToStart();
         break;
       }
       if (nodesStack.isEmpty) {

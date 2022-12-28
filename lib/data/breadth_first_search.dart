@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/common/utils.dart';
 import 'package:path_finding/data/visualizable_algorithm.dart';
@@ -19,11 +17,6 @@ class BreadthFirstSearch extends VisualizableAlgorithm {
     } else {
       upperHorizontalBoundary = startNode.x - 1;
     }
-    log('Goal x: $goalNodeX');
-    log('Start: ${startNode.x}');
-    log('Lower: $lowerHorizontalBoundary');
-    log('End: $upperHorizontalBoundary');
-
     while (nodesStack.isNotEmpty) {
       await doBFS();
     }
@@ -43,7 +36,7 @@ class BreadthFirstSearch extends VisualizableAlgorithm {
         final currentlyLookingNode = allNodes[i][j];
         currentlyLookingNode.cameFromNode = node;
         if (currentlyLookingNode.isGoalNode) {
-          await showShortestPath(currentlyLookingNode, milliseconds: 10);
+          await showShortestPath(currentlyLookingNode);
           isRunning = false;
           return;
         } else {

@@ -5,11 +5,13 @@ import 'package:path_finding/notifiers/selected_action_provider/selected_action_
 import 'package:path_finding/notifiers/slected_shortest_path_algorithm_state_notifier.dart';
 import 'package:path_finding/ui/colors.dart';
 
-class SelectableAction extends ConsumerWidget {
+class SelectableActionBuilder extends ConsumerWidget {
   final SelectedAction action;
-  const SelectableAction({
+  final Widget Function(bool isSelected) builder;
+  const SelectableActionBuilder({
     Key? key,
     required this.action,
+    required this.builder,
   }) : super(key: key);
 
   @override
@@ -21,43 +23,48 @@ class SelectableAction extends ConsumerWidget {
 
     return GestureDetector(
       onTap: () => ref.read(selectedActionProvider.notifier).state = action,
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: isCurrentActionSelected
-              ? AppColors.actionSelected
-              : AppColors.actionUnselected,
-          border: Border.all(
-            color: Colors.black87,
-          ),
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
-        ),
-        child: Row(
-          children: [
-            DecoratedBox(
-              decoration: BoxDecoration(
-                  color: _resolveColorFor(action),
-                  border: Border.all(
-                    color: Colors.black87,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(12))),
-              child: const SizedBox(
-                width: 40,
-                height: 40,
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              _resolveTextFor(action, selectedAlgorithm.title),
-            ),
-            const SizedBox(
-              width: 4,
-            ),
-          ],
-        ),
+      child: Transform.scale(
+        scale: isCurrentActionSelected ? 1.4 : 1,
+        child: builder(isCurrentActionSelected),
       ),
+
+      // Container(
+      //   padding: const EdgeInsets.all(8),
+      //   decoration: BoxDecoration(
+      //     color: isCurrentActionSelected
+      //         ? AppColors.actionSelected
+      //         : AppColors.actionUnselected,
+      //     border: Border.all(
+      //       color: Colors.black87,
+      //     ),
+      //     borderRadius: const BorderRadius.all(Radius.circular(12)),
+      //   ),
+      //   child: Row(
+      //     children: [
+      //       DecoratedBox(
+      //         decoration: BoxDecoration(
+      //             color: _resolveColorFor(action),
+      //             border: Border.all(
+      //               color: Colors.black87,
+      //             ),
+      //             borderRadius: const BorderRadius.all(Radius.circular(12))),
+      //         child: const SizedBox(
+      //           width: 40,
+      //           height: 40,
+      //         ),
+      //       ),
+      //       const SizedBox(
+      //         width: 10,
+      //       ),
+      //       Text(
+      //         _resolveTextFor(action, selectedAlgorithm.title),
+      //       ),
+      //       const SizedBox(
+      //         width: 4,
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 

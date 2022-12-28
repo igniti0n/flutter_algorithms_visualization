@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_finding/ui/colors.dart';
 import 'package:path_finding/ui/widgets/pannel/algorithm_button_picker.dart';
-import 'package:path_finding/ui/widgets/pannel/reset_button.dart';
 import 'package:path_finding/ui/widgets/pannel/sliders.dart';
 
 class PannelBody extends ConsumerWidget {
@@ -24,9 +23,7 @@ class PannelBody extends ConsumerWidget {
         child: Row(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: const [
-            SizedBox(width: 20),
-            ResetButtons(),
-            SizedBox(width: 24),
+            SizedBox(width: 120),
             AlgorithmButtonPicker(),
             SizedBox(width: 24),
             DiagonalPathCostSlider(),
@@ -34,6 +31,10 @@ class PannelBody extends ConsumerWidget {
               height: 40,
             ),
             HorizontalAndVerticalPathCostSlider(),
+            SizedBox(
+              height: 40,
+            ),
+            AnimationTimeDelaySlider(),
           ],
         ),
       ),

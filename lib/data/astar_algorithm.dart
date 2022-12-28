@@ -13,8 +13,8 @@ class AstarAlgorithm extends DijkstraAlgorithm {
     var costToGoToNode = parentNode.currentPathCost +
         (isOnDiagonal ? diagonalPathCost : horizontalAndVerticalPathCost);
     // caluclate distance to goal,  and save it in the node
-    final distanceToGoalNode = calculateDistance(currentlyLookingNode.x,
-        currentlyLookingNode.y, goalNode?.x ?? 0, goalNode?.y ?? 0);
+    final distanceToGoalNode = calculateDistance(
+        currentlyLookingNode.x, currentlyLookingNode.y, goalNode.x, goalNode.y);
     allNodes[currentlyLookingNode.x][currentlyLookingNode.y].distanceToGoal =
         distanceToGoalNode * 10;
     // only the path cost is being look for when moving to the node
