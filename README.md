@@ -8,11 +8,11 @@ Feel free to contribute by opening some PR's :fire:
 
 # Ideas :sparkles:
 
-:white_check_mark: Add time control, to increase/decrease time step \n
-:white_check_mark: Enable/disable diagonal nodes
-:white_check_mark: DFS/BFS
-:white_square_button: Ability to move the end/start node and see the change
-:white_square_button: Impmenent sorting of nodes with heap rather then sorting a list for Dijkstra/A*
-:white_square_button: Maze generator
+- :white_check_mark: Add time control, to increase/decrease time step
+- :white_check_mark: Enable/disable diagonal nodes
+- :white_check_mark: DFS/BFS
+- :white_square_button: Ability to move the end/start node and see the change
+- :white_square_button: Impmenent sorting of nodes with heap rather then sorting a list for Dijkstra/A*
+- :white_square_button: Maze generator
 
 
