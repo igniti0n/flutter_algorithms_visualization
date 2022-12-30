@@ -26,18 +26,21 @@ class PlayableLottieNotifier extends StateNotifier<PlayableLottieState> {
 
 class PlayableLottie extends HookConsumerWidget {
   final PlayableLottieAsset playableLottieAsset;
-  final Function() onTap;
+  final Function()? onTap;
   final List<Color> gradientColors;
+  final bool isInitialValueAnimationEnd;
   const PlayableLottie({
     super.key,
     required this.playableLottieAsset,
-    required this.onTap,
+    this.onTap,
+    this.isInitialValueAnimationEnd = false,
     this.gradientColors = const [],
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AnimationController animationController = useAnimationController(
+      initialValue: isInitialValueAnimationEnd ? 1.0 : 0,
       duration: const Duration(
         milliseconds: 1200,
       ),
@@ -56,33 +59,27 @@ class PlayableLottie extends HookConsumerWidget {
     });
 
     return GestureDetector(
-      onTap: () => onTap(),
-      child: Transform.translate(
-        offset: const Offset(0, -10),
-        child: Transform.scale(
-          scale: 1.5,
-          child: gradientColors.isEmpty
-              ? Lottie.asset(
-                  playableLottieAsset.pathToAsset,
-                  width: 48,
-                  height: 48,
-                  controller: animation,
-                )
-              : ShaderMask(
-                  shaderCallback: (bounds) => ui.Gradient.linear(
-                    bounds.topLeft,
-                    bounds.bottomRight,
-                    gradientColors,
-                  ),
-                  child: Lottie.asset(
-                    playableLottieAsset.pathToAsset,
-                    width: 48,
-                    height: 48,
-                    controller: animation,
-                  ),
-                ),
-        ),
-      ),
+      onTap: onTap,
+      child: gradientColors.isEmpty
+          ? Lottie.asset(
+              playableLottieAsset.pathToAsset,
+              width: 48,
+              height: 48,
+              controller: animation,
+            )
+          : ShaderMask(
+              shaderCallback: (bounds) => ui.Gradient.linear(
+                bounds.topLeft,
+                bounds.bottomRight,
+                gradientColors,
+              ),
+              child: Lottie.asset(
+                playableLottieAsset.pathToAsset,
+                width: 48,
+                height: 48,
+                controller: animation,
+              ),
+            ),
     );
   }
 }

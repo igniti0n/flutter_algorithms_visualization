@@ -18,9 +18,13 @@ class ActionsPanel extends StatelessWidget {
     return Container(
       color: Colors.black87,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        // mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          const SizedBox(
+            width: 20,
+          ),
           const ResetButtons(),
+          const Spacer(),
           _MainActions(
             selectedColor: selectedColor,
             unselectedColor: unselectedColor,
@@ -29,6 +33,7 @@ class ActionsPanel extends StatelessWidget {
           const SizedBox(
             width: 100,
           ),
+          const Spacer(),
         ],
       ),
     );
@@ -52,9 +57,6 @@ class _MainActions extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const SizedBox(
-          width: 40,
-        ),
         GestureDetector(
           onTap: () =>
               ref.read(nodesStateNotifierProvider.notifier).startAlgorithmAt(),

@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/gestures/events.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,6 +7,8 @@ import 'package:path_finding/notifiers/dragged_states_provider.dart';
 import 'package:path_finding/notifiers/node_provider.dart';
 import 'package:path_finding/notifiers/nodes_state_notifier.dart';
 import 'package:path_finding/ui/colors.dart';
+import 'package:path_finding/ui/common/playable_lottie/playable_lottie.dart';
+import 'package:path_finding/ui/common/playable_lottie/playable_lottie_asset.dart';
 
 class Square extends ConsumerStatefulWidget {
   static const double size = 24;
@@ -37,6 +36,18 @@ class _SquareState extends ConsumerState<Square> {
         setState(() {
           node = updatedNode;
         });
+        if (node.isGoalNodeAndFound) {
+          ref
+              .read(playableLottieStateNotifierProvider(
+                      PlayableLottieAsset.goalFlag)
+                  .notifier)
+              .resetAnimation();
+          ref
+              .read(playableLottieStateNotifierProvider(
+                      PlayableLottieAsset.goalFlag)
+                  .notifier)
+              .playForward();
+        }
       }
     });
 
@@ -62,9 +73,13 @@ class _SquareState extends ConsumerState<Square> {
                       padding: const EdgeInsets.all(1.5),
                       child: Stack(children: [
                         if (node.isGoalNode)
-                          SvgPicture.asset(
-                            'assets/svg/flag.svg',
-                            color: Colors.deepOrangeAccent,
+                          const PlayableLottie(
+                            isInitialValueAnimationEnd: true,
+                            playableLottieAsset: PlayableLottieAsset.goalFlag,
+                            gradientColors: [
+                              Colors.blue,
+                              Colors.blue,
+                            ],
                           ),
                         if (node.isStart)
                           SvgPicture.asset(
@@ -97,15 +112,15 @@ class _SquareState extends ConsumerState<Square> {
                       ),
                     ),
             ),
-            if (kDebugMode)
-              Positioned(
-                bottom: 0,
-                left: 0,
-                child: Text(
-                  "${node.x}, ${node.y}",
-                  style: const TextStyle(fontSize: 7, color: Colors.black),
-                ),
-              )
+            // if (kDebugMode)
+            //   Positioned(
+            //     bottom: 0,
+            //     left: 0,
+            //     child: Text(
+            //       "${node.x}, ${node.y}",
+            //       style: const TextStyle(fontSize: 7, color: Colors.black),
+            //     ),
+            //   )
           ],
         ),
       ),
@@ -119,7 +134,6 @@ class _SquareState extends ConsumerState<Square> {
       if (isGoalDragged) {
         ref.read(nodesStateNotifierProvider.notifier).setGoalAt(node.x, node.y);
       } else if (isStartDragged) {
-        log('Setting start at ${node.x} : ${node.y}');
         ref
             .read(nodesStateNotifierProvider.notifier)
             .setStartAt(node.x, node.y);
@@ -170,26 +184,14 @@ class _SquareState extends ConsumerState<Square> {
     } else {
       nodesNotifier.resetAt(node.x, node.y);
     }
-
-    // selectedAction.when(
-    //     idle: () => _onIdleAction(ctx),
-    //     makeWall: () {
-    //       nodesNotifier.resetAt(node.x, node.y);
-    //       if (!node.isWall) {
-    //         nodesNotifier.setWallAt(node.x, node.y);
-    //       }
-    //     },
-    //     makeGoalNode: () => nodesNotifier.setGoalAt(node.x, node.y),
-    //     doAlgorithm: () => nodesNotifier.startAlgorithmAt(node.x, node.y),
-    //     reset: () => nodesNotifier.resetAt(node.x, node.y));
   }
 
   Color _determineColor(Node node) {
     if (node.isWall) {
       return Colors.transparent;
     }
-    if (node.isOnTraceablePathToGoal) {
-      return Colors.green;
+    if (node.isOnTraceablePathToGoal && !node.isGoalNode) {
+      return Colors.purple[800]!;
     }
     if (node.isVisited) {
       return Colors.blue[800]!;

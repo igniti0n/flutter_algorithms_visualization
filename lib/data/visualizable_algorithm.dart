@@ -82,7 +82,7 @@ abstract class VisualizableAlgorithm {
       }
       allNodes[child.x][child.y].isOnTraceablePathToGoal = true;
       child = child.cameFromNode;
-      await showUpdatedNodes();
+      await showUpdatedNodes(overridenAnimationDelayInMilliseconds: 70000);
       log('Tracing back: ${child?.x} : ${child?.y}');
     }
   }
@@ -96,9 +96,12 @@ abstract class VisualizableAlgorithm {
       animationTimeDelay = microseconds;
 
   /// Sends updated version of nodes to be shown on the screen.
-  Future<void> showUpdatedNodes() async {
+  Future<void> showUpdatedNodes(
+      {int? overridenAnimationDelayInMilliseconds}) async {
     onStepUpdate(allNodes);
-    await Future.delayed(Duration(microseconds: animationTimeDelay));
+    await Future.delayed(Duration(
+        microseconds:
+            overridenAnimationDelayInMilliseconds ?? animationTimeDelay));
   }
 
   void setDiagonalPathCostTo({required double cost}) =>
@@ -150,7 +153,6 @@ abstract class VisualizableAlgorithm {
         node.reset();
       }
     }
-    log('RESET ALL');
     setGoalAt(20, 20);
     setStartAt(10, 20);
     isRunning = false;
@@ -159,7 +161,6 @@ abstract class VisualizableAlgorithm {
 
   /// Resets algorithm, without walls and goal nodes
   void resetAlgorithmToStart() async {
-    log('Reset to start');
     for (var nodesRow in allNodes) {
       for (var node in nodesRow) {
         node.resetVisualAlgorithmSteps();

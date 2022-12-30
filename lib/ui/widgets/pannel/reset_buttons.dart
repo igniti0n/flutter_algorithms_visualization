@@ -15,31 +15,34 @@ class ResetButtons extends ConsumerWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: PlayableLottie(
-            playableLottieAsset: PlayableLottieAsset.trashBin,
-            gradientColors: [
-              Colors.orangeAccent.withOpacity(1),
-              Colors.blueGrey.withOpacity(1)
-            ],
-            onTap: () => _onDeleteAllTapped(ref),
+          child: Transform.translate(
+            offset: const Offset(0, -10),
+            child: Transform.scale(
+              scale: 1.5,
+              child: PlayableLottie(
+                playableLottieAsset: PlayableLottieAsset.trashBin,
+                gradientColors: [
+                  Colors.orangeAccent.withOpacity(1),
+                  Colors.blueGrey.withOpacity(1)
+                ],
+                onTap: () => _onDeleteAllTapped(ref),
+              ),
+            ),
           ),
         ),
         const SizedBox(
-          width: 24,
+          width: 32,
         ),
-        Container(
-          color: Colors.blue,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GestureDetector(
-              onTap: () => ref
-                  .read(nodesStateNotifierProvider.notifier)
-                  .resetAlgorithmToStart(),
-              child: const Icon(
-                Icons.reply_rounded,
-                size: 48,
-                color: AppColors.sliderColor,
-              ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () => ref
+                .read(nodesStateNotifierProvider.notifier)
+                .resetAlgorithmToStart(),
+            child: const Icon(
+              Icons.reply_rounded,
+              size: 48,
+              color: AppColors.sliderColor,
             ),
           ),
         ),

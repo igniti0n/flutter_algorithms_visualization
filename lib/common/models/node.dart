@@ -69,8 +69,7 @@ class Node {
       node.isOnTraceablePathToGoal != isOnTraceablePathToGoal ||
       node.isGoalNode != isGoalNode;
 
-  bool isGoalAndReached(Node node) =>
-      node.isGoalNode && node.isOnTraceablePathToGoal;
+  bool get isGoalNodeAndFound => isGoalNode && isOnTraceablePathToGoal;
 
   bool get isIdle =>
       !isGoalNode && !isVisited && !isWall && !isOnTraceablePathToGoal;
