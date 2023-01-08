@@ -1,10 +1,11 @@
-import 'dart:developer';
+import 'dart:html';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_finding/notifiers/nodes_state_notifier.dart';
-import 'package:path_finding/ui/colors.dart';
 import 'package:path_finding/ui/widgets/actions_panel/actions_panel.dart';
+import 'package:path_finding/ui/widgets/onboarding/onboarding_dialog.dart';
 import 'package:path_finding/ui/widgets/pannel/pannel.dart';
 import 'package:path_finding/ui/widgets/square.dart';
 
@@ -16,20 +17,26 @@ class World extends ConsumerStatefulWidget {
 }
 
 class _WorldState extends ConsumerState<World> {
+  List<Widget> squares = [];
   _WorldState();
 
   @override
   initState() {
-    log('initi start-goal setup.');
-    ref.read(nodesStateNotifierProvider.notifier).setStartAt(10, 20);
-    ref.read(nodesStateNotifierProvider.notifier).setGoalAt(20, 20);
-    super.initState();
-  }
+    final availableHeightForSquares =
+        window.outerHeight - minimumActionsPannelHeight;
+    final numberOfSquaresThatFitHeight =
+        (availableHeightForSquares / Square.size.toInt()).floor();
 
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> squares = [];
+    final availableWidthForSquares = window.outerWidth;
+    final numberOfSquaresThatFitWidth =
+        (availableWidthForSquares / Square.size.toInt()).floor();
 
+    ref.read(nodesStateNotifierProvider.notifier).init(
+        numberOfNodesInRow: numberOfSquaresThatFitHeight,
+        numberOfNodesInColumn: numberOfSquaresThatFitWidth);
+
+    ref.read(nodesStateNotifierProvider.notifier).setStartAt(4, 10);
+    ref.read(nodesStateNotifierProvider.notifier).setGoalAt(10, 10);
     for (var row
         in ref.read(nodesStateNotifierProvider.notifier).getAllNodes()) {
       for (var node in row) {
@@ -43,21 +50,34 @@ class _WorldState extends ConsumerState<World> {
         ));
       }
     }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      showCupertinoDialog(
+          context: context, builder: (context) => const OnboardingDialog());
+    });
+    super.initState();
+  }
 
+  static const minimumActionsPannelHeight = Square.size * 2.5;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.idleColor.withOpacity(0),
+      backgroundColor: Colors.blueGrey[900],
       body: Stack(
         alignment: Alignment.center,
         children: [
           Column(
             children: [
               Expanded(
-                child: Stack(
-                  children: squares,
+                child: RepaintBoundary(
+                  child: Stack(
+                    children: squares,
+                  ),
                 ),
               ),
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: Square.size * 2.5),
+              SizedBox(
+                width: double.infinity,
+                height: _getActualPannelHeight(),
                 child: const ActionsPanel(),
               ),
             ],
@@ -66,5 +86,17 @@ class _WorldState extends ConsumerState<World> {
         ],
       ),
     );
+  }
+
+  double _getActualPannelHeight() {
+    final availableHeightForSquares =
+        (window.outerHeight ?? 0).toDouble() - minimumActionsPannelHeight;
+    final numberOfSquaresThatFitHeight =
+        (availableHeightForSquares / Square.size.toInt()).floor();
+    final actualHeightAbleToBeOccupiedBySquares =
+        numberOfSquaresThatFitHeight * Square.size;
+    final leftoverHeightFromSquares =
+        availableHeightForSquares - actualHeightAbleToBeOccupiedBySquares;
+    return minimumActionsPannelHeight + leftoverHeightFromSquares;
   }
 }

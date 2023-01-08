@@ -17,7 +17,7 @@ class AstarAlgorithm extends DijkstraAlgorithm {
         currentlyLookingNode.x, currentlyLookingNode.y, goalNode.x, goalNode.y);
     allNodes[currentlyLookingNode.x][currentlyLookingNode.y].distanceToGoal =
         distanceToGoalNode * 10;
-    // only the path cost is being look for when moving to the node
+    // only the path cost is being looked for when moving to the node
     if (costToGoToNode < currentlyLookingNode.currentPathCost) {
       currentlyLookingNode.currentPathCost = costToGoToNode;
       currentlyLookingNode.cameFromNode = parentNode;
@@ -25,6 +25,7 @@ class AstarAlgorithm extends DijkstraAlgorithm {
     }
   }
 
+  // distance to goal is taken into account when prioritizing what node to look at next
   @override
   void sortNodesStackAfterOneTurn(List<Node> nodesStack) {
     nodesStack.sort(

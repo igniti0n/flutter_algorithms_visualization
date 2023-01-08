@@ -11,6 +11,8 @@ class Node {
   final int x;
   final int y;
   bool isGoalNode;
+  bool isInStack;
+  bool isTopPriority;
   bool isStart;
   bool isOnTraceablePathToGoal;
   bool isWall;
@@ -26,6 +28,8 @@ class Node {
     this.isVisited = false,
     this.isStart = false,
     this.isWall = false,
+    this.isInStack = false,
+    this.isTopPriority = false,
     this.currentPathCost = double.infinity,
     this.isOnTraceablePathToGoal = false,
     this.cameFromNode,
@@ -47,6 +51,8 @@ class Node {
     double? currentCost,
     Node? cameFromNode,
     bool? isStart,
+    bool? isInStack,
+    bool? isTopPriority,
   }) =>
       Node(
         x: x ?? this.x,
@@ -56,6 +62,8 @@ class Node {
         isWall: isWall ?? this.isWall,
         currentPathCost: currentCost ?? currentPathCost,
         isStart: isStart ?? this.isStart,
+        isInStack: isInStack ?? this.isInStack,
+        isTopPriority: isTopPriority ?? this.isTopPriority,
         isOnTraceablePathToGoal:
             isOnTraceablePathToGoal ?? this.isOnTraceablePathToGoal,
       );
@@ -67,18 +75,27 @@ class Node {
       node.isStart != isStart ||
       node.isVisited != isVisited ||
       node.isOnTraceablePathToGoal != isOnTraceablePathToGoal ||
-      node.isGoalNode != isGoalNode;
+      node.isInStack != isInStack ||
+      node.isGoalNode != isGoalNode ||
+      node.isTopPriority != isTopPriority;
 
   bool get isGoalNodeAndFound => isGoalNode && isOnTraceablePathToGoal;
 
   bool get isIdle =>
-      !isGoalNode && !isVisited && !isWall && !isOnTraceablePathToGoal;
+      !isGoalNode &&
+      !isVisited &&
+      !isWall &&
+      !isOnTraceablePathToGoal &&
+      !isInStack &&
+      !isTopPriority;
 
   void reset() {
     isGoalNode = false;
     isVisited = false;
     isWall = false;
     isStart = false;
+    isInStack = false;
+    isTopPriority = false;
     currentPathCost = double.infinity;
     isOnTraceablePathToGoal = false;
     cameFromNode = null;
@@ -88,6 +105,8 @@ class Node {
     isVisited = false;
     currentPathCost = double.infinity;
     isOnTraceablePathToGoal = false;
+    isInStack = false;
+    isTopPriority = false;
     cameFromNode = null;
   }
 }

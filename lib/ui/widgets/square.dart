@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/gestures/events.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/notifiers/dragged_states_provider.dart';
+import 'package:path_finding/notifiers/is_learning_mode_on_state_provider.dart';
 import 'package:path_finding/notifiers/node_provider.dart';
 import 'package:path_finding/notifiers/nodes_state_notifier.dart';
 import 'package:path_finding/ui/colors.dart';
@@ -11,7 +14,7 @@ import 'package:path_finding/ui/common/playable_lottie/playable_lottie.dart';
 import 'package:path_finding/ui/common/playable_lottie/playable_lottie_asset.dart';
 
 class Square extends ConsumerStatefulWidget {
-  static const double size = 24;
+  static const double size = 30;
   final int x;
   final int y;
   const Square({
@@ -30,6 +33,8 @@ class _SquareState extends ConsumerState<Square> {
 
   @override
   Widget build(BuildContext context) {
+    final isLearningModeOn = ref.watch(isLearningModeOnStateProvider);
+
     ref.listen<Node>(nodeProvider(NodeCoordinate(widget.x, widget.y)),
         (_, updatedNode) {
       if (node.isDifferent(updatedNode)) {
@@ -51,6 +56,8 @@ class _SquareState extends ConsumerState<Square> {
       }
     });
 
+    log('Rebuilding a square.');
+
     return MouseRegion(
       onEnter: (event) => _onEnter(event, context),
       onExit: (event) => _onExit(event),
@@ -58,6 +65,7 @@ class _SquareState extends ConsumerState<Square> {
         onPanDown: (_) => _onPanDown(context),
         onPanEnd: (details) => _onPanEnd(),
         child: Stack(
+          alignment: Alignment.center,
           children: [
             Container(
               width: Square.size,
@@ -69,7 +77,8 @@ class _SquareState extends ConsumerState<Square> {
               alignment: Alignment.center,
               child: (node.isGoalNode || node.isStart)
                   ? Container(
-                      color: _determineColor(node).withOpacity(0.7),
+                      color: _determineColor(node, isLearningModeOn)
+                          .withOpacity(0.7),
                       padding: const EdgeInsets.all(1.5),
                       child: Stack(children: [
                         if (node.isGoalNode)
@@ -89,18 +98,21 @@ class _SquareState extends ConsumerState<Square> {
                       ]),
                     )
                   : AnimatedScale(
-                      duration: const Duration(milliseconds: 400),
+                      duration: const Duration(milliseconds: 300),
                       scale: node.isIdle ? 0 : 1,
                       child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 800),
+                        duration: const Duration(milliseconds: 500),
                         width: Square.size,
                         height: Square.size,
                         curve: Curves.easeOut,
-                        color: node.isWall ? null : _determineColor(node),
+                        color: node.isWall
+                            ? null
+                            : _determineColor(node, isLearningModeOn),
                         decoration: !node.isWall
                             ? null
                             : BoxDecoration(
-                                color: _determineColor(node).withOpacity(0.45),
+                                color: _determineColor(node, isLearningModeOn)
+                                    .withOpacity(0.45),
                                 shape: BoxShape.circle,
                               ),
                         child: node.isWall
@@ -112,15 +124,14 @@ class _SquareState extends ConsumerState<Square> {
                       ),
                     ),
             ),
-            // if (kDebugMode)
-            //   Positioned(
-            //     bottom: 0,
-            //     left: 0,
-            //     child: Text(
-            //       "${node.x}, ${node.y}",
-            //       style: const TextStyle(fontSize: 7, color: Colors.black),
-            //     ),
-            //   )
+            if (isLearningModeOn && !node.isWall)
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "${node.currentPathCost}",
+                  style: const TextStyle(fontSize: 7, color: Colors.white),
+                ),
+              )
           ],
         ),
       ),
@@ -186,7 +197,7 @@ class _SquareState extends ConsumerState<Square> {
     }
   }
 
-  Color _determineColor(Node node) {
+  Color _determineColor(Node node, bool isLearningModeOn) {
     if (node.isWall) {
       return Colors.transparent;
     }
@@ -196,6 +207,15 @@ class _SquareState extends ConsumerState<Square> {
     if (node.isVisited) {
       return Colors.blue[800]!;
     }
+    if (isLearningModeOn) {
+      if (node.isTopPriority) {
+        return Colors.green[800]!;
+      }
+      if (node.isInStack) {
+        return Colors.orange;
+      }
+    }
+
     return Colors.transparent;
   }
 }

@@ -32,6 +32,8 @@ class DijkstraAlgorithm extends VisualizableAlgorithm {
       }
       goThroughChildren(currentNode);
       sortNodesStackAfterOneTurn(nodesStack);
+      nodesStack.last.isTopPriority = true;
+
       await showUpdatedNodes();
     }
   }
@@ -70,6 +72,8 @@ class DijkstraAlgorithm extends VisualizableAlgorithm {
       currentlyLookingNode.currentPathCost = costToGoToNode;
       currentlyLookingNode.cameFromNode = parentNode;
       nodesStack.add(currentlyLookingNode);
+      currentlyLookingNode.isInStack = true;
+      await showUpdatedNodes();
     }
   }
 

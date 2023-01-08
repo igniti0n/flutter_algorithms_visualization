@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:path_finding/notifiers/is_learning_mode_on_state_provider.dart';
 import 'package:path_finding/notifiers/nodes_state_notifier.dart';
+import 'package:path_finding/ui/common/text/unit_rounded_text.dart';
 import 'package:path_finding/ui/widgets/pannel/reset_buttons.dart';
 
 class ActionsPanel extends StatelessWidget {
@@ -34,6 +36,9 @@ class ActionsPanel extends StatelessWidget {
             width: 100,
           ),
           const Spacer(),
+          // TODO: - Too laggy for the web release when learning mode
+          // const _LearningModeSwitch(),
+          // const Spacer(),
         ],
       ),
     );
@@ -68,6 +73,32 @@ class _MainActions extends ConsumerWidget {
           ),
         ),
         // const AnimationTimeDelaySlider(),
+      ],
+    );
+  }
+}
+
+class _LearningModeSwitch extends ConsumerWidget {
+  const _LearningModeSwitch({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isLearningModeOn = ref.watch(isLearningModeOnStateProvider);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        UnitRoundedText(
+          'Learning mode',
+          color: Colors.white.withOpacity(0.85),
+        ),
+        Switch.adaptive(
+          value: isLearningModeOn,
+          onChanged: (newValue) =>
+              ref.read(isLearningModeOnStateProvider.notifier).state = newValue,
+        ),
       ],
     );
   }

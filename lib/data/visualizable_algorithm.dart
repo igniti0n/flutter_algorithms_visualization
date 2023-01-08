@@ -13,23 +13,34 @@ abstract class VisualizableAlgorithm {
   double _horizontalAndVerticalPathCost = 1;
   bool isRunning = false;
   int animationTimeDelay = 100;
-  final void Function(NodesArray nodes) onStepUpdate;
-  late final NodesArray allNodes;
+  void Function(NodesArray nodes) onStepUpdate;
+  NodesArray allNodes = [];
 
-  VisualizableAlgorithm({
-    required this.onStepUpdate,
-    required List<List<Node>>? nodesToStartWith,
+  VisualizableAlgorithm(
+      {NodesArray? nodesToStartWith, required this.onStepUpdate}) {
+    allNodes = nodesToStartWith ?? [];
+  }
+
+  void initSetup({
+    required Function(NodesArray nodes) onStepUpdate,
+    required int numberOfNodesInRow,
+    required int numberOfNodesInColumn,
   }) {
-    allNodes = nodesToStartWith ?? _generateInitialEmptyNodes();
+    this.onStepUpdate = onStepUpdate;
+    allNodes = _generateInitialEmptyNodes(
+        numberOfNodesInRow: numberOfNodesInRow,
+        numberOfNodesInColumn: numberOfNodesInColumn);
     setDiagonalPathCostTo(cost: _diagonalPathCost);
     setHorizontalAndVerticalPathCostTo(cost: _horizontalAndVerticalPathCost);
   }
 
-  static List<List<Node>> _generateInitialEmptyNodes() {
+  static List<List<Node>> _generateInitialEmptyNodes({
+    required int numberOfNodesInRow,
+    required int numberOfNodesInColumn,
+  }) {
     return List.generate(
-        NodesRepository.numberOfNodesInRow,
-        (x) => List.generate(
-            NodesRepository.numberOfNodesInColumn, (y) => Node(x: x, y: y),
+        numberOfNodesInColumn,
+        (x) => List.generate(numberOfNodesInRow + 1, (y) => Node(x: x, y: y),
             growable: false),
         growable: false);
   }
@@ -50,7 +61,7 @@ abstract class VisualizableAlgorithm {
     isRunning = false;
   }
 
-  /// Returns `true` if the node is outside of [allNodes] array bounds
+  /// Returns `true` if the node is outside of [allNodes] array bounds or is the parent node
   bool isNodeParentNodeOrOutsideOfBounds(
       {required int i, required int j, required Node parentNode}) {
     final nodesLength = allNodes.length;
@@ -92,8 +103,9 @@ abstract class VisualizableAlgorithm {
     nodesStack.clear();
   }
 
-  void setAnimationTimeDelayTo({required int microseconds}) =>
-      animationTimeDelay = microseconds;
+  void setAnimationTimeDelayTo({required int microseconds}) {
+    animationTimeDelay = microseconds;
+  }
 
   /// Sends updated version of nodes to be shown on the screen.
   Future<void> showUpdatedNodes(
@@ -146,20 +158,20 @@ abstract class VisualizableAlgorithm {
     showUpdatedNodes();
   }
 
-  /// Resets everything
+  /// Resets everything, including walls, start, and goal node
   void resetAll() async {
     for (var nodesRow in allNodes) {
       for (var node in nodesRow) {
         node.reset();
       }
     }
-    setGoalAt(20, 20);
-    setStartAt(10, 20);
+    setGoalAt(4, 10);
+    setStartAt(10, 10);
     isRunning = false;
     showUpdatedNodes();
   }
 
-  /// Resets algorithm, without walls and goal nodes
+  /// Resets everything, without walls, start, and goal node
   void resetAlgorithmToStart() async {
     for (var nodesRow in allNodes) {
       for (var node in nodesRow) {

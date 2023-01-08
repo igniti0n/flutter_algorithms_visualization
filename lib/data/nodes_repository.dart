@@ -22,6 +22,8 @@ abstract class NodesRepository {
 
   NodesArray get allNodes;
   Stream<NodesArray> get nodesArrayUpdateStream;
+  void init(
+      {required int numberOfNodesInRow, required int numberOfNodesInColumn});
   void startAlgorithmAt();
   void setGoalAt(int x, int y);
   void setStartAt(int x, int y);
@@ -49,6 +51,17 @@ class NodesRepositoryImpl implements NodesRepository {
 
   @override
   Stream<NodesArray> get nodesArrayUpdateStream => _subject.stream;
+
+  @override
+  void init(
+      {required int numberOfNodesInRow,
+      required int numberOfNodesInColumn}) async {
+    _pathFindingAlgorithm.initSetup(
+      onStepUpdate: _onStepUpdate,
+      numberOfNodesInRow: numberOfNodesInRow,
+      numberOfNodesInColumn: numberOfNodesInColumn,
+    );
+  }
 
   @override
   void startAlgorithmAt() async {

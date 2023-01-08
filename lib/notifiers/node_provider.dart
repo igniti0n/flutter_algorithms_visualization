@@ -7,14 +7,15 @@ final nodeProvider =
   final nodes = ref.watch(nodesStateNotifierProvider);
   final node = nodes.elementAt(coordinates.x).elementAt(coordinates.y);
   final someNode = node.copyWith(
-    x: node.x,
-    y: node.y,
-    isGoalNode: node.isGoalNode,
-    isWall: node.isWall,
-    isVisited: node.isVisited,
-    isStart: node.isStart,
-    isOnTraceablePathToGoal: node.isOnTraceablePathToGoal,
-    cameFromNode: node.cameFromNode,
-  );
+      x: node.x,
+      y: node.y,
+      isGoalNode: node.isGoalNode,
+      isWall: node.isWall,
+      isVisited: node.isVisited,
+      isStart: node.isStart,
+      isOnTraceablePathToGoal: node.isOnTraceablePathToGoal,
+      cameFromNode: node.cameFromNode,
+      isInStack: node.isInStack,
+      isTopPriority: node.isTopPriority);
   return someNode;
 });

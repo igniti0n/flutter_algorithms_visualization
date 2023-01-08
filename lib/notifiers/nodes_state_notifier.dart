@@ -31,6 +31,13 @@ class NodesNotifier extends StateNotifier<NodesArray> {
     state = updatedArray;
   }
 
+  void init(
+          {required int numberOfNodesInRow,
+          required int numberOfNodesInColumn}) =>
+      _nodesRepository.init(
+          numberOfNodesInRow: numberOfNodesInRow,
+          numberOfNodesInColumn: numberOfNodesInColumn);
+
   Future<void> startAlgorithmAt() async => _nodesRepository.startAlgorithmAt();
 
   void setGoalAt(int x, int y) async => _nodesRepository.setGoalAt(x, y);

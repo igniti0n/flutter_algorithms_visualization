@@ -11,7 +11,7 @@ class BreadthFirstSearch extends VisualizableAlgorithm {
   Future<void> algorithmImplementation(Node startNode) async {
     lowerHorizontalBoundary = 0;
     upperHorizontalBoundary = allNodes.length;
-    final goalNodeX = goalNode?.x ?? 0;
+    final goalNodeX = goalNode.x ?? 0;
     if (goalNodeX <= startNode.x) {
       lowerHorizontalBoundary = startNode.x + 1;
     } else {
