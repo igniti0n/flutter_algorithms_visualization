@@ -86,7 +86,7 @@ class AnimationTimeDelaySlider extends ConsumerWidget {
         ),
         Slider(
           min: 0,
-          max: 4000,
+          max: 400000,
           activeColor: AppColors.sliderColor,
           value: animationTimeDelay.toDouble(),
           onChanged: (value) => ref
