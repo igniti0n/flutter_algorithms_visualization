@@ -63,8 +63,12 @@ class _MainActions extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         GestureDetector(
-          onTap: () =>
-              ref.read(nodesStateNotifierProvider.notifier).startAlgorithmAt(),
+          onTap: () {
+            ref
+                .read(nodesStateNotifierProvider.notifier)
+                .resetAlgorithmToStart();
+            ref.read(nodesStateNotifierProvider.notifier).startAlgorithmAt();
+          },
           child: SvgPicture.asset(
             'assets/svg/play_button.svg',
             color: selectedColor,

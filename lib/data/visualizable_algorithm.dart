@@ -39,8 +39,8 @@ abstract class VisualizableAlgorithm {
     required int numberOfNodesInColumn,
   }) {
     return List.generate(
-        numberOfNodesInColumn,
-        (x) => List.generate(numberOfNodesInRow + 1, (y) => Node(x: x, y: y),
+        numberOfNodesInRow,
+        (x) => List.generate(numberOfNodesInColumn + 1, (y) => Node(x: x, y: y),
             growable: false),
         growable: false);
   }
@@ -89,6 +89,11 @@ abstract class VisualizableAlgorithm {
     var child = endNode.cameFromNode;
     while (child != null) {
       if (!isRunning) {
+        return;
+      }
+      if (child.isStart) {
+        allNodes[child.x][child.y].isOnTraceablePathToGoal = true;
+        await showUpdatedNodes(overridenAnimationDelayInMilliseconds: 70000);
         return;
       }
       allNodes[child.x][child.y].isOnTraceablePathToGoal = true;

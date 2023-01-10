@@ -17,24 +17,62 @@ class World extends ConsumerStatefulWidget {
 }
 
 class _WorldState extends ConsumerState<World> {
+  static const minimumActionsPannelHeight = Square.size * 5;
+  late double totalSquaesGridHeight;
   List<Widget> squares = [];
   _WorldState();
 
   @override
   initState() {
+    _initGrid();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      showCupertinoDialog(
+          context: context, builder: (context) => const OnboardingDialog());
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.blueGrey[900],
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                height: totalSquaesGridHeight,
+                width: double.infinity,
+                child: RepaintBoundary(
+                  child: Stack(
+                    children: squares,
+                  ),
+                ),
+              ),
+              const Expanded(
+                child: ActionsPanel(),
+              ),
+            ],
+          ),
+          const Pannel(),
+        ],
+      ),
+    );
+  }
+
+  void _initGrid() {
     final availableHeightForSquares =
-        window.outerHeight - minimumActionsPannelHeight;
+        (window.screen?.height ?? 0) - minimumActionsPannelHeight;
     final numberOfSquaresThatFitHeight =
         (availableHeightForSquares / Square.size.toInt()).floor();
-
-    final availableWidthForSquares = window.outerWidth;
+    totalSquaesGridHeight = numberOfSquaresThatFitHeight * Square.size;
+    final availableWidthForSquares = (window.screen?.width ?? 0);
     final numberOfSquaresThatFitWidth =
         (availableWidthForSquares / Square.size.toInt()).floor();
-
     ref.read(nodesStateNotifierProvider.notifier).init(
-        numberOfNodesInRow: numberOfSquaresThatFitHeight,
-        numberOfNodesInColumn: numberOfSquaresThatFitWidth);
-
+        numberOfNodesInRow: numberOfSquaresThatFitWidth,
+        numberOfNodesInColumn: numberOfSquaresThatFitHeight);
     ref.read(nodesStateNotifierProvider.notifier).setStartAt(4, 10);
     ref.read(nodesStateNotifierProvider.notifier).setGoalAt(10, 10);
     for (var row
@@ -50,53 +88,5 @@ class _WorldState extends ConsumerState<World> {
         ));
       }
     }
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      showCupertinoDialog(
-          context: context, builder: (context) => const OnboardingDialog());
-    });
-    super.initState();
-  }
-
-  static const minimumActionsPannelHeight = Square.size * 2.5;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blueGrey[900],
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          Column(
-            children: [
-              Expanded(
-                child: RepaintBoundary(
-                  child: Stack(
-                    children: squares,
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: _getActualPannelHeight(),
-                child: const ActionsPanel(),
-              ),
-            ],
-          ),
-          const Pannel(),
-        ],
-      ),
-    );
-  }
-
-  double _getActualPannelHeight() {
-    final availableHeightForSquares =
-        (window.outerHeight ?? 0).toDouble() - minimumActionsPannelHeight;
-    final numberOfSquaresThatFitHeight =
-        (availableHeightForSquares / Square.size.toInt()).floor();
-    final actualHeightAbleToBeOccupiedBySquares =
-        numberOfSquaresThatFitHeight * Square.size;
-    final leftoverHeightFromSquares =
-        availableHeightForSquares - actualHeightAbleToBeOccupiedBySquares;
-    return minimumActionsPannelHeight + leftoverHeightFromSquares;
   }
 }
