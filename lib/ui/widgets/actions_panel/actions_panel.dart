@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:path_finding/notifiers/is_learning_mode_on_state_provider.dart';
 import 'package:path_finding/notifiers/nodes_state_notifier.dart';
+import 'package:path_finding/ui/common/playable_lottie/playable_lottie.dart';
+import 'package:path_finding/ui/common/playable_lottie/playable_lottie_asset.dart';
 import 'package:path_finding/ui/common/text/unit_rounded_text.dart';
 import 'package:path_finding/ui/widgets/pannel/reset_buttons.dart';
 
@@ -75,6 +77,28 @@ class _MainActions extends ConsumerWidget {
             height: actionsSize * 2.6,
             width: actionsSize * 2.6,
           ),
+        ),
+        const SizedBox(
+          width: 20,
+        ),
+        PlayableLottie(
+          playableLottieAsset: PlayableLottieAsset.maze,
+          duration: const Duration(seconds: 6),
+          isInitialValueAnimationEnd: true,
+          gradientColors: const [Colors.orangeAccent, Colors.red],
+          onTap: () {
+            ref
+                .read(playableLottieStateNotifierProvider(
+                        PlayableLottieAsset.maze)
+                    .notifier)
+                .resetAnimation();
+            ref
+                .read(playableLottieStateNotifierProvider(
+                        PlayableLottieAsset.maze)
+                    .notifier)
+                .playForward();
+            ref.read(nodesStateNotifierProvider.notifier).makeMaze();
+          },
         ),
         // const AnimationTimeDelaySlider(),
       ],

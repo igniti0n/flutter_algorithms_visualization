@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/data/nodes_repository.dart';
+import 'package:path_finding/data/recursive_division_algorithm.dart';
 
 /// Defines what a path finding algorithm needs and tools to visualize it
 abstract class VisualizableAlgorithm {
@@ -53,12 +54,37 @@ abstract class VisualizableAlgorithm {
     if (isRunning) {
       return;
     }
+    await showUpdatedNodes();
     clearStacks();
     isRunning = true;
     startNode.currentPathCost = 0;
     nodesStack.add(startNode);
     await algorithmImplementation(startNode);
     isRunning = false;
+  }
+
+  Future<void> makeMaze() async {
+    if (isRunning) {
+      return;
+    }
+    await resetAll();
+    for (int i = 0; i < allNodes.length; i++) {
+      allNodes[i][0].isWall = true;
+      allNodes[i][allNodes.first.length - 2].isWall = true;
+    }
+    for (int y = 0; y < allNodes.first.length - 1; y++) {
+      allNodes[0][y].isWall = true;
+      allNodes[allNodes.length - 1][y].isWall = true;
+    }
+    await showUpdatedNodes();
+    await recursiveDivisionMazeGenerate(
+      allNodes,
+      1,
+      allNodes.length - 1,
+      1,
+      allNodes.first.length - 2,
+      showUpdatedNodes,
+    );
   }
 
   /// Returns `true` if the node is outside of [allNodes] array bounds or is the parent node
@@ -164,7 +190,7 @@ abstract class VisualizableAlgorithm {
   }
 
   /// Resets everything, including walls, start, and goal node
-  void resetAll() async {
+  Future<void> resetAll() async {
     for (var nodesRow in allNodes) {
       for (var node in nodesRow) {
         node.reset();
@@ -173,7 +199,7 @@ abstract class VisualizableAlgorithm {
     setGoalAt(4, 10);
     setStartAt(10, 10);
     isRunning = false;
-    showUpdatedNodes();
+    await showUpdatedNodes();
   }
 
   /// Resets everything, without walls, start, and goal node

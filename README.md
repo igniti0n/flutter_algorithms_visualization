@@ -6,6 +6,9 @@ Feel free to contribute by opening some PR's :fire:
 
 ![](https://github.com/igniti0n/flutter_algorithms_visualization/blob/main/assets/path_finding.gif)
 
+
+![](https://github.com/igniti0n/flutter_algorithms_visualization/blob/main/assets/maze.gif)
+
 # Ideas :sparkles:
 
 - :white_check_mark: Add time control, to increase/decrease time step
@@ -13,6 +16,6 @@ Feel free to contribute by opening some PR's :fire:
 - :white_check_mark: DFS/BFS
 - :white_square_button: Ability to move the end/start node and see the change
 - :white_square_button: Impmenent sorting of nodes with heap rather then sorting a list for Dijkstra/A*
-- :white_square_button: Maze generator
+- :white_check_mark: Maze generator
 
 

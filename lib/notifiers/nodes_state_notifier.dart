@@ -40,6 +40,8 @@ class NodesNotifier extends StateNotifier<NodesArray> {
 
   Future<void> startAlgorithmAt() async => _nodesRepository.startAlgorithmAt();
 
+  Future<void> makeMaze() async => _nodesRepository.makeMaze();
+
   void setGoalAt(int x, int y) async => _nodesRepository.setGoalAt(x, y);
 
   void removeGoalAt(int x, int y) async => _nodesRepository.removeGoalAt(x, y);

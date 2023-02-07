@@ -67,62 +67,9 @@ class _SquareState extends ConsumerState<Square> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Container(
-              width: Square.size,
-              height: Square.size,
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                border: Border.all(color: AppColors.sliderColor, width: 0.2),
-              ),
-              alignment: Alignment.center,
-              child: (node.isGoalNode || node.isStart)
-                  ? Container(
-                      color: _determineColor(node, isLearningModeOn)
-                          .withOpacity(0.7),
-                      padding: const EdgeInsets.all(1.5),
-                      child: Stack(children: [
-                        if (node.isGoalNode)
-                          const PlayableLottie(
-                            isInitialValueAnimationEnd: true,
-                            playableLottieAsset: PlayableLottieAsset.goalFlag,
-                            gradientColors: [
-                              Colors.blue,
-                              Colors.blue,
-                            ],
-                          ),
-                        if (node.isStart)
-                          SvgPicture.asset(
-                            'assets/svg/play_button.svg',
-                            color: Colors.deepOrangeAccent,
-                          ),
-                      ]),
-                    )
-                  : AnimatedScale(
-                      duration: const Duration(milliseconds: 300),
-                      scale: node.isIdle ? 0 : 1,
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 500),
-                        width: Square.size,
-                        height: Square.size,
-                        curve: Curves.easeOut,
-                        color: node.isWall
-                            ? null
-                            : _determineColor(node, isLearningModeOn),
-                        decoration: !node.isWall
-                            ? null
-                            : BoxDecoration(
-                                color: _determineColor(node, isLearningModeOn)
-                                    .withOpacity(0.45),
-                                shape: BoxShape.circle,
-                              ),
-                        child: node.isWall
-                            ? SvgPicture.asset(
-                                'assets/svg/brick.svg',
-                                color: Colors.blueGrey.withOpacity(0.7),
-                              )
-                            : null,
-                      ),
-                    ),
+            _Body(
+              node: node,
+              color: _determineColor(node, isLearningModeOn),
             ),
             if (isLearningModeOn && !node.isWall)
               Align(
@@ -217,5 +164,69 @@ class _SquareState extends ConsumerState<Square> {
     }
 
     return Colors.transparent;
+  }
+}
+
+class _Body extends StatelessWidget {
+  final Color color;
+  const _Body({
+    Key? key,
+    required this.node,
+    required this.color,
+  }) : super(key: key);
+
+  final Node node;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: Square.size,
+      height: Square.size,
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        border: Border.all(color: AppColors.sliderColor, width: 0.2),
+      ),
+      alignment: Alignment.center,
+      child: (node.isGoalNode || node.isStart)
+          ? Container(
+              color: color.withOpacity(0.7),
+              padding: const EdgeInsets.all(1.5),
+              child: Stack(children: [
+                if (node.isGoalNode)
+                  const PlayableLottie(
+                    isInitialValueAnimationEnd: true,
+                    playableLottieAsset: PlayableLottieAsset.goalFlag,
+                    gradientColors: [
+                      Colors.blue,
+                      Colors.blue,
+                    ],
+                  ),
+                if (node.isStart)
+                  SvgPicture.asset(
+                    'assets/svg/play_button.svg',
+                    color: Colors.deepOrangeAccent,
+                  ),
+              ]),
+            )
+          : AnimatedScale(
+              duration: const Duration(milliseconds: 300),
+              scale: node.isIdle ? 0 : 1,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 500),
+                width: Square.size,
+                height: Square.size,
+                curve: Curves.easeOut,
+                color: node.isWall ? null : color,
+                // child: node.isWall ? const Brick() : null,
+                decoration: !node.isWall
+                    ? null
+                    : BoxDecoration(
+                        color: color.withOpacity(0.45),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(2)),
+                      ),
+              ),
+            ),
+    );
   }
 }

@@ -25,6 +25,7 @@ abstract class NodesRepository {
   void init(
       {required int numberOfNodesInRow, required int numberOfNodesInColumn});
   void startAlgorithmAt();
+  void makeMaze();
   void setGoalAt(int x, int y);
   void setStartAt(int x, int y);
   void removeGoalAt(int x, int y);
@@ -66,6 +67,11 @@ class NodesRepositoryImpl implements NodesRepository {
   @override
   void startAlgorithmAt() async {
     _pathFindingAlgorithm.runAlgorithm();
+  }
+
+  @override
+  void makeMaze() async {
+    _pathFindingAlgorithm.makeMaze();
   }
 
   @override

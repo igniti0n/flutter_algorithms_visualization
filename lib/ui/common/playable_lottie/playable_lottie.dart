@@ -29,21 +29,24 @@ class PlayableLottie extends HookConsumerWidget {
   final Function()? onTap;
   final List<Color> gradientColors;
   final bool isInitialValueAnimationEnd;
+  final Duration? duration;
   const PlayableLottie({
     super.key,
     required this.playableLottieAsset,
     this.onTap,
     this.isInitialValueAnimationEnd = false,
     this.gradientColors = const [],
+    this.duration,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AnimationController animationController = useAnimationController(
       initialValue: isInitialValueAnimationEnd ? 1.0 : 0,
-      duration: const Duration(
-        milliseconds: 1200,
-      ),
+      duration: duration ??
+          const Duration(
+            milliseconds: 1200,
+          ),
     );
     final animation = useListenable(
         CurvedAnimation(parent: animationController, curve: Curves.easeOut));
