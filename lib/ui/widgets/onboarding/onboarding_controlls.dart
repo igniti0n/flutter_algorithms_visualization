@@ -21,7 +21,7 @@ class OnboardingControlls extends ConsumerWidget {
           ),
           Expanded(
             child: Image.asset(
-              "assets/tuorial_controlls.gif",
+              "assets/tutorial_controlls.gif",
             ),
           ),
           const SizedBox(
