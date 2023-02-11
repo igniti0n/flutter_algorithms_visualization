@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/src/gestures/events.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_finding/common/models/node.dart';
@@ -56,8 +55,6 @@ class _SquareState extends ConsumerState<Square> {
       }
     });
 
-    log('Rebuilding a square.');
-
     return MouseRegion(
       onEnter: (event) => _onEnter(event, context),
       onExit: (event) => _onExit(event),
@@ -78,6 +75,18 @@ class _SquareState extends ConsumerState<Square> {
                   "${node.currentPathCost}",
                   style: const TextStyle(fontSize: 7, color: Colors.white),
                 ),
+              ),
+            if (isLearningModeOn &&
+                !node.isWall &&
+                node.isCurrentlyBeingVisited)
+              Container(
+                width: Square.size,
+                height: Square.size,
+                decoration: BoxDecoration(
+                    color: AppColors.idleColor.withOpacity(0.6),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                        color: Colors.red.withOpacity(0.6), width: 2)),
               )
           ],
         ),
@@ -145,6 +154,9 @@ class _SquareState extends ConsumerState<Square> {
   }
 
   Color _determineColor(Node node, bool isLearningModeOn) {
+    if (node.isGoalNode) {
+      return Colors.transparent;
+    }
     if (node.isWall) {
       return Colors.transparent;
     }
@@ -154,6 +166,7 @@ class _SquareState extends ConsumerState<Square> {
     if (node.isVisited) {
       return Colors.blue[800]!;
     }
+    // Leagning mode disabeld currently
     if (isLearningModeOn) {
       if (node.isTopPriority) {
         return Colors.green[800]!;
@@ -162,12 +175,15 @@ class _SquareState extends ConsumerState<Square> {
         return Colors.orange;
       }
     }
+    if (node.isInStack) {
+      return Colors.blue[800]!;
+    }
 
     return Colors.transparent;
   }
 }
 
-class _Body extends StatelessWidget {
+class _Body extends HookWidget {
   final Color color;
   const _Body({
     Key? key,
@@ -179,6 +195,10 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final colorTween = ColorTween(begin: Colors.black, end: color);
+    // final controler = useAnim
+    // final animation = colorTween.animate
+
     return Container(
       width: Square.size,
       height: Square.size,
@@ -212,18 +232,28 @@ class _Body extends StatelessWidget {
               duration: const Duration(milliseconds: 300),
               scale: node.isIdle ? 0 : 1,
               child: AnimatedContainer(
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 200),
                 width: Square.size,
                 height: Square.size,
                 curve: Curves.easeOut,
                 color: node.isWall ? null : color,
-                // child: node.isWall ? const Brick() : null,
                 decoration: !node.isWall
                     ? null
                     : BoxDecoration(
                         color: color.withOpacity(0.45),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(2)),
+                      ),
+                child: (node.isIdle || node.isWall)
+                    ? null
+                    : TweenAnimationBuilder<Color?>(
+                        tween: ColorTween(
+                            begin: Colors.deepPurpleAccent, end: color),
+                        curve: Curves.easeIn,
+                        duration: const Duration(milliseconds: 400),
+                        builder: (_, value, __) => DecoratedBox(
+                          decoration: BoxDecoration(color: value),
+                        ),
                       ),
               ),
             ),

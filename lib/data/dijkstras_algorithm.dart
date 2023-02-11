@@ -30,7 +30,7 @@ class DijkstraAlgorithm extends VisualizableAlgorithm {
         await showShortestPath(currentNode);
         return;
       }
-      goThroughChildren(currentNode);
+      await goThroughChildren(currentNode);
       sortNodesStackAfterOneTurn(nodesStack);
       nodesStack.last.isTopPriority = true;
 
@@ -54,7 +54,11 @@ class DijkstraAlgorithm extends VisualizableAlgorithm {
         if (isNodeWallOrDone(node: currentlyLookingNode)) {
           continue;
         }
+        // currentlyLookingNode.isCurrentlyBeingVisited = true;
+        // await showUpdatedNodes();
         visitNode(currentlyLookingNode, parentNode);
+        // currentlyLookingNode.isCurrentlyBeingVisited = false;
+        // await showUpdatedNodes();
       }
     }
     doneNodes.add(parentNode);
@@ -62,7 +66,7 @@ class DijkstraAlgorithm extends VisualizableAlgorithm {
   }
 
   /// Evaluates the cost to go to the [Node], and updates it if cost is better then the already calculated one
-  Future<void> visitNode(Node currentlyLookingNode, Node parentNode) async {
+  void visitNode(Node currentlyLookingNode, Node parentNode) {
     final isOnDiagonal = isNodeOnDiagonal(
         currentlyLookingNode: currentlyLookingNode, parentNode: parentNode);
     var costToGoToNode = parentNode.currentPathCost +
@@ -73,7 +77,6 @@ class DijkstraAlgorithm extends VisualizableAlgorithm {
       currentlyLookingNode.cameFromNode = parentNode;
       nodesStack.add(currentlyLookingNode);
       currentlyLookingNode.isInStack = true;
-      await showUpdatedNodes();
     }
   }
 

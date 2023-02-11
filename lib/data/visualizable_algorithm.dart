@@ -57,8 +57,10 @@ abstract class VisualizableAlgorithm {
     await showUpdatedNodes();
     clearStacks();
     isRunning = true;
+    startNode = allNodes[startNode.x][startNode.y];
     startNode.currentPathCost = 0;
     nodesStack.add(startNode);
+    await showUpdatedNodes();
     await algorithmImplementation(startNode);
     isRunning = false;
   }

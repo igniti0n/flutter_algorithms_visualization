@@ -17,6 +17,7 @@ class Node {
   bool isOnTraceablePathToGoal;
   bool isWall;
   bool isVisited;
+  bool isCurrentlyBeingVisited;
   double currentPathCost;
   double distanceToGoal = 0;
   Node? cameFromNode;
@@ -33,6 +34,7 @@ class Node {
     this.currentPathCost = double.infinity,
     this.isOnTraceablePathToGoal = false,
     this.cameFromNode,
+    this.isCurrentlyBeingVisited = false,
   });
 
   void updateCostIfNecessary(double calculatedCost) {
@@ -53,6 +55,7 @@ class Node {
     bool? isStart,
     bool? isInStack,
     bool? isTopPriority,
+    bool? isCurrentlyBeingVisited,
   }) =>
       Node(
         x: x ?? this.x,
@@ -64,6 +67,8 @@ class Node {
         isStart: isStart ?? this.isStart,
         isInStack: isInStack ?? this.isInStack,
         isTopPriority: isTopPriority ?? this.isTopPriority,
+        isCurrentlyBeingVisited:
+            isCurrentlyBeingVisited ?? this.isCurrentlyBeingVisited,
         isOnTraceablePathToGoal:
             isOnTraceablePathToGoal ?? this.isOnTraceablePathToGoal,
       );
@@ -76,7 +81,9 @@ class Node {
       node.isVisited != isVisited ||
       node.isOnTraceablePathToGoal != isOnTraceablePathToGoal ||
       node.isInStack != isInStack ||
+      node.currentPathCost != currentPathCost ||
       node.isGoalNode != isGoalNode ||
+      node.isCurrentlyBeingVisited != isCurrentlyBeingVisited ||
       node.isTopPriority != isTopPriority;
 
   bool get isGoalNodeAndFound => isGoalNode && isOnTraceablePathToGoal;
@@ -87,6 +94,7 @@ class Node {
       !isWall &&
       !isOnTraceablePathToGoal &&
       !isInStack &&
+      !isCurrentlyBeingVisited &&
       !isTopPriority;
 
   void reset() {
@@ -96,6 +104,7 @@ class Node {
     isStart = false;
     isInStack = false;
     isTopPriority = false;
+    isCurrentlyBeingVisited = false;
     currentPathCost = double.infinity;
     isOnTraceablePathToGoal = false;
     cameFromNode = null;
@@ -107,6 +116,7 @@ class Node {
     isOnTraceablePathToGoal = false;
     isInStack = false;
     isTopPriority = false;
+    isCurrentlyBeingVisited = false;
     cameFromNode = null;
   }
 }

@@ -16,6 +16,7 @@ final nodeProvider =
       isOnTraceablePathToGoal: node.isOnTraceablePathToGoal,
       cameFromNode: node.cameFromNode,
       isInStack: node.isInStack,
+      isCurrentlyBeingVisited: node.isCurrentlyBeingVisited,
       isTopPriority: node.isTopPriority);
   return someNode;
 });
