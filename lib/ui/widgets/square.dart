@@ -175,9 +175,9 @@ class _SquareState extends ConsumerState<Square> {
         return Colors.orange;
       }
     }
-    if (node.isInStack) {
-      return Colors.blue[800]!;
-    }
+    // if (node.isInStack) {
+    //   return Colors.blue[800]!;
+    // }
 
     return Colors.transparent;
   }
@@ -244,7 +244,7 @@ class _Body extends HookWidget {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(2)),
                       ),
-                child: (node.isIdle || node.isWall)
+                child: (!node.isVisited)
                     ? null
                     : TweenAnimationBuilder<Color?>(
                         tween: ColorTween(
