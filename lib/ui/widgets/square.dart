@@ -161,15 +161,15 @@ class _SquareState extends ConsumerState<Square> {
       return Colors.transparent;
     }
     if (node.isOnTraceablePathToGoal && !node.isGoalNode) {
-      return Colors.purple[800]!;
+      return const Color.fromARGB(243, 133, 49, 185);
     }
     if (node.isVisited) {
-      return Colors.blue[800]!;
+      return const Color.fromARGB(219, 64, 156, 255);
     }
     // Leagning mode disabeld currently
     if (isLearningModeOn) {
       if (node.isTopPriority) {
-        return Colors.green[800]!;
+        return Colors.blue[800]!;
       }
       if (node.isInStack) {
         return Colors.orange;

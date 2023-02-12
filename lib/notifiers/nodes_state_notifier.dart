@@ -1,19 +1,29 @@
 import 'dart:async';
 
 import 'package:path_finding/data/nodes_repository.dart';
+import 'package:path_finding/notifiers/is_diagonal_movement_enabeld_state_provider.dart';
 import 'package:riverpod/riverpod.dart';
 
 final nodesStateNotifierProvider =
     StateNotifierProvider<NodesNotifier, NodesArray>(
-        (ref) => NodesNotifier(ref.read(nodesRepositoryProvider)));
+        (ref) => NodesNotifier(ref.read(nodesRepositoryProvider), ref));
 
 class NodesNotifier extends StateNotifier<NodesArray> {
   final NodesRepository _nodesRepository;
+  final Ref _ref;
   late final StreamSubscription _nodesUpdateSubscription;
-  NodesNotifier(this._nodesRepository) : super([]) {
+  NodesNotifier(
+    this._nodesRepository,
+    this._ref,
+  ) : super([]) {
     state = _nodesRepository.allNodes;
     _nodesUpdateSubscription =
         _nodesRepository.nodesArrayUpdateStream.listen(_onNodesArrayUpdate);
+    _ref.listen<bool>(
+      isDiagonalMovementEnabelsStateProvider,
+      (_, isDiagonalMovementEnabeld) => _nodesRepository
+          .setIsDiagonalMovementEnabeld(toValue: isDiagonalMovementEnabeld),
+    );
     setWallAt(0, 0);
     resetAt(0, 0);
   }

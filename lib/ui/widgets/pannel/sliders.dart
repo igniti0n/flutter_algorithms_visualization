@@ -80,20 +80,31 @@ class AnimationTimeDelaySlider extends ConsumerWidget {
 
     return Column(
       children: [
-        SvgPicture.asset(
-          'assets/svg/stopwatch.svg',
-          height: 20,
-        ),
-        Slider(
-          min: 0,
-          max: 400000,
-          activeColor: AppColors.sliderColor,
-          value: animationTimeDelay.toDouble(),
-          onChanged: (value) => ref
-              .read(animationTimeStateNotifierProvider.notifier)
-              .setAnimationTimeDelay(
-                value.floor(),
+        Expanded(
+          child: Transform.translate(
+            offset: const Offset(0, 8),
+            child: Transform.scale(
+              scale: 1.2,
+              child: SvgPicture.asset(
+                'assets/svg/stopwatch.svg',
+                height: 30,
               ),
+            ),
+          ),
+        ),
+        FittedBox(
+          fit: BoxFit.contain,
+          child: Slider(
+            min: 0,
+            max: 400000,
+            activeColor: AppColors.sliderColor,
+            value: animationTimeDelay.toDouble(),
+            onChanged: (value) => ref
+                .read(animationTimeStateNotifierProvider.notifier)
+                .setAnimationTimeDelay(
+                  value.floor(),
+                ),
+          ),
         ),
       ],
     );

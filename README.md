@@ -4,7 +4,7 @@ This project aims to visualize different algorithms using Flutter in & Dart. Sta
 
 Feel free to contribute by opening some PR's :fire:
 
-![](https://github.com/igniti0n/flutter_algorithms_visualization/blob/main/assets/path_finding.gif)
+![](https://github.com/igniti0n/flutter_algorithms_visualization/blob/main/assets/dijkstra.gif)   ![](https://github.com/igniti0n/flutter_algorithms_visualization/blob/main/assets/a_star.gif)
 
 
 ![](https://github.com/igniti0n/flutter_algorithms_visualization/blob/main/assets/maze.gif)

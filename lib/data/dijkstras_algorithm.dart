@@ -54,6 +54,11 @@ class DijkstraAlgorithm extends VisualizableAlgorithm {
         if (isNodeWallOrDone(node: currentlyLookingNode)) {
           continue;
         }
+        final isOnDiagonal = isNodeOnDiagonal(
+            currentlyLookingNode: currentlyLookingNode, parentNode: parentNode);
+        if (isOnDiagonal && !isDiagonalMovementEnabeld) {
+          continue;
+        }
         // currentlyLookingNode.isCurrentlyBeingVisited = true;
         // await showUpdatedNodes();
         visitNode(currentlyLookingNode, parentNode);

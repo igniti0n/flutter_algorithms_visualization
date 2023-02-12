@@ -31,6 +31,7 @@ abstract class NodesRepository {
   void removeGoalAt(int x, int y);
   void removeStartAt(int x, int y);
   void setWallAt(int x, int y);
+  void setIsDiagonalMovementEnabeld({required bool toValue});
   void resetAt(int x, int y);
   void resetAll();
   void resetAlgorithmToStart();
@@ -123,6 +124,8 @@ class NodesRepositoryImpl implements NodesRepository {
       required int animationTimeDelay}) {
     final goalNode = _pathFindingAlgorithm.goalNode;
     final startNode = _pathFindingAlgorithm.startNode;
+    final isDiagonalmovementEnabeld =
+        _pathFindingAlgorithm.isDiagonalMovementEnabeld;
     switch (pathFindingAlgorihmType) {
       case PathFindingAlgorihmType.dijkstras:
         _pathFindingAlgorithm = DijkstraAlgorithm(
@@ -160,6 +163,11 @@ class NodesRepositoryImpl implements NodesRepository {
     }
     _pathFindingAlgorithm.goalNode = goalNode;
     _pathFindingAlgorithm.startNode = startNode;
+    _pathFindingAlgorithm.isDiagonalMovementEnabeld = isDiagonalmovementEnabeld;
     setAnimationTimeDelayTo(milliseconds: animationTimeDelay);
   }
+
+  @override
+  void setIsDiagonalMovementEnabeld({required bool toValue}) =>
+      _pathFindingAlgorithm.setIsDiagonalMovementEnabeld(toValue: toValue);
 }

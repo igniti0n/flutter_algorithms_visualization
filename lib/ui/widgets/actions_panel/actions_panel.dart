@@ -7,6 +7,7 @@ import 'package:path_finding/ui/common/playable_lottie/playable_lottie.dart';
 import 'package:path_finding/ui/common/playable_lottie/playable_lottie_asset.dart';
 import 'package:path_finding/ui/common/text/unit_rounded_text.dart';
 import 'package:path_finding/ui/widgets/pannel/reset_buttons.dart';
+import 'package:path_finding/ui/widgets/pannel/sliders.dart';
 
 class ActionsPanel extends StatelessWidget {
   static const double actionsSize = 24;
@@ -29,6 +30,8 @@ class ActionsPanel extends StatelessWidget {
           ),
           const ResetButtons(),
           const Spacer(),
+          const Spacer(),
+
           _MainActions(
             selectedColor: selectedColor,
             unselectedColor: unselectedColor,
@@ -41,6 +44,8 @@ class ActionsPanel extends StatelessWidget {
           // TODO: - Too laggy for the web release when learning mode
           // const _LearningModeSwitch(),
           // const Spacer(),
+          const AnimationTimeDelaySlider(),
+          const Spacer(),
         ],
       ),
     );

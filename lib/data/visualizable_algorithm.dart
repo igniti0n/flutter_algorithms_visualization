@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:math';
 
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/data/nodes_repository.dart';
@@ -12,6 +12,7 @@ abstract class VisualizableAlgorithm {
   Node startNode = Node(x: 10, y: 20);
   double _diagonalPathCost = 2;
   double _horizontalAndVerticalPathCost = 1;
+  bool isDiagonalMovementEnabeld = true;
   bool isRunning = false;
   int animationTimeDelay = 100;
   void Function(NodesArray nodes) onStepUpdate;
@@ -127,7 +128,6 @@ abstract class VisualizableAlgorithm {
       allNodes[child.x][child.y].isOnTraceablePathToGoal = true;
       child = child.cameFromNode;
       await showUpdatedNodes(overridenAnimationDelayInMilliseconds: 70000);
-      log('Tracing back: ${child?.x} : ${child?.y}');
     }
   }
 
@@ -186,25 +186,43 @@ abstract class VisualizableAlgorithm {
     showUpdatedNodes();
   }
 
+  void setIsDiagonalMovementEnabeld({required bool toValue}) async {
+    isDiagonalMovementEnabeld = toValue;
+  }
+
   void resetAt(int x, int y) async {
     allNodes[x][y].reset();
     showUpdatedNodes();
   }
 
+  /// Performs a change with [changeNode] on a first node that is not a wall. Attempts to start at coordinates [startX] : [startY]
+  void changeOnFirstClearNode(
+      int startX, startY, void Function() Function(Node node) changeNode) {
+    int x = startX;
+    int y = startY;
+    while (allNodes[x][y].isWall) {
+      startX += Random().nextBool() ? 1 : 0;
+      startY += Random().nextBool() ? 1 : 0;
+    }
+    changeNode(allNodes[x][y]);
+  }
+
   /// Resets everything, including walls, start, and goal node
-  Future<void> resetAll() async {
+  Future<void> resetAll({bool shouldSetGoalAndEndNodes = true}) async {
     for (var nodesRow in allNodes) {
       for (var node in nodesRow) {
         node.reset();
       }
     }
-    setGoalAt(4, 10);
-    setStartAt(10, 10);
+    if (shouldSetGoalAndEndNodes) {
+      setGoalAt(4, 10);
+      setStartAt(10, 10);
+    }
     isRunning = false;
     await showUpdatedNodes();
   }
 
-  /// Resets everything, without walls, start, and goal node
+  /// Resets everything, *whitout* walls, start, and goal node
   void resetAlgorithmToStart() async {
     for (var nodesRow in allNodes) {
       for (var node in nodesRow) {

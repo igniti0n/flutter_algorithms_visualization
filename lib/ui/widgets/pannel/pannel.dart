@@ -13,7 +13,8 @@ class Pannel extends HookConsumerWidget {
     final animationController =
         useAnimationController(duration: const Duration(milliseconds: 350));
     final offsetAnimation = Tween<Offset>(
-            begin: Offset.zero, end: const Offset(0, -PannelBody.height))
+            begin: const Offset(0, -PannelBody.height),
+            end: const Offset(0, -PannelBody.height))
         .animate(CurvedAnimation(
             parent: animationController, curve: Curves.easeInOut));
 
