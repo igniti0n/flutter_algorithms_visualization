@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:path_finding/notifiers/is_learning_mode_on_state_provider.dart';
 import 'package:path_finding/notifiers/nodes_state_notifier.dart';
+import 'package:path_finding/notifiers/slected_shortest_path_algorithm_state_notifier.dart';
 import 'package:path_finding/ui/common/playable_lottie/playable_lottie.dart';
 import 'package:path_finding/ui/common/playable_lottie/playable_lottie_asset.dart';
 import 'package:path_finding/ui/common/text/unit_rounded_text.dart';
 import 'package:path_finding/ui/widgets/pannel/reset_buttons.dart';
 import 'package:path_finding/ui/widgets/pannel/sliders.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ActionsPanel extends StatelessWidget {
   static const double actionsSize = 24;
@@ -31,6 +33,9 @@ class ActionsPanel extends StatelessWidget {
           const ResetButtons(),
           const Spacer(),
           const Spacer(),
+          const SizedBox(
+            width: 20,
+          ),
 
           _MainActions(
             selectedColor: selectedColor,
@@ -46,9 +51,73 @@ class ActionsPanel extends StatelessWidget {
           // const Spacer(),
           const AnimationTimeDelaySlider(),
           const Spacer(),
+          IconButton(
+            padding: EdgeInsets.zero,
+            alignment: Alignment.center,
+            onPressed: () => launchUrl(
+              Uri.parse(
+                'https://github.com/igniti0n/flutter_algorithms_visualization',
+              ),
+            ),
+            icon: SvgPicture.asset(
+              'assets/svg/github_logo.svg',
+              height: 48,
+              width: 48,
+            ),
+          ),
+          const SizedBox(
+            width: 40,
+          ),
         ],
       ),
     );
+  }
+}
+
+class _CurrentlySelectedAlgorithm extends ConsumerWidget {
+  const _CurrentlySelectedAlgorithm();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedAlgorithm =
+        ref.watch(selectedShortestPathAlgorithmStateNotifier);
+
+    return SizedBox(
+      width: 80,
+      child: UnitRoundedText(
+        centerText: false,
+        selectedAlgorithm.title,
+        color: Colors.white,
+      ),
+    );
+
+    // PopupMenuButton<int>(
+    //     // onSelected: (selectedAlgo) => ref
+    //     //     .read(selectedShortestPathAlgorithmStateNotifier.notifier)
+    //     //     .setSelectedAlgorithm(selectedAlgo),
+    //     // initialValue: PathFindingAlgorihmType.dijkstras,
+    //     itemBuilder: (ctx) => [
+    //           PopupMenuItem<int>(
+    //             value: 1,
+    //             child: UnitRoundedText(
+    //               selectedAlgorithm.title,
+    //               color: Colors.white,
+    //             ),
+    //           ),
+    //         ]
+
+    //     // PathFindingAlgorihmType.values
+    //     //     .map(
+    //     //       (e) => PopupMenuItem<PathFindingAlgorihmType>(
+    //     //         value: e,
+    //     //         child: UnitRoundedText(
+    //     //           selectedAlgorithm.title,
+    //     //           color: Colors.white,
+    //     //         ),
+    //     //       ),
+    //     //     )
+    //     //     .toList(),
+    //     );
   }
 }
 
@@ -69,6 +138,7 @@ class _MainActions extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        const _CurrentlySelectedAlgorithm(),
         GestureDetector(
           onTap: () {
             ref
@@ -84,7 +154,7 @@ class _MainActions extends ConsumerWidget {
           ),
         ),
         const SizedBox(
-          width: 20,
+          width: 60,
         ),
         PlayableLottie(
           playableLottieAsset: PlayableLottieAsset.maze,

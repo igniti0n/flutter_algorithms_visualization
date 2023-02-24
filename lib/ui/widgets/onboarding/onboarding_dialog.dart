@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path_finding/notifiers/onboarding_page_state_notifier.dart';
+import 'package:path_finding/ui/widgets/onboarding/onboarding_a_star.dart';
+import 'package:path_finding/ui/widgets/onboarding/onboarding_breadth_first_search.dart';
 import 'package:path_finding/ui/widgets/onboarding/onboarding_controlls.dart';
+import 'package:path_finding/ui/widgets/onboarding/onboarding_depth_first_search.dart';
+import 'package:path_finding/ui/widgets/onboarding/onboarding_dijkstra.dart';
 import 'package:path_finding/ui/widgets/onboarding/onboarding_welcome.dart';
 
 class OnboardingDialog extends HookConsumerWidget {
@@ -13,6 +17,10 @@ class OnboardingDialog extends HookConsumerWidget {
   final pages = const [
     OnboardingWelcome(),
     OnboardingControlls(),
+    OnboardingDijkstra(),
+    OnboardingAstar(),
+    OnboardingBreadthFirstSearch(),
+    OnboardingDepthFirstSearch(),
   ];
 
   @override
@@ -28,9 +36,9 @@ class OnboardingDialog extends HookConsumerWidget {
     return Dialog(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(24))),
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 243, 243, 243),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxHeight: 400, maxWidth: 600),
+        constraints: const BoxConstraints(maxHeight: 600, maxWidth: 600),
         child: Stack(
           children: [
             Padding(
@@ -48,7 +56,7 @@ class OnboardingDialog extends HookConsumerWidget {
                 offset: const Offset(6, -6),
                 child: Container(
                   decoration: const BoxDecoration(
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 243, 243, 243),
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(20),
                       topLeft: Radius.circular(24),

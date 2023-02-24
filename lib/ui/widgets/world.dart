@@ -20,7 +20,8 @@ class _WorldState extends ConsumerState<World> {
   static const minimumActionsPannelHeight = Square.size * 5;
   late double totalSquaesGridHeight;
   List<Widget> squares = [];
-  _WorldState();
+  int widowWidth = 0;
+  int widowHeight = 0;
 
   @override
   initState() {
@@ -34,6 +35,29 @@ class _WorldState extends ConsumerState<World> {
 
   @override
   Widget build(BuildContext context) {
+    // // log('Window width: ${window.screen?.width}');
+    // // log('inner width: ${window.innerWidth}');
+    // final currentWidth = window.screen?.width;
+    // final currentHeight = window.screen?.height;
+    // if (widowHeight != currentWidth || widowHeight != currentHeight) {
+    //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //     log('Changed to $widowHeight - $widowWidth');
+    //     setState(() {
+    //       _initGrid();
+    //       widowHeight = currentHeight ?? 0;
+    //       widowWidth = currentWidth ?? 0;
+    //     });
+    //   });
+    // }
+    // return NotificationListener<SizeChangedLayoutNotification>(
+    //   onNotification: (notification) {
+    //     log('NOTIFIED! \n $notification');
+    //     setState(() {
+    //       _initGrid();
+    //     });
+    //     return false;
+    //   },
+    //   child:
     return Scaffold(
       backgroundColor: Colors.blueGrey[900],
       body: Stack(
@@ -58,10 +82,12 @@ class _WorldState extends ConsumerState<World> {
           const Pannel(),
         ],
       ),
+      // ),
     );
   }
 
   void _initGrid() {
+    squares.clear();
     final availableHeightForSquares =
         (window.screen?.height ?? 0) - minimumActionsPannelHeight;
     final numberOfSquaresThatFitHeight =

@@ -40,6 +40,7 @@ dependencies:
   lottie: ^2.1.0
   riverpod: ^2.0.2
   rxdart: ^0.27.5
+  url_launcher: ^6.1.9
   uuid: ^3.0.6
 
 dev_dependencies:
@@ -63,6 +64,7 @@ flutter:
     - assets/
     - assets/svg/
     - assets/lotties/
+    - assets/images/
 
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

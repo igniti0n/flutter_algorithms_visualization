@@ -11,21 +11,36 @@ class OnboardingControlls extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return IntrinsicHeight(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const UnitRoundedText(
-            'Use the mouse to place start & end points, as well as build/remove walls.',
-          ),
-          const SizedBox(
-            height: 20,
+            'Controlls',
+            bold: true,
+            fontSize: 22,
           ),
           Expanded(
-            child: Image.asset(
-              "assets/tutorial_controlls.gif",
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: const [
+                _TextWithImage(
+                  text: 'Choose what algorithm you wanna use :)',
+                  imagePath: 'assets/images/algorithm_choosing.png',
+                ),
+                _TextWithImage(
+                  text:
+                      'Control costs of horizontal & diagonal movement, turn on/off diagonal movement.',
+                  imagePath: 'assets/images/cost_controlls.png',
+                ),
+                _TextWithImage(
+                  text: 'Slow down time to see the algorithm work better 🪄',
+                  imagePath: 'assets/images/time_controll.png',
+                ),
+                _TextWithImage(
+                  text:
+                      'Delete all with the trash can, or reset the algorithm to start.',
+                  imagePath: 'assets/images/delete_reset.png',
+                ),
+              ],
             ),
-          ),
-          const SizedBox(
-            height: 20,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -40,13 +55,47 @@ class OnboardingControlls extends ConsumerWidget {
                 width: 60,
               ),
               BlueTextButton(
-                text: 'Let\'s go!',
-                onPressed: Navigator.of(context).pop,
+                text: 'How algorithms work?',
+                onPressed: () => ref
+                    .read(onboardingPageStateNotifierProvider.notifier)
+                    .goToNextPage(),
               ),
             ],
           ),
         ],
       ),
+    );
+  }
+}
+
+class _TextWithImage extends StatelessWidget {
+  final String text;
+  final String imagePath;
+  const _TextWithImage({
+    required this.text,
+    required this.imagePath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: UnitRoundedText(
+            text,
+          ),
+        ),
+        const SizedBox(
+          width: 12,
+        ),
+        Image.asset(
+          imagePath,
+          height: 64,
+        ),
+        const SizedBox(
+          width: 12,
+        ),
+      ],
     );
   }
 }

@@ -7,8 +7,8 @@ import 'package:path_finding/ui/common/text/unit_rounded_text.dart';
 import 'package:path_finding/ui/widgets/url_launcable_title.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class OnboardingDijkstra extends ConsumerWidget {
-  const OnboardingDijkstra({super.key});
+class OnboardingDepthFirstSearch extends ConsumerWidget {
+  const OnboardingDepthFirstSearch({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,19 +17,21 @@ class OnboardingDijkstra extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           UrlLaunchableTitle(
-            text: 'Dijsktra\'s algorithm',
-            onPressed: () =>
-                launchUrl(Uri.parse('https://medium.com/p/32b73722406a/edit')),
+            text: 'Depth-first search',
+            onPressed: () => launchUrl(
+                Uri.parse('https://en.wikipedia.org/wiki/Depth-first_search')),
           ),
           const SizedBox(
             height: 20,
           ),
           Expanded(
             child: Image.asset(
-              "assets/dijkstra.gif",
+              "assets/dfs.gif",
             ),
           ),
-          const UnitRoundedText(Texts.dijsktraExplenation),
+          const UnitRoundedText(
+            Texts.depthFirstExplenation,
+          ),
           const SizedBox(
             height: 20,
           ),
@@ -46,10 +48,8 @@ class OnboardingDijkstra extends ConsumerWidget {
                 width: 60,
               ),
               BlueTextButton(
-                text: 'Whats A* algorithm?',
-                onPressed: () => ref
-                    .read(onboardingPageStateNotifierProvider.notifier)
-                    .goToNextPage(),
+                text: 'Got it!',
+                onPressed: () => Navigator.of(context).pop(),
               ),
             ],
           ),
