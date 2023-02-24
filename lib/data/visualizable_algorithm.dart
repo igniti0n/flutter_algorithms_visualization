@@ -12,7 +12,7 @@ abstract class VisualizableAlgorithm {
   Node startNode = Node(x: 10, y: 20);
   double _diagonalPathCost = 2;
   double _horizontalAndVerticalPathCost = 1;
-  bool isDiagonalMovementEnabeld = true;
+  bool isDiagonalMovementEnabeld = false;
   bool isRunning = false;
   int animationTimeDelay = 100;
   void Function(NodesArray nodes) onStepUpdate;
