@@ -14,6 +14,10 @@ Dijkstra's algorithm explained, with the help of this visualization project
 
 [https://github.com/igniti0n/flutter_algorithms_visualization](https://medium.com/p/32b73722406a)
 
+A* algorithm explained
+
+https://www.youtube.com/watch?v=ySN5Wnu88nE
+
 # Ideas :sparkles:
 
 - :white_check_mark: Add time control, to increase/decrease time step
