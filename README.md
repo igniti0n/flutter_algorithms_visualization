@@ -8,6 +8,12 @@ Feel free to contribute by opening some PR's :fire:
 ![](https://github.com/igniti0n/flutter_algorithms_visualization/blob/main/assets/a_star.gif)
 ![](https://github.com/igniti0n/flutter_algorithms_visualization/blob/main/assets/maze.gif)
 
+# Learning
+
+Dijkstra's algorithm explained, with the help of this visualization project 
+
+https://github.com/igniti0n/flutter_algorithms_visualization
+
 # Ideas :sparkles:
 
 - :white_check_mark: Add time control, to increase/decrease time step
