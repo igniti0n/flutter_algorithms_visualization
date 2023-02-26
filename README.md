@@ -12,7 +12,7 @@ Feel free to contribute by opening some PR's :fire:
 
 Dijkstra's algorithm explained, with the help of this visualization project 
 
-https://github.com/igniti0n/flutter_algorithms_visualization
+[https://github.com/igniti0n/flutter_algorithms_visualization](https://medium.com/p/32b73722406a)
 
 # Ideas :sparkles:
 
