@@ -17,8 +17,8 @@ class World extends ConsumerStatefulWidget {
 }
 
 class _WorldState extends ConsumerState<World> {
-  static const minimumActionsPannelHeight = Square.size * 5;
-  late double totalSquaesGridHeight;
+  static const minimumActionsPanelHeight = Square.size * 5;
+  late double totalSquaresGridHeight;
   List<Widget> squares = [];
   int widowWidth = 0;
   int widowHeight = 0;
@@ -65,7 +65,7 @@ class _WorldState extends ConsumerState<World> {
           Column(
             children: [
               SizedBox(
-                height: totalSquaesGridHeight,
+                height: totalSquaresGridHeight,
                 width: double.infinity,
                 child: RepaintBoundary(
                   child: Stack(
@@ -87,9 +87,9 @@ class _WorldState extends ConsumerState<World> {
 
   void _initGrid() {
     squares.clear();
-    final availableHeightForSquares = (window.screen?.height ?? 0) - minimumActionsPannelHeight;
+    final availableHeightForSquares = (window.screen?.height ?? 0) - minimumActionsPanelHeight;
     final numberOfSquaresThatFitHeight = (availableHeightForSquares / Square.size.toInt()).floor();
-    totalSquaesGridHeight = numberOfSquaresThatFitHeight * Square.size;
+    totalSquaresGridHeight = numberOfSquaresThatFitHeight * Square.size;
     final availableWidthForSquares = (window.screen?.width ?? 0);
     final numberOfSquaresThatFitWidth = (availableWidthForSquares / Square.size.toInt()).floor();
     ref
