@@ -5,21 +5,20 @@ import 'package:path_finding/data/nodes_repository.dart';
 import 'package:path_finding/data/recursive_division_algorithm.dart';
 
 /// Defines what a path finding algorithm needs and tools to visualize it
-abstract class VisualizableAlgorithm {
+abstract class VisualizeAlgorithm {
   List<Node> nodesStack = [];
   List<Node> doneNodes = [];
   Node goalNode = Node(x: 20, y: 20);
   Node startNode = Node(x: 10, y: 20);
   double _diagonalPathCost = 2;
   double _horizontalAndVerticalPathCost = 1;
-  bool isDiagonalMovementEnabeld = false;
+  bool isDiagonalMovementEnabled = false;
   bool isRunning = false;
   int animationTimeDelay = 100;
   void Function(NodesArray nodes) onStepUpdate;
   NodesArray allNodes = [];
 
-  VisualizableAlgorithm(
-      {NodesArray? nodesToStartWith, required this.onStepUpdate}) {
+  VisualizeAlgorithm({NodesArray? nodesToStartWith, required this.onStepUpdate}) {
     allNodes = nodesToStartWith ?? [];
   }
 
@@ -30,8 +29,7 @@ abstract class VisualizableAlgorithm {
   }) {
     this.onStepUpdate = onStepUpdate;
     allNodes = _generateInitialEmptyNodes(
-        numberOfNodesInRow: numberOfNodesInRow,
-        numberOfNodesInColumn: numberOfNodesInColumn);
+        numberOfNodesInRow: numberOfNodesInRow, numberOfNodesInColumn: numberOfNodesInColumn);
     setDiagonalPathCostTo(cost: _diagonalPathCost);
     setHorizontalAndVerticalPathCostTo(cost: _horizontalAndVerticalPathCost);
   }
@@ -41,16 +39,14 @@ abstract class VisualizableAlgorithm {
     required int numberOfNodesInColumn,
   }) {
     return List.generate(
-        numberOfNodesInRow,
-        (x) => List.generate(numberOfNodesInColumn + 1, (y) => Node(x: x, y: y),
-            growable: false),
+        numberOfNodesInRow, (x) => List.generate(numberOfNodesInColumn + 1, (y) => Node(x: x, y: y), growable: false),
         growable: false);
   }
 
-  /// Implementation of the alorithm
+  /// Implementation of the algorithm
   Future<void> algorithmImplementation(Node startNode);
 
-  /// Setus up clear state for running the algorithm and calls [algorithmImplementation]
+  /// Setup clear state for running the algorithm and calls [algorithmImplementation]
   Future<void> runAlgorithm() async {
     if (isRunning) {
       return;
@@ -91,8 +87,7 @@ abstract class VisualizableAlgorithm {
   }
 
   /// Returns `true` if the node is outside of [allNodes] array bounds or is the parent node
-  bool isNodeParentNodeOrOutsideOfBounds(
-      {required int i, required int j, required Node parentNode}) {
+  bool isNodeParentNodeOrOutsideOfBounds({required int i, required int j, required Node parentNode}) {
     final nodesLength = allNodes.length;
     final rowLength = allNodes[0].length;
     if (i < 0 || j < 0 || i >= nodesLength || j >= rowLength) {
@@ -104,7 +99,7 @@ abstract class VisualizableAlgorithm {
     return false;
   }
 
-  /// Returns `true` if the node is a wall or if it is allready in the [doneNodes]
+  /// Returns `true` if the node is a wall or if it is already in the [doneNodes]
   bool isNodeWallOrDone({required Node node}) {
     if (node.isWall || doneNodes.any(((element) => element.id == node.id))) {
       return true;
@@ -122,12 +117,12 @@ abstract class VisualizableAlgorithm {
       }
       if (child.isStart) {
         allNodes[child.x][child.y].isOnTraceablePathToGoal = true;
-        await showUpdatedNodes(overridenAnimationDelayInMilliseconds: 70000);
+        await showUpdatedNodes(overriddenAnimationDelayInMilliseconds: 70000);
         return;
       }
       allNodes[child.x][child.y].isOnTraceablePathToGoal = true;
       child = child.cameFromNode;
-      await showUpdatedNodes(overridenAnimationDelayInMilliseconds: 70000);
+      await showUpdatedNodes(overriddenAnimationDelayInMilliseconds: 70000);
     }
   }
 
@@ -141,19 +136,14 @@ abstract class VisualizableAlgorithm {
   }
 
   /// Sends updated version of nodes to be shown on the screen.
-  Future<void> showUpdatedNodes(
-      {int? overridenAnimationDelayInMilliseconds}) async {
+  Future<void> showUpdatedNodes({int? overriddenAnimationDelayInMilliseconds}) async {
     onStepUpdate(allNodes);
-    await Future.delayed(Duration(
-        microseconds:
-            overridenAnimationDelayInMilliseconds ?? animationTimeDelay));
+    await Future.delayed(Duration(microseconds: overriddenAnimationDelayInMilliseconds ?? animationTimeDelay));
   }
 
-  void setDiagonalPathCostTo({required double cost}) =>
-      _diagonalPathCost = cost;
+  void setDiagonalPathCostTo({required double cost}) => _diagonalPathCost = cost;
 
-  void setHorizontalAndVerticalPathCostTo({required double cost}) =>
-      _horizontalAndVerticalPathCost = cost;
+  void setHorizontalAndVerticalPathCostTo({required double cost}) => _horizontalAndVerticalPathCost = cost;
 
   double get diagonalPathCost => _diagonalPathCost;
 
@@ -186,8 +176,8 @@ abstract class VisualizableAlgorithm {
     showUpdatedNodes();
   }
 
-  void setIsDiagonalMovementEnabeld({required bool toValue}) async {
-    isDiagonalMovementEnabeld = toValue;
+  void setIsDiagonalMovementEnabled({required bool toValue}) async {
+    isDiagonalMovementEnabled = toValue;
   }
 
   void resetAt(int x, int y) async {
@@ -196,8 +186,7 @@ abstract class VisualizableAlgorithm {
   }
 
   /// Performs a change with [changeNode] on a first node that is not a wall. Attempts to start at coordinates [startX] : [startY]
-  void changeOnFirstClearNode(
-      int startX, startY, void Function() Function(Node node) changeNode) {
+  void changeOnFirstClearNode(int startX, startY, void Function() Function(Node node) changeNode) {
     int x = startX;
     int y = startY;
     while (allNodes[x][y].isWall) {
@@ -222,7 +211,7 @@ abstract class VisualizableAlgorithm {
     await showUpdatedNodes();
   }
 
-  /// Resets everything, *whitout* walls, start, and goal node
+  /// Resets everything, *without* walls, start, and goal node
   void resetAlgorithmToStart() async {
     for (var nodesRow in allNodes) {
       for (var node in nodesRow) {

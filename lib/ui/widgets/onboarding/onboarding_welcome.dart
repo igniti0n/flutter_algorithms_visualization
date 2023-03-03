@@ -28,7 +28,7 @@ class OnboardingWelcome extends ConsumerWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: UnitRoundedText(
-              'Play arround with different ways to visualize path finding, I hope you enjoy it as much as I did making it :D',
+              'Play around with different ways to visualize path finding, I hope you enjoy it as much as I did making it :D',
             ),
           ),
           const Padding(
@@ -72,9 +72,7 @@ class OnboardingWelcome extends ConsumerWidget {
           ),
           BlueTextButton(
             text: 'Continue',
-            onPressed: () => ref
-                .read(onboardingPageStateNotifierProvider.notifier)
-                .goToNextPage(),
+            onPressed: () => ref.read(onboardingPageStateNotifierProvider.notifier).goToNextPage(),
           ),
         ],
       ),

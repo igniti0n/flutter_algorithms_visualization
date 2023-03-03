@@ -4,7 +4,7 @@ import 'package:path_finding/notifiers/onboarding_page_state_notifier.dart';
 import 'package:path_finding/ui/common/blue_text_button.dart';
 import 'package:path_finding/ui/common/text/texts.dart';
 import 'package:path_finding/ui/common/text/unit_rounded_text.dart';
-import 'package:path_finding/ui/widgets/url_launcable_title.dart';
+import 'package:path_finding/ui/widgets/url_launchable_title.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OnboardingAstar extends ConsumerWidget {
@@ -18,8 +18,7 @@ class OnboardingAstar extends ConsumerWidget {
         children: [
           UrlLaunchableTitle(
             text: 'A* algorithm',
-            onPressed: () => launchUrl(
-                Uri.parse('https://www.youtube.com/watch?v=ySN5Wnu88nE')),
+            onPressed: () => launchUrl(Uri.parse('https://www.youtube.com/watch?v=ySN5Wnu88nE')),
           ),
           const SizedBox(
             height: 20,
@@ -30,7 +29,7 @@ class OnboardingAstar extends ConsumerWidget {
             ),
           ),
           const UnitRoundedText(
-            Texts.aStarExplenation,
+            Texts.aStarExplanation,
           ),
           const SizedBox(
             height: 20,
@@ -40,18 +39,14 @@ class OnboardingAstar extends ConsumerWidget {
             children: [
               BlueTextButton(
                 text: 'Previous',
-                onPressed: () => ref
-                    .read(onboardingPageStateNotifierProvider.notifier)
-                    .goToPreviousPage(),
+                onPressed: () => ref.read(onboardingPageStateNotifierProvider.notifier).goToPreviousPage(),
               ),
               const SizedBox(
                 width: 60,
               ),
               BlueTextButton(
                 text: 'BFS & DFS?',
-                onPressed: () => ref
-                    .read(onboardingPageStateNotifierProvider.notifier)
-                    .goToNextPage(),
+                onPressed: () => ref.read(onboardingPageStateNotifierProvider.notifier).goToNextPage(),
               ),
             ],
           ),

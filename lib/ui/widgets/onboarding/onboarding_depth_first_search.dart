@@ -4,7 +4,7 @@ import 'package:path_finding/notifiers/onboarding_page_state_notifier.dart';
 import 'package:path_finding/ui/common/blue_text_button.dart';
 import 'package:path_finding/ui/common/text/texts.dart';
 import 'package:path_finding/ui/common/text/unit_rounded_text.dart';
-import 'package:path_finding/ui/widgets/url_launcable_title.dart';
+import 'package:path_finding/ui/widgets/url_launchable_title.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OnboardingDepthFirstSearch extends ConsumerWidget {
@@ -18,8 +18,7 @@ class OnboardingDepthFirstSearch extends ConsumerWidget {
         children: [
           UrlLaunchableTitle(
             text: 'Depth-first search',
-            onPressed: () => launchUrl(
-                Uri.parse('https://en.wikipedia.org/wiki/Depth-first_search')),
+            onPressed: () => launchUrl(Uri.parse('https://en.wikipedia.org/wiki/Depth-first_search')),
           ),
           const SizedBox(
             height: 20,
@@ -30,7 +29,7 @@ class OnboardingDepthFirstSearch extends ConsumerWidget {
             ),
           ),
           const UnitRoundedText(
-            Texts.depthFirstExplenation,
+            Texts.depthFirstExplanation,
           ),
           const SizedBox(
             height: 20,
@@ -40,9 +39,7 @@ class OnboardingDepthFirstSearch extends ConsumerWidget {
             children: [
               BlueTextButton(
                 text: 'Previous',
-                onPressed: () => ref
-                    .read(onboardingPageStateNotifierProvider.notifier)
-                    .goToPreviousPage(),
+                onPressed: () => ref.read(onboardingPageStateNotifierProvider.notifier).goToPreviousPage(),
               ),
               const SizedBox(
                 width: 60,

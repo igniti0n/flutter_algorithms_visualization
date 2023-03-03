@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/gestures/events.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,23 +34,14 @@ class _SquareState extends ConsumerState<Square> {
   Widget build(BuildContext context) {
     final isLearningModeOn = ref.watch(isLearningModeOnStateProvider);
 
-    ref.listen<Node>(nodeProvider(NodeCoordinate(widget.x, widget.y)),
-        (_, updatedNode) {
+    ref.listen<Node>(nodeProvider(NodeCoordinate(widget.x, widget.y)), (_, updatedNode) {
       if (node.isDifferent(updatedNode)) {
         setState(() {
           node = updatedNode;
         });
         if (node.isGoalNodeAndFound) {
-          ref
-              .read(playableLottieStateNotifierProvider(
-                      PlayableLottieAsset.goalFlag)
-                  .notifier)
-              .resetAnimation();
-          ref
-              .read(playableLottieStateNotifierProvider(
-                      PlayableLottieAsset.goalFlag)
-                  .notifier)
-              .playForward();
+          ref.read(playableLottieStateNotifierProvider(PlayableLottieAsset.goalFlag).notifier).resetAnimation();
+          ref.read(playableLottieStateNotifierProvider(PlayableLottieAsset.goalFlag).notifier).playForward();
         }
       }
     });
@@ -76,17 +67,14 @@ class _SquareState extends ConsumerState<Square> {
                   style: const TextStyle(fontSize: 7, color: Colors.white),
                 ),
               ),
-            if (isLearningModeOn &&
-                !node.isWall &&
-                node.isCurrentlyBeingVisited)
+            if (isLearningModeOn && !node.isWall && node.isCurrentlyBeingVisited)
               Container(
                 width: Square.size,
                 height: Square.size,
                 decoration: BoxDecoration(
                     color: AppColors.idleColor.withOpacity(0.6),
                     shape: BoxShape.circle,
-                    border: Border.all(
-                        color: Colors.red.withOpacity(0.6), width: 2)),
+                    border: Border.all(color: Colors.red.withOpacity(0.6), width: 2)),
               )
           ],
         ),
@@ -101,9 +89,7 @@ class _SquareState extends ConsumerState<Square> {
       if (isGoalDragged) {
         ref.read(nodesStateNotifierProvider.notifier).setGoalAt(node.x, node.y);
       } else if (isStartDragged) {
-        ref
-            .read(nodesStateNotifierProvider.notifier)
-            .setStartAt(node.x, node.y);
+        ref.read(nodesStateNotifierProvider.notifier).setStartAt(node.x, node.y);
       } else {
         _toggleWall(ref, context);
       }
@@ -115,13 +101,9 @@ class _SquareState extends ConsumerState<Square> {
     final isStartDragged = ref.read(isStartDraggedStateProvider);
 
     if (isGoalDragged && event.down) {
-      ref
-          .read(nodesStateNotifierProvider.notifier)
-          .removeGoalAt(node.x, node.y);
+      ref.read(nodesStateNotifierProvider.notifier).removeGoalAt(node.x, node.y);
     } else if (isStartDragged && event.down) {
-      ref
-          .read(nodesStateNotifierProvider.notifier)
-          .removeStartAt(node.x, node.y);
+      ref.read(nodesStateNotifierProvider.notifier).removeStartAt(node.x, node.y);
     }
   }
 
@@ -166,7 +148,7 @@ class _SquareState extends ConsumerState<Square> {
     if (node.isVisited) {
       return const Color.fromARGB(219, 64, 156, 255);
     }
-    // Leagning mode disabeld currently
+    // Learning mode disabled currently
     if (isLearningModeOn) {
       if (node.isTopPriority) {
         return Colors.blue[800]!;
@@ -196,7 +178,7 @@ class _Body extends HookWidget {
   @override
   Widget build(BuildContext context) {
     // final colorTween = ColorTween(begin: Colors.black, end: color);
-    // final controler = useAnim
+    // final controller = useAnim
     // final animation = colorTween.animate
 
     return Container(
@@ -241,14 +223,12 @@ class _Body extends HookWidget {
                     ? null
                     : BoxDecoration(
                         color: color.withOpacity(0.45),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(2)),
+                        borderRadius: const BorderRadius.all(Radius.circular(2)),
                       ),
                 child: (!node.isVisited)
                     ? null
                     : TweenAnimationBuilder<Color?>(
-                        tween: ColorTween(
-                            begin: Colors.deepPurpleAccent, end: color),
+                        tween: ColorTween(begin: Colors.deepPurpleAccent, end: color),
                         curve: Curves.easeIn,
                         duration: const Duration(milliseconds: 400),
                         builder: (_, value, __) => DecoratedBox(

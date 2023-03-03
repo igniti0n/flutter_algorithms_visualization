@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ProviderScope(
       child: MaterialApp(
-        title: 'Path finding demo',
+        title: 'Path Finding Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

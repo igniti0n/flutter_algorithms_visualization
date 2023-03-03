@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:path_finding/ui/widgets/square.dart';
 
-// Not used because perfomance loss for now :(, does make a nice brick wall tough...
+// Not used because performance loss for now :(, does make a nice brick wall tough...
 class Brick extends StatelessWidget {
   const Brick({super.key});
 
@@ -23,23 +23,22 @@ class Brick extends StatelessWidget {
 class BrickPainter extends CustomPainter {
   static const radius = 2.0;
   static const spacing = 2;
-  late final double middleRowOfset;
-  late final double bottomRowOfset;
+  late final double middleRowOffset;
+  late final double bottomRowOffset;
 
   BrickPainter() : super() {
-    middleRowOfset = Random().nextDouble() * 8;
-    bottomRowOfset = Random().nextDouble() * 8;
+    middleRowOffset = Random().nextDouble() * 8;
+    bottomRowOffset = Random().nextDouble() * 8;
   }
 
   @override
   void paint(Canvas canvas, Size size) {
-    final brickPaint = Paint()
-      ..color = Colors.deepOrangeAccent.withOpacity(0.3);
+    final brickPaint = Paint()..color = Colors.deepOrangeAccent.withOpacity(0.3);
     final brickWidth = size.width / 1.9;
     final brickHeight = size.height / 3.5;
 
 // top row
-    var rrect2 = RRect.fromLTRBAndCorners(
+    var rRect2 = RRect.fromLTRBAndCorners(
       0,
       0,
       brickWidth,
@@ -50,7 +49,7 @@ class BrickPainter extends CustomPainter {
       topRight: const Radius.circular(radius),
     );
 
-    var rrect = RRect.fromLTRBAndCorners(
+    var rRect = RRect.fromLTRBAndCorners(
       brickWidth + spacing,
       0,
       brickWidth + spacing + brickWidth,
@@ -62,10 +61,10 @@ class BrickPainter extends CustomPainter {
     );
 
     // middle row
-    var rrect3 = RRect.fromLTRBAndCorners(
-      0 - middleRowOfset,
+    var rRect3 = RRect.fromLTRBAndCorners(
+      0 - middleRowOffset,
       brickHeight + spacing,
-      brickWidth - middleRowOfset,
+      brickWidth - middleRowOffset,
       brickHeight + spacing + brickHeight,
       bottomLeft: const Radius.circular(radius),
       bottomRight: const Radius.circular(radius),
@@ -73,10 +72,10 @@ class BrickPainter extends CustomPainter {
       topRight: const Radius.circular(radius),
     );
 
-    var rrect4 = RRect.fromLTRBAndCorners(
-      brickWidth + spacing - middleRowOfset,
+    var rRect4 = RRect.fromLTRBAndCorners(
+      brickWidth + spacing - middleRowOffset,
       brickHeight + spacing,
-      brickWidth + spacing + brickWidth - middleRowOfset + 10,
+      brickWidth + spacing + brickWidth - middleRowOffset + 10,
       brickHeight + spacing + brickHeight,
       bottomLeft: const Radius.circular(radius),
       bottomRight: const Radius.circular(radius),
@@ -84,10 +83,10 @@ class BrickPainter extends CustomPainter {
       topRight: const Radius.circular(radius),
     );
     // bottom row
-    var rrect5 = RRect.fromLTRBAndCorners(
-      -10 + bottomRowOfset,
+    var rRect5 = RRect.fromLTRBAndCorners(
+      -10 + bottomRowOffset,
       brickHeight * 2 + spacing * 2,
-      brickWidth + bottomRowOfset,
+      brickWidth + bottomRowOffset,
       brickHeight * 3 + spacing * 2,
       bottomLeft: const Radius.circular(radius),
       bottomRight: const Radius.circular(radius),
@@ -95,10 +94,10 @@ class BrickPainter extends CustomPainter {
       topRight: const Radius.circular(radius),
     );
 
-    var rrect6 = RRect.fromLTRBAndCorners(
-      brickWidth + spacing + bottomRowOfset,
+    var rRect6 = RRect.fromLTRBAndCorners(
+      brickWidth + spacing + bottomRowOffset,
       brickHeight * 2 + spacing * 2,
-      brickWidth + spacing + brickWidth + bottomRowOfset,
+      brickWidth + spacing + brickWidth + bottomRowOffset,
       brickHeight * 3 + spacing * 2,
       bottomLeft: const Radius.circular(radius),
       bottomRight: const Radius.circular(radius),
@@ -106,12 +105,12 @@ class BrickPainter extends CustomPainter {
       topRight: const Radius.circular(radius),
     );
 
-    canvas.drawRRect(rrect, brickPaint);
-    canvas.drawRRect(rrect2, brickPaint);
-    canvas.drawRRect(rrect3, brickPaint);
-    canvas.drawRRect(rrect4, brickPaint);
-    canvas.drawRRect(rrect5, brickPaint);
-    canvas.drawRRect(rrect6, brickPaint);
+    canvas.drawRRect(rRect, brickPaint);
+    canvas.drawRRect(rRect2, brickPaint);
+    canvas.drawRRect(rRect3, brickPaint);
+    canvas.drawRRect(rRect4, brickPaint);
+    canvas.drawRRect(rRect5, brickPaint);
+    canvas.drawRRect(rRect6, brickPaint);
   }
 
   @override

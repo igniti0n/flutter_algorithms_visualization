@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final isDiagonalMovementEnabelsStateProvider = StateProvider<bool>(
+final isDiagonalMovementEnableStateProvider = StateProvider<bool>(
   (ref) => false,
 );

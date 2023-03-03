@@ -8,15 +8,12 @@ class AstarAlgorithm extends DijkstraAlgorithm {
   @override
   Future<void> visitNode(Node currentlyLookingNode, Node parentNode) async {
     // Calculate cost to go to node
-    final isOnDiagonal = isNodeOnDiagonal(
-        currentlyLookingNode: currentlyLookingNode, parentNode: parentNode);
-    var costToGoToNode = parentNode.currentPathCost +
-        (isOnDiagonal ? diagonalPathCost : horizontalAndVerticalPathCost);
-    // caluclate distance to goal,  and save it in the node
-    final distanceToGoalNode = calculateDistance(
-        currentlyLookingNode.x, currentlyLookingNode.y, goalNode.x, goalNode.y);
-    allNodes[currentlyLookingNode.x][currentlyLookingNode.y].distanceToGoal =
-        distanceToGoalNode * 10;
+    final isOnDiagonal = isNodeOnDiagonal(currentlyLookingNode: currentlyLookingNode, parentNode: parentNode);
+    var costToGoToNode = parentNode.currentPathCost + (isOnDiagonal ? diagonalPathCost : horizontalAndVerticalPathCost);
+    // Calculate distance to goal,  and save it in the node
+    final distanceToGoalNode =
+        calculateDistance(currentlyLookingNode.x, currentlyLookingNode.y, goalNode.x, goalNode.y);
+    allNodes[currentlyLookingNode.x][currentlyLookingNode.y].distanceToGoal = distanceToGoalNode * 10;
     // only the path cost is being looked for when moving to the node
     if (costToGoToNode < currentlyLookingNode.currentPathCost) {
       currentlyLookingNode.currentPathCost = costToGoToNode;
@@ -29,8 +26,7 @@ class AstarAlgorithm extends DijkstraAlgorithm {
   @override
   void sortNodesStackAfterOneTurn(List<Node> nodesStack) {
     nodesStack.sort(
-      (a, b) => (b.currentPathCost + b.distanceToGoal)
-          .compareTo(a.currentPathCost + a.distanceToGoal),
+      (a, b) => (b.currentPathCost + b.distanceToGoal).compareTo(a.currentPathCost + a.distanceToGoal),
     );
   }
 }

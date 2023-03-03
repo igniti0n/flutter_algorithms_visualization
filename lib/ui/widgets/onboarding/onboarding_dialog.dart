@@ -16,7 +16,7 @@ class OnboardingDialog extends HookConsumerWidget {
 
   final pages = const [
     OnboardingWelcome(),
-    OnboardingControlls(),
+    OnboardingControls(),
     OnboardingDijkstra(),
     OnboardingAstar(),
     OnboardingBreadthFirstSearch(),
@@ -29,13 +29,11 @@ class OnboardingDialog extends HookConsumerWidget {
 
     ref.listen<int>(onboardingPageStateNotifierProvider, (_, nextPageIndex) {
       log('Changed to $nextPageIndex');
-      pageController.animateToPage(nextPageIndex,
-          duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
+      pageController.animateToPage(nextPageIndex, duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
     });
 
     return Dialog(
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(24))),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(24))),
       backgroundColor: const Color.fromARGB(255, 243, 243, 243),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 600, maxWidth: 600),

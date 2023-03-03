@@ -9,7 +9,7 @@ Drunk - How a drunk person would look for the shortest path, no real use here, j
 
 ''';
 
-  static const dijsktraExplenation = '''
+  static const dijsktraExplanation = '''
 
 - Guarantees the shortest path
 - Has NO sense of direction to where the end node is.
@@ -18,22 +18,22 @@ The algorithm serves as a basis in areas such as telecommunications, maze-solvin
 
 ''';
 
-  static const aStarExplenation = '''
+  static const aStarExplanation = '''
 
 - Guarantees the shortest path
-- Propritizes nodes closest to the end node
+- Prioritizes nodes closest to the end node
 
 This additional condition makes A* algorithm much more effective.
 ''';
 
-  static const breadthFirstExplenation = '''
+  static const breadthFirstExplanation = '''
 
 BFS starts at the tree root and explores all nodes at the present depth prior to moving on to the nodes at the next depth level.
 
 It can be used to find the shortest path between two vertices in an unweighted graph. So, changing the costs won't have effect on this algorithm :)
 ''';
 
-  static const depthFirstExplenation = '''
+  static const depthFirstExplanation = '''
 
 DFS starts at the root node and explores as far as possible along each branch before backtracking.
 

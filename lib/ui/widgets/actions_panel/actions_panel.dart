@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:path_finding/notifiers/is_learning_mode_on_state_provider.dart';
 import 'package:path_finding/notifiers/nodes_state_notifier.dart';
-import 'package:path_finding/notifiers/slected_shortest_path_algorithm_state_notifier.dart';
+import 'package:path_finding/notifiers/selected_shortest_path_algorithm_state_notifier.dart';
 import 'package:path_finding/ui/common/playable_lottie/playable_lottie.dart';
 import 'package:path_finding/ui/common/playable_lottie/playable_lottie_asset.dart';
 import 'package:path_finding/ui/common/text/unit_rounded_text.dart';
-import 'package:path_finding/ui/widgets/pannel/reset_buttons.dart';
-import 'package:path_finding/ui/widgets/pannel/sliders.dart';
+import 'package:path_finding/ui/widgets/panel/reset_buttons.dart';
+import 'package:path_finding/ui/widgets/panel/sliders.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ActionsPanel extends StatelessWidget {
@@ -79,8 +79,7 @@ class _CurrentlySelectedAlgorithm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedAlgorithm =
-        ref.watch(selectedShortestPathAlgorithmStateNotifier);
+    final selectedAlgorithm = ref.watch(selectedShortestPathAlgorithmStateNotifier);
 
     return SizedBox(
       width: 80,
@@ -141,9 +140,7 @@ class _MainActions extends ConsumerWidget {
         const _CurrentlySelectedAlgorithm(),
         GestureDetector(
           onTap: () {
-            ref
-                .read(nodesStateNotifierProvider.notifier)
-                .resetAlgorithmToStart();
+            ref.read(nodesStateNotifierProvider.notifier).resetAlgorithmToStart();
             ref.read(nodesStateNotifierProvider.notifier).startAlgorithmAt();
           },
           child: SvgPicture.asset(
@@ -162,16 +159,8 @@ class _MainActions extends ConsumerWidget {
           isInitialValueAnimationEnd: true,
           gradientColors: const [Colors.orangeAccent, Colors.red],
           onTap: () {
-            ref
-                .read(playableLottieStateNotifierProvider(
-                        PlayableLottieAsset.maze)
-                    .notifier)
-                .resetAnimation();
-            ref
-                .read(playableLottieStateNotifierProvider(
-                        PlayableLottieAsset.maze)
-                    .notifier)
-                .playForward();
+            ref.read(playableLottieStateNotifierProvider(PlayableLottieAsset.maze).notifier).resetAnimation();
+            ref.read(playableLottieStateNotifierProvider(PlayableLottieAsset.maze).notifier).playForward();
             ref.read(nodesStateNotifierProvider.notifier).makeMaze();
           },
         ),
@@ -199,8 +188,7 @@ class _LearningModeSwitch extends ConsumerWidget {
         ),
         Switch.adaptive(
           value: isLearningModeOn,
-          onChanged: (newValue) =>
-              ref.read(isLearningModeOnStateProvider.notifier).state = newValue,
+          onChanged: (newValue) => ref.read(isLearningModeOnStateProvider.notifier).state = newValue,
         ),
       ],
     );

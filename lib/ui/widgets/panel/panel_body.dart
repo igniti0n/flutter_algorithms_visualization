@@ -2,14 +2,14 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_finding/notifiers/is_diagonal_movement_enabeld_state_provider.dart';
+import 'package:path_finding/notifiers/is_diagonal_movement_enabled_state_provider.dart';
 import 'package:path_finding/ui/colors.dart';
-import 'package:path_finding/ui/widgets/pannel/algorithm_button_picker.dart';
-import 'package:path_finding/ui/widgets/pannel/sliders.dart';
+import 'package:path_finding/ui/widgets/panel/algorithm_button_picker.dart';
+import 'package:path_finding/ui/widgets/panel/sliders.dart';
 
-class PannelBody extends ConsumerWidget {
+class PanelBody extends ConsumerWidget {
   static const double height = 180;
-  const PannelBody({Key? key}) : super(key: key);
+  const PanelBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,19 +52,17 @@ class _DiagonalCosts extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDiagonalMovementEnabeld =
-        ref.watch(isDiagonalMovementEnabelsStateProvider);
+    final isDiagonalMovementEnabled = ref.watch(isDiagonalMovementEnableStateProvider);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         ShaderMask(
-          blendMode:
-              isDiagonalMovementEnabeld ? BlendMode.dst : BlendMode.modulate,
+          blendMode: isDiagonalMovementEnabled ? BlendMode.dst : BlendMode.modulate,
           shaderCallback: (bounds) => ui.Gradient.linear(
             bounds.topRight,
             bounds.bottomRight,
-            isDiagonalMovementEnabeld
+            isDiagonalMovementEnabled
                 ? [Colors.transparent, Colors.transparent]
                 : [Colors.grey[900]!, Colors.grey[900]!],
           ),
@@ -74,10 +72,8 @@ class _DiagonalCosts extends ConsumerWidget {
           height: 10,
         ),
         Checkbox(
-          value: isDiagonalMovementEnabeld,
-          onChanged: (newValue) => ref
-              .read(isDiagonalMovementEnabelsStateProvider.notifier)
-              .state = newValue ?? false,
+          value: isDiagonalMovementEnabled,
+          onChanged: (newValue) => ref.read(isDiagonalMovementEnableStateProvider.notifier).state = newValue ?? false,
         )
       ],
     );

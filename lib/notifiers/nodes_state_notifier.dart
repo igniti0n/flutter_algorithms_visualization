@@ -1,12 +1,11 @@
 import 'dart:async';
 
 import 'package:path_finding/data/nodes_repository.dart';
-import 'package:path_finding/notifiers/is_diagonal_movement_enabeld_state_provider.dart';
+import 'package:path_finding/notifiers/is_diagonal_movement_enabled_state_provider.dart';
 import 'package:riverpod/riverpod.dart';
 
 final nodesStateNotifierProvider =
-    StateNotifierProvider<NodesNotifier, NodesArray>(
-        (ref) => NodesNotifier(ref.read(nodesRepositoryProvider), ref));
+    StateNotifierProvider<NodesNotifier, NodesArray>((ref) => NodesNotifier(ref.read(nodesRepositoryProvider), ref));
 
 class NodesNotifier extends StateNotifier<NodesArray> {
   final NodesRepository _nodesRepository;
@@ -17,12 +16,11 @@ class NodesNotifier extends StateNotifier<NodesArray> {
     this._ref,
   ) : super([]) {
     state = _nodesRepository.allNodes;
-    _nodesUpdateSubscription =
-        _nodesRepository.nodesArrayUpdateStream.listen(_onNodesArrayUpdate);
+    _nodesUpdateSubscription = _nodesRepository.nodesArrayUpdateStream.listen(_onNodesArrayUpdate);
     _ref.listen<bool>(
-      isDiagonalMovementEnabelsStateProvider,
-      (_, isDiagonalMovementEnabeld) => _nodesRepository
-          .setIsDiagonalMovementEnabeld(toValue: isDiagonalMovementEnabeld),
+      isDiagonalMovementEnableStateProvider,
+      (_, isDiagonalMovementEnabled) =>
+          _nodesRepository.setIsDiagonalMovementEnabled(toValue: isDiagonalMovementEnabled),
     );
     setWallAt(0, 0);
     resetAt(0, 0);
@@ -41,12 +39,8 @@ class NodesNotifier extends StateNotifier<NodesArray> {
     state = updatedArray;
   }
 
-  void init(
-          {required int numberOfNodesInRow,
-          required int numberOfNodesInColumn}) =>
-      _nodesRepository.init(
-          numberOfNodesInRow: numberOfNodesInRow,
-          numberOfNodesInColumn: numberOfNodesInColumn);
+  void init({required int numberOfNodesInRow, required int numberOfNodesInColumn}) =>
+      _nodesRepository.init(numberOfNodesInRow: numberOfNodesInRow, numberOfNodesInColumn: numberOfNodesInColumn);
 
   Future<void> startAlgorithmAt() async => _nodesRepository.startAlgorithmAt();
 
@@ -58,8 +52,7 @@ class NodesNotifier extends StateNotifier<NodesArray> {
 
   void setStartAt(int x, int y) async => _nodesRepository.setStartAt(x, y);
 
-  void removeStartAt(int x, int y) async =>
-      _nodesRepository.removeStartAt(x, y);
+  void removeStartAt(int x, int y) async => _nodesRepository.removeStartAt(x, y);
 
   void setWallAt(int x, int y) async => _nodesRepository.setWallAt(x, y);
 
@@ -67,6 +60,5 @@ class NodesNotifier extends StateNotifier<NodesArray> {
 
   void resetAll() async => _nodesRepository.resetAll();
 
-  void resetAlgorithmToStart() async =>
-      _nodesRepository.resetAlgorithmToStart();
+  void resetAlgorithmToStart() async => _nodesRepository.resetAlgorithmToStart();
 }
