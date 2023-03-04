@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_finding/notifiers/is_pannel_opened_provider.dart';
+import 'package:path_finding/notifiers/is_panel_opened_provider.dart';
 import 'package:path_finding/ui/colors.dart';
 
-class PannelPully extends ConsumerWidget {
-  const PannelPully({Key? key}) : super(key: key);
+class SlidingPanel extends ConsumerWidget {
+  const SlidingPanel({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isPannelOpened = ref.watch(isPannelOpenedProvider);
+    final isPanelOpened = ref.watch(isPanelOpenedProvider);
 
     return GestureDetector(
-      onTap: () =>
-          ref.read(isPannelOpenedProvider.notifier).state = !isPannelOpened,
+      onTap: () => ref.read(isPanelOpenedProvider.notifier).state = !isPanelOpened,
       child: Container(
         decoration: const BoxDecoration(
           color: AppColors.panelBackground,
@@ -25,9 +24,7 @@ class PannelPully extends ConsumerWidget {
         height: 58,
         width: 64,
         child: Icon(
-          isPannelOpened
-              ? Icons.arrow_drop_up_rounded
-              : Icons.arrow_drop_down_rounded,
+          isPanelOpened ? Icons.arrow_drop_up_rounded : Icons.arrow_drop_down_rounded,
           size: 68,
         ),
       ),

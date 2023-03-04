@@ -3,10 +3,10 @@ import 'dart:developer';
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/common/utils.dart';
 import 'package:path_finding/data/nodes_repository.dart';
-import 'package:path_finding/data/visualizable_algorithm.dart';
+import 'package:path_finding/data/visualize_algorithm.dart';
 
 /// Defines what a path finding algorithm needs and tools to visualize it
-class DijkstraAlgorithm extends VisualizableAlgorithm {
+class DijkstraAlgorithm extends VisualizeAlgorithm {
   DijkstraAlgorithm({
     required Function(NodesArray nodes) onStepUpdate,
     List<List<Node>>? nodesToStartWith,
@@ -39,24 +39,22 @@ class DijkstraAlgorithm extends VisualizableAlgorithm {
   }
 
   /// Goes through all children of the node, so all the neighbors.
-  /// Skips any node that is a wall, a parent node and if the currenlty looking at child node is allready done
+  /// Skips any node that is a wall, a parent node and if currently looking at a child node is already done
   Future<void> goThroughChildren(Node parentNode) async {
     final nodeX = parentNode.x;
     final nodeY = parentNode.y;
 
     for (int i = nodeX - 1; i <= (nodeX + 1); i++) {
       for (int j = nodeY - 1; j <= (nodeY + 1); j++) {
-        if (isNodeParentNodeOrOutsideOfBounds(
-            i: i, j: j, parentNode: parentNode)) {
+        if (isNodeParentNodeOrOutsideOfBounds(i: i, j: j, parentNode: parentNode)) {
           continue;
         }
         final currentlyLookingNode = allNodes[i][j];
         if (isNodeWallOrDone(node: currentlyLookingNode)) {
           continue;
         }
-        final isOnDiagonal = isNodeOnDiagonal(
-            currentlyLookingNode: currentlyLookingNode, parentNode: parentNode);
-        if (isOnDiagonal && !isDiagonalMovementEnabeld) {
+        final isOnDiagonal = isNodeOnDiagonal(currentlyLookingNode: currentlyLookingNode, parentNode: parentNode);
+        if (isOnDiagonal && !isDiagonalMovementEnabled) {
           continue;
         }
         // currentlyLookingNode.isCurrentlyBeingVisited = true;
@@ -72,10 +70,8 @@ class DijkstraAlgorithm extends VisualizableAlgorithm {
 
   /// Evaluates the cost to go to the [Node], and updates it if cost is better then the already calculated one
   void visitNode(Node currentlyLookingNode, Node parentNode) {
-    final isOnDiagonal = isNodeOnDiagonal(
-        currentlyLookingNode: currentlyLookingNode, parentNode: parentNode);
-    var costToGoToNode = parentNode.currentPathCost +
-        (isOnDiagonal ? diagonalPathCost : horizontalAndVerticalPathCost);
+    final isOnDiagonal = isNodeOnDiagonal(currentlyLookingNode: currentlyLookingNode, parentNode: parentNode);
+    var costToGoToNode = parentNode.currentPathCost + (isOnDiagonal ? diagonalPathCost : horizontalAndVerticalPathCost);
     // only the path cost is being look for when moving to the node
     if (costToGoToNode < currentlyLookingNode.currentPathCost) {
       currentlyLookingNode.currentPathCost = costToGoToNode;

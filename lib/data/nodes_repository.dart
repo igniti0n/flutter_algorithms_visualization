@@ -6,15 +6,14 @@ import 'package:path_finding/data/breadth_first_search.dart';
 import 'package:path_finding/data/depth_first_search.dart';
 import 'package:path_finding/data/dijkstras_algorithm.dart';
 import 'package:path_finding/data/drunk_algorithm.dart';
-import 'package:path_finding/data/visualizable_algorithm.dart';
-import 'package:path_finding/notifiers/slected_shortest_path_algorithm_state_notifier.dart';
+import 'package:path_finding/data/visualize_algorithm.dart';
+import 'package:path_finding/notifiers/selected_shortest_path_algorithm_state_notifier.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:rxdart/subjects.dart';
 
 typedef NodesArray = List<List<Node>>;
 
-final nodesRepositoryProvider =
-    Provider<NodesRepository>((ref) => NodesRepositoryImpl());
+final nodesRepositoryProvider = Provider<NodesRepository>((ref) => NodesRepositoryImpl());
 
 abstract class NodesRepository {
   static const numberOfNodesInRow = 60;
@@ -22,8 +21,7 @@ abstract class NodesRepository {
 
   NodesArray get allNodes;
   Stream<NodesArray> get nodesArrayUpdateStream;
-  void init(
-      {required int numberOfNodesInRow, required int numberOfNodesInColumn});
+  void init({required int numberOfNodesInRow, required int numberOfNodesInColumn});
   void startAlgorithmAt();
   void makeMaze();
   void setGoalAt(int x, int y);
@@ -31,21 +29,19 @@ abstract class NodesRepository {
   void removeGoalAt(int x, int y);
   void removeStartAt(int x, int y);
   void setWallAt(int x, int y);
-  void setIsDiagonalMovementEnabeld({required bool toValue});
+  void setIsDiagonalMovementEnabled({required bool toValue});
   void resetAt(int x, int y);
   void resetAll();
   void resetAlgorithmToStart();
   void setDiagonalPathCostTo({required double cost});
   void setHorizontalAndVerticalPathCostTo({required double cost});
   void setAnimationTimeDelayTo({required int milliseconds});
-  void setCurrentlySelectedAlgotihmTo(
-      {required PathFindingAlgorihmType pathFindingAlgorihmType,
-      required int animationTimeDelay});
+  void setCurrentlySelectedAlgorithmTo(
+      {required PathFindingAlgorithmType pathFindingAlgorithmType, required int animationTimeDelay});
 }
 
 class NodesRepositoryImpl implements NodesRepository {
-  late VisualizableAlgorithm _pathFindingAlgorithm =
-      DijkstraAlgorithm(onStepUpdate: (e) => _onStepUpdate(e));
+  late VisualizeAlgorithm _pathFindingAlgorithm = DijkstraAlgorithm(onStepUpdate: (e) => _onStepUpdate(e));
   final PublishSubject<NodesArray> _subject = PublishSubject<NodesArray>();
 
   @override
@@ -55,9 +51,7 @@ class NodesRepositoryImpl implements NodesRepository {
   Stream<NodesArray> get nodesArrayUpdateStream => _subject.stream;
 
   @override
-  void init(
-      {required int numberOfNodesInRow,
-      required int numberOfNodesInColumn}) async {
+  void init({required int numberOfNodesInRow, required int numberOfNodesInColumn}) async {
     _pathFindingAlgorithm.initSetup(
       onStepUpdate: _onStepUpdate,
       numberOfNodesInRow: numberOfNodesInRow,
@@ -103,12 +97,10 @@ class NodesRepositoryImpl implements NodesRepository {
   void resetAll() async => _pathFindingAlgorithm.resetAll();
 
   @override
-  void resetAlgorithmToStart() async =>
-      _pathFindingAlgorithm.resetAlgorithmToStart();
+  void resetAlgorithmToStart() async => _pathFindingAlgorithm.resetAlgorithmToStart();
 
   @override
-  void setDiagonalPathCostTo({required double cost}) =>
-      _pathFindingAlgorithm.setDiagonalPathCostTo(cost: cost);
+  void setDiagonalPathCostTo({required double cost}) => _pathFindingAlgorithm.setDiagonalPathCostTo(cost: cost);
 
   @override
   void setHorizontalAndVerticalPathCostTo({required double cost}) =>
@@ -119,42 +111,40 @@ class NodesRepositoryImpl implements NodesRepository {
   }
 
   @override
-  void setCurrentlySelectedAlgotihmTo(
-      {required PathFindingAlgorihmType pathFindingAlgorihmType,
-      required int animationTimeDelay}) {
+  void setCurrentlySelectedAlgorithmTo(
+      {required PathFindingAlgorithmType pathFindingAlgorithmType, required int animationTimeDelay}) {
     final goalNode = _pathFindingAlgorithm.goalNode;
     final startNode = _pathFindingAlgorithm.startNode;
-    final isDiagonalmovementEnabeld =
-        _pathFindingAlgorithm.isDiagonalMovementEnabeld;
-    switch (pathFindingAlgorihmType) {
-      case PathFindingAlgorihmType.dijkstras:
+    final isDiagonalMovementEnabled = _pathFindingAlgorithm.isDiagonalMovementEnabled;
+    switch (pathFindingAlgorithmType) {
+      case PathFindingAlgorithmType.dijkstras:
         _pathFindingAlgorithm = DijkstraAlgorithm(
           onStepUpdate: _onStepUpdate,
           nodesToStartWith: _pathFindingAlgorithm.allNodes,
         );
         break;
 
-      case PathFindingAlgorihmType.astar:
+      case PathFindingAlgorithmType.astar:
         _pathFindingAlgorithm = AstarAlgorithm(
           onStepUpdate: _onStepUpdate,
           nodesToStartWith: _pathFindingAlgorithm.allNodes,
         );
         break;
 
-      case PathFindingAlgorihmType.drunk:
+      case PathFindingAlgorithmType.drunk:
         _pathFindingAlgorithm = DrunkAlgorithm(
           onStepUpdate: _onStepUpdate,
           nodesToStartWith: _pathFindingAlgorithm.allNodes,
         );
         break;
 
-      case PathFindingAlgorihmType.dfs:
+      case PathFindingAlgorithmType.dfs:
         _pathFindingAlgorithm = DepthFirstSearch(
           onStepUpdate: _onStepUpdate,
           nodesToStartWith: _pathFindingAlgorithm.allNodes,
         );
         break;
-      case PathFindingAlgorihmType.bfs:
+      case PathFindingAlgorithmType.bfs:
         _pathFindingAlgorithm = BreadthFirstSearch(
           onStepUpdate: _onStepUpdate,
           nodesToStartWith: _pathFindingAlgorithm.allNodes,
@@ -163,11 +153,11 @@ class NodesRepositoryImpl implements NodesRepository {
     }
     _pathFindingAlgorithm.goalNode = goalNode;
     _pathFindingAlgorithm.startNode = startNode;
-    _pathFindingAlgorithm.isDiagonalMovementEnabeld = isDiagonalmovementEnabeld;
+    _pathFindingAlgorithm.isDiagonalMovementEnabled = isDiagonalMovementEnabled;
     setAnimationTimeDelayTo(milliseconds: animationTimeDelay);
   }
 
   @override
-  void setIsDiagonalMovementEnabeld({required bool toValue}) =>
-      _pathFindingAlgorithm.setIsDiagonalMovementEnabeld(toValue: toValue);
+  void setIsDiagonalMovementEnabled({required bool toValue}) =>
+      _pathFindingAlgorithm.setIsDiagonalMovementEnabled(toValue: toValue);
 }

@@ -4,8 +4,8 @@ import 'package:path_finding/notifiers/onboarding_page_state_notifier.dart';
 import 'package:path_finding/ui/common/blue_text_button.dart';
 import 'package:path_finding/ui/common/text/unit_rounded_text.dart';
 
-class OnboardingControlls extends ConsumerWidget {
-  const OnboardingControlls({super.key});
+class OnboardingControls extends ConsumerWidget {
+  const OnboardingControls({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -13,7 +13,7 @@ class OnboardingControlls extends ConsumerWidget {
       child: Column(
         children: [
           const UnitRoundedText(
-            'Controlls',
+            'Controls',
             bold: true,
             fontSize: 22,
           ),
@@ -26,17 +26,15 @@ class OnboardingControlls extends ConsumerWidget {
                   imagePath: 'assets/images/algorithm_choosing.png',
                 ),
                 _TextWithImage(
-                  text:
-                      'Control costs of horizontal & diagonal movement, turn on/off diagonal movement.',
-                  imagePath: 'assets/images/cost_controlls.png',
+                  text: 'Control costs of horizontal & diagonal movement, turn on/off diagonal movement.',
+                  imagePath: 'assets/images/cost_controls.png',
                 ),
                 _TextWithImage(
                   text: 'Slow down time to see the algorithm work better 🪄',
-                  imagePath: 'assets/images/time_controll.png',
+                  imagePath: 'assets/images/time_control.png',
                 ),
                 _TextWithImage(
-                  text:
-                      'Delete all with the trash can, or reset the algorithm to start.',
+                  text: 'Delete all with the trash can, or reset the algorithm to start.',
                   imagePath: 'assets/images/delete_reset.png',
                 ),
               ],
@@ -47,18 +45,14 @@ class OnboardingControlls extends ConsumerWidget {
             children: [
               BlueTextButton(
                 text: 'Previous',
-                onPressed: () => ref
-                    .read(onboardingPageStateNotifierProvider.notifier)
-                    .goToPreviousPage(),
+                onPressed: () => ref.read(onboardingPageStateNotifierProvider.notifier).goToPreviousPage(),
               ),
               const SizedBox(
                 width: 60,
               ),
               BlueTextButton(
                 text: 'How algorithms work?',
-                onPressed: () => ref
-                    .read(onboardingPageStateNotifierProvider.notifier)
-                    .goToNextPage(),
+                onPressed: () => ref.read(onboardingPageStateNotifierProvider.notifier).goToNextPage(),
               ),
             ],
           ),

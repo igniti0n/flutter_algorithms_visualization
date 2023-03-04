@@ -21,7 +21,7 @@ class OnboardingPlayAlgorithm extends ConsumerWidget {
           ),
           Expanded(
             child: Image.asset(
-              "assets/tutorial_controlls.gif",
+              "assets/tutorial_controls.gif",
             ),
           ),
           const SizedBox(
@@ -32,18 +32,14 @@ class OnboardingPlayAlgorithm extends ConsumerWidget {
             children: [
               BlueTextButton(
                 text: 'Previous',
-                onPressed: () => ref
-                    .read(onboardingPageStateNotifierProvider.notifier)
-                    .goToPreviousPage(),
+                onPressed: () => ref.read(onboardingPageStateNotifierProvider.notifier).goToPreviousPage(),
               ),
               const SizedBox(
                 width: 60,
               ),
               BlueTextButton(
                 text: 'Continue',
-                onPressed: () => ref
-                    .read(onboardingPageStateNotifierProvider.notifier)
-                    .goToNextPage(),
+                onPressed: () => ref.read(onboardingPageStateNotifierProvider.notifier).goToNextPage(),
               ),
             ],
           ),

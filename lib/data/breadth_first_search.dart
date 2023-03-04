@@ -1,8 +1,8 @@
 import 'package:path_finding/common/models/node.dart';
 import 'package:path_finding/common/utils.dart';
-import 'package:path_finding/data/visualizable_algorithm.dart';
+import 'package:path_finding/data/visualize_algorithm.dart';
 
-class BreadthFirstSearch extends VisualizableAlgorithm {
+class BreadthFirstSearch extends VisualizeAlgorithm {
   BreadthFirstSearch({required super.onStepUpdate, super.nodesToStartWith});
   int lowerHorizontalBoundary = 0;
   int upperHorizontalBoundary = 0;
@@ -51,8 +51,7 @@ class BreadthFirstSearch extends VisualizableAlgorithm {
     if (isNodeParentNodeOrOutsideOfBounds(i: i, j: j, parentNode: node)) {
       return true;
     }
-    if (isNodeOnDiagonalForCoordinates(
-        startX: i, startY: j, endX: node.x, endY: node.y)) {
+    if (isNodeOnDiagonalForCoordinates(startX: i, startY: j, endX: node.x, endY: node.y)) {
       return true;
     }
     if (i >= lowerHorizontalBoundary && i <= upperHorizontalBoundary) {

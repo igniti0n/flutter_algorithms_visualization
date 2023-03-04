@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_finding/notifiers/nodes_state_notifier.dart';
 import 'package:path_finding/ui/widgets/actions_panel/actions_panel.dart';
 import 'package:path_finding/ui/widgets/onboarding/onboarding_dialog.dart';
-import 'package:path_finding/ui/widgets/pannel/pannel.dart';
+import 'package:path_finding/ui/widgets/panel/panel.dart';
 import 'package:path_finding/ui/widgets/square.dart';
 
 class World extends ConsumerStatefulWidget {
@@ -17,8 +17,8 @@ class World extends ConsumerStatefulWidget {
 }
 
 class _WorldState extends ConsumerState<World> {
-  static const minimumActionsPannelHeight = Square.size * 5;
-  late double totalSquaesGridHeight;
+  static const minimumActionsPanelHeight = Square.size * 5;
+  late double totalSquaresGridHeight;
   List<Widget> squares = [];
   int widowWidth = 0;
   int widowHeight = 0;
@@ -27,8 +27,7 @@ class _WorldState extends ConsumerState<World> {
   initState() {
     _initGrid();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      showCupertinoDialog(
-          context: context, builder: (context) => const OnboardingDialog());
+      showCupertinoDialog(context: context, builder: (context) => const OnboardingDialog());
     });
     super.initState();
   }
@@ -66,7 +65,7 @@ class _WorldState extends ConsumerState<World> {
           Column(
             children: [
               SizedBox(
-                height: totalSquaesGridHeight,
+                height: totalSquaresGridHeight,
                 width: double.infinity,
                 child: RepaintBoundary(
                   child: Stack(
@@ -79,7 +78,7 @@ class _WorldState extends ConsumerState<World> {
               ),
             ],
           ),
-          const Pannel(),
+          const Panel(),
         ],
       ),
       // ),
@@ -88,21 +87,17 @@ class _WorldState extends ConsumerState<World> {
 
   void _initGrid() {
     squares.clear();
-    final availableHeightForSquares =
-        (window.screen?.height ?? 0) - minimumActionsPannelHeight;
-    final numberOfSquaresThatFitHeight =
-        (availableHeightForSquares / Square.size.toInt()).floor();
-    totalSquaesGridHeight = numberOfSquaresThatFitHeight * Square.size;
+    final availableHeightForSquares = (window.screen?.height ?? 0) - minimumActionsPanelHeight;
+    final numberOfSquaresThatFitHeight = (availableHeightForSquares / Square.size.toInt()).floor();
+    totalSquaresGridHeight = numberOfSquaresThatFitHeight * Square.size;
     final availableWidthForSquares = (window.screen?.width ?? 0);
-    final numberOfSquaresThatFitWidth =
-        (availableWidthForSquares / Square.size.toInt()).floor();
-    ref.read(nodesStateNotifierProvider.notifier).init(
-        numberOfNodesInRow: numberOfSquaresThatFitWidth,
-        numberOfNodesInColumn: numberOfSquaresThatFitHeight);
+    final numberOfSquaresThatFitWidth = (availableWidthForSquares / Square.size.toInt()).floor();
+    ref
+        .read(nodesStateNotifierProvider.notifier)
+        .init(numberOfNodesInRow: numberOfSquaresThatFitWidth, numberOfNodesInColumn: numberOfSquaresThatFitHeight);
     ref.read(nodesStateNotifierProvider.notifier).setStartAt(4, 10);
     ref.read(nodesStateNotifierProvider.notifier).setGoalAt(10, 10);
-    for (var row
-        in ref.read(nodesStateNotifierProvider.notifier).getAllNodes()) {
+    for (var row in ref.read(nodesStateNotifierProvider.notifier).getAllNodes()) {
       for (var node in row) {
         squares.add(Positioned(
           left: node.x * Square.size,
